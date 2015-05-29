@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="edit_coche" type="id">Editar Coche</item>
+    <item name="delete_coche" type="id">Eliminar Coche</item>
+</resources>
