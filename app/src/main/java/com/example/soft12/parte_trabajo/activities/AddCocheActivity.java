@@ -42,7 +42,8 @@ public class AddCocheActivity extends Activity implements OnClickListener {
         if (add) {
             Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getBaseContext(), extras.getString(DBHelper.COLUMN_COCHE_MATRICULA),
+            Toast.makeText(getBaseContext(),
+                    extras.getString(DBHelper.COLUMN_COCHE_MATRICULA),
                     Toast.LENGTH_LONG).show();
             cocheEdit.setBundle(extras);
         }
