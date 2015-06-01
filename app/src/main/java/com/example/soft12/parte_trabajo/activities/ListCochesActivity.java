@@ -137,7 +137,6 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		Coche clickedCoche = mAdapter.getItem(position);
 		Log.d(TAG, "longClickedItem : " + clickedCoche.getMatricula());
-		//showDeleteDialogConfirmation(clickedCoche);
 		return true;
 	}
 
@@ -166,6 +165,7 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 
 			case R.id.delete_coche:
 				eliminarCoche(coche);
+				// poner confirmación, para que no se borre a la primera
 				Toast.makeText(getBaseContext(),
 						"Eliminar: " + coche.getMatricula(), Toast.LENGTH_SHORT)
 						.show();

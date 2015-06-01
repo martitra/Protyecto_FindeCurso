@@ -79,8 +79,6 @@ public class ListRepostajeAdapter extends BaseAdapter {
 	class ViewHolder {
 		TextView txtFecha;
 		TextView txtEuros;
-		TextView txtEuros_Litro;
-		TextView txtLitros;
 		TextView txtCoche;
 	}
 

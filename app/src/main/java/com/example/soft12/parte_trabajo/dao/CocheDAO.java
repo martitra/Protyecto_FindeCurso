@@ -75,7 +75,7 @@ public class CocheDAO {
     }
 
     public List<Coche> getAllCoches() {
-        List<Coche> listCoches = new ArrayList<Coche>();
+        List<Coche> listCoches = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_COCHE,
                 mAllColumns, null, null, null, null, null);
@@ -101,8 +101,7 @@ public class CocheDAO {
             cursor.moveToFirst();
         }
 
-        Coche coche = cursorToCoche(cursor);
-        return coche;
+        return cursorToCoche(cursor);
     }
 
     protected Coche cursorToCoche(Cursor cursor) {

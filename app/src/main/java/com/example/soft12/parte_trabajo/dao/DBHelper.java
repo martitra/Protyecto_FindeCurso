@@ -2,7 +2,6 @@ package com.example.soft12.parte_trabajo.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -65,7 +64,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 
-	public DBHelper(Context context, String name, CursorFactory factory,int version) {
+	/*public DBHelper(Context context, String name, CursorFactory factory,int version) {
 		super(context, DATABASE_NAME, factory, DATABASE_VERSION);
-	}
+	}*/
 }
