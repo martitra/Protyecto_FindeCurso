@@ -32,7 +32,6 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
 	private EditText mTxtEuros_Litro;
 	private EditText mTxtLitros;
 	private Spinner mSpinnerCoche;
-	private Button mBtnAdd;
 
 	private CocheDAO mCocheDao;
 	private RepostajeDAO mRepostajeDao;
@@ -67,9 +66,9 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
 		this.mTxtEuros_Litro = (EditText) findViewById(R.id.txt_euros_litro);
 		this.mTxtLitros = (EditText) findViewById(R.id.txt_litros);
 		this.mSpinnerCoche = (Spinner) findViewById(R.id.spinner_coches);
-		this.mBtnAdd = (Button) findViewById(R.id.btn_add);
+		Button mBtnAdd = (Button) findViewById(R.id.btn_add);
 
-		this.mBtnAdd.setOnClickListener(this);
+		mBtnAdd.setOnClickListener(this);
 	}
 
 	@Override

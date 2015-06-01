@@ -73,7 +73,7 @@ public class RepostajeDAO {
     }
 
     public List<Repostaje> getAllRepostaje() {
-        List<Repostaje> listRepostaje = new ArrayList<Repostaje>();
+        List<Repostaje> listRepostaje = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_REPOSTAJE,
                 mAllColumns, null, null, null, null, null);
@@ -90,7 +90,7 @@ public class RepostajeDAO {
     }
 
     public List<Repostaje> getRepostajeOfCoche(long cocheId) {
-        List<Repostaje> listRepostaje = new ArrayList<Repostaje>();
+        List<Repostaje> listRepostaje = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_REPOSTAJE, mAllColumns
                 , DBHelper.COLUMN_REPOSTAJE_COCHE_ID + " = ?",
@@ -121,7 +121,6 @@ public class RepostajeDAO {
         Coche coche = dao.getCocheById(cocheId);
         if(coche != null)
             repostaje.setCoche(coche);
-
         return repostaje;
     }
 

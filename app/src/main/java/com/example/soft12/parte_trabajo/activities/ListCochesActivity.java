@@ -89,7 +89,7 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == REQUEST_CODE_ADD_COCHE) {
 			if(resultCode == RESULT_OK) {
-				// add the added company to the listCompanies and refresh the listView
+				// add the added coche to the listCoches and refresh the listView
 				if(data != null) {
 					Coche createdCoche = (Coche) data.getSerializableExtra(EXTRA_ADDED_COCHE);
 					if(createdCoche != null) {
@@ -201,7 +201,7 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 	private void lanzarEditCoche(Bundle extras) {
 		Intent i = new Intent(this, AddCocheActivity.class);
 		i.putExtras(extras);
-		startActivityForResult(i, 1234);
+		startActivityForResult(i, 40);
 	}
 
 	/*private void showDeleteDialogConfirmation(final Coche clickedCoche) {

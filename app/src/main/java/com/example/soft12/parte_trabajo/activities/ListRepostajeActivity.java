@@ -103,7 +103,7 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 
 				if(mRepostajeDao == null)
 					mRepostajeDao = new RepostajeDAO(this);
-				mListRepostaje = mRepostajeDao.getRepostajeOfCoche(mCocheId);
+				mListRepostaje = mRepostajeDao.getAllRepostaje();
 				
 				if(mListRepostaje != null && !mListRepostaje.isEmpty() &&
 						mListviewRepostaje.getVisibility() != View.VISIBLE) {
