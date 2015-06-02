@@ -124,4 +124,17 @@ public class RepostajeDAO {
         return repostaje;
     }
 
+    public int updateRepostaje(Repostaje r) {
+
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_REPOSTAJE_FECHA, r.getFecha());
+        values.put(DBHelper.COLUMN_REPOSTAJE_EUROS, r.getEuros());
+        values.put(DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO, r.getEuros_litro());
+        values.put(DBHelper.COLUMN_REPOSTAJE_LITROS, r.getLitros());
+        values.put(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, r.getCoche().getId());
+
+        return mDatabase.update(DBHelper.TABLE_REPOSTAJE, values, DBHelper.COLUMN_REPOSTAJE_ID + " = ?",
+                new String[] { String.valueOf(r.getId()) });
+    }
+
 }

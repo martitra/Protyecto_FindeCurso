@@ -6,10 +6,10 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <EditText
-        android:id="@+id/txt_coche_matricula"
+        android:id="@+id/txt_cau_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/coche_matricula"
+        android:hint="@string/cau_nombre"
         android:layout_marginTop="24dp"
         android:inputType="text|textCapWords"
         android:textAppearance="?android:attr/textAppearance"
@@ -17,7 +17,7 @@
         android:maxLength="8" />
 
 
-    
+
     <Button
         android:id="@+id/btn_add"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:paddingTop="2dp"
         android:text="@string/add"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/txt_coche_matricula"
+        android:layout_below="@+id/txt_cau_nombre"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

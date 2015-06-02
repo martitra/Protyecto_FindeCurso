@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.adapter;
+package com.example.soft12.parte_trabajo.adapter.Repostaje;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -61,7 +61,7 @@ public class ListRepostajeAdapter extends BaseAdapter {
 		Repostaje currentItem = getItem(position);
 		if(currentItem != null) {
 			holder.txtFecha.setText(currentItem.getFecha());
-			holder.txtEuros.setText((int) currentItem.getEuros()+" Euros");
+			holder.txtEuros.setText(currentItem.getEuros()+" Euros");
 			holder.txtCoche.setText(currentItem.getCoche().getMatricula());
 		}
 		

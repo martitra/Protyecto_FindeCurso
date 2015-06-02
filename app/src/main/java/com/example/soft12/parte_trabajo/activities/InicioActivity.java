@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.Coche.ListCochesActivity;
+import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
 
 
 public class InicioActivity extends Activity {

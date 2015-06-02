@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.Coche;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,11 +17,21 @@ import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DBHelper;
 import com.example.soft12.parte_trabajo.model.Coche;
 
+import java.util.regex.Pattern;
+
 public class AddCocheActivity extends Activity implements OnClickListener {
 
     public static final String TAG = "AddCocheActivity";
 
     private EditText mTxtCocheMatricula;
+
+    public static final Pattern MATRICULA_COCHE = Pattern.compile (
+                    "^[A-Z]{0,2}"+
+                    "\\s?"+
+                    "\\d{4}" +
+                    "\\s" +
+                    "([B-D]|[F-H]|[J-N]|[P-T]|[V-Z]){2,3}$"
+    );
 
     private CocheDAO mCocheDao;
     private Coche cocheEdit;
@@ -78,14 +88,30 @@ public class AddCocheActivity extends Activity implements OnClickListener {
                 Editable cocheMatricula = mTxtCocheMatricula.getText();
                 if (!TextUtils.isEmpty(cocheMatricula) ) {
                     // add the car to database
-                    Coche createdCoche = mCocheDao.createCoche(cocheMatricula.toString());
-
-                    Log.d(TAG, "added coche : " + createdCoche.getMatricula());
-                    Intent intent = new Intent();
-                    intent.putExtra(ListCochesActivity.EXTRA_ADDED_COCHE, createdCoche);
-                    setResult(RESULT_OK, intent);
-                    Toast.makeText(this, R.string.coche_created_successfully, Toast.LENGTH_LONG).show();
-                    finish();
+                    final String matricula = mTxtCocheMatricula.getText().toString();
+                    if(MATRICULA_COCHE.matcher(matricula).matches()) {
+                        if(add) {
+                            Coche createdCoche = mCocheDao.createCoche(cocheMatricula.toString());
+                            Log.d(TAG, "added coche : " + createdCoche.getMatricula());
+                            Intent intent = new Intent();
+                            intent.putExtra(ListCochesActivity.EXTRA_ADDED_COCHE, createdCoche);
+                            setResult(RESULT_OK, intent);
+                            Toast.makeText(this, R.string.coche_created_successfully, Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                        else {
+                            cocheEdit.setId(cocheEdit.getId());
+                            cocheEdit.setMatricula(mTxtCocheMatricula.getText().toString());
+                            mCocheDao.updateCoche(cocheEdit);
+                            Intent i = new Intent(this, ListCochesActivity.class);
+                            startActivity(i);
+                            Toast.makeText(this, R.string.coche_created_successfully, Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    }
+                    else {
+                        Toast.makeText(this, R.string.eror_matricula, Toast.LENGTH_LONG).show();
+                    }
                 }
                 else {
                     Toast.makeText(this, R.string.empty_fields_message, Toast.LENGTH_LONG).show();

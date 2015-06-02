@@ -1,11 +1,12 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.Repostaje;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.adapter.ListRepostajeAdapter;
+import com.example.soft12.parte_trabajo.adapter.Repostaje.ListRepostajeAdapter;
 import com.example.soft12.parte_trabajo.dao.RepostajeDAO;
 import com.example.soft12.parte_trabajo.model.Repostaje;
 
@@ -65,14 +66,13 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 				mListviewRepostaje.setVisibility(View.GONE);
 			}
 		//}
+		registerForContextMenu(mListviewRepostaje);
 	}
 
 	private void initViews() {
 		this.mListviewRepostaje = (ListView) findViewById(R.id.list_repostaje);
 		this.mTxtEmptyListRepostaje = (TextView) findViewById(R.id.txt_empty_list_repostaje);
 		ImageButton mBtnAddRepostaje = (ImageButton) findViewById(R.id.btn_add_repostaje);
-		this.mListviewRepostaje.setOnItemClickListener(this);
-		this.mListviewRepostaje.setOnItemLongClickListener(this);
 		mBtnAddRepostaje.setOnClickListener(this);
 	}
 
@@ -132,69 +132,77 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Repostaje clickedRepostaje = mAdapter.getItem(position);
 		Log.d(TAG, "clickedItem : " + clickedRepostaje.getFecha());
-
-		Intent intent = new Intent(this, AddRepostajeActivity.class);
-		intent.putExtra(AddRepostajeActivity.EXTRA_SELECTED_REPOSTAJE_ID, clickedRepostaje.getId());
-		startActivity(intent);
-
 	}
+
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		Repostaje clickedRepostaje = mAdapter.getItem(position);
 		Log.d(TAG, "longClickedItem : " + clickedRepostaje.getFecha() + " " + clickedRepostaje.getEuros());
-		
-		showDeleteDialogConfirmation(clickedRepostaje);
 		return true;
 	}
-	
-	private void showDeleteDialogConfirmation(final Repostaje repostaje) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		 
-        alertDialogBuilder.setTitle("Delete");
-		alertDialogBuilder
-				.setMessage("Are you sure you want to delete the repostaje \""
-						+ repostaje.getFecha() + " "
-						+ repostaje.getEuros() + "\"");
- 
-        // set positive button YES message
-        alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// delete the employee and refresh the list
-				if(mRepostajeDao != null) {
-					mRepostajeDao.deleteRepostaje(repostaje);
-					
-					//refresh the listView
-					mListRepostaje.remove(repostaje);
-					if(mListRepostaje.isEmpty()) {
-						mListviewRepostaje.setVisibility(View.GONE);
-						mTxtEmptyListRepostaje.setVisibility(View.VISIBLE);
-					}
 
-					mAdapter.setItems(mListRepostaje);
-					mAdapter.notifyDataSetChanged();
-				}
-				
-				dialog.dismiss();
-				Toast.makeText(ListRepostajeActivity.this, R.string.repostaje_deleted_successfully, Toast.LENGTH_SHORT).show();
-
-			}
-		});
-        
-        // set neutral button OK
-        alertDialogBuilder.setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// Dismiss the dialog
-                dialog.dismiss();
-			}
-		});
-        
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        // show alert
-        alertDialog.show();
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+									ContextMenu.ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.list_repostaje_contextual, menu);
 	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item){
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		Repostaje repostaje = mAdapter.getItem(info.position);
+
+		switch (item.getItemId()) {
+
+			case R.id.edit_repostaje:
+				Bundle extras = repostaje.getBundle();
+				extras.putBoolean("add", false);
+				lanzarEditRepostaje(extras);
+				return true;
+
+			case R.id.delete_repostaje:
+				eliminarRepostaje(repostaje);
+				// poner confirmación, para que no se borre a la primera
+				Toast.makeText(getBaseContext(),
+						"Eliminar: " + repostaje.getFecha(), Toast.LENGTH_SHORT)
+						.show();
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void eliminarRepostaje(Repostaje repostaje) {
+		if(mRepostajeDao != null) {
+			mRepostajeDao.deleteRepostaje(repostaje);
+			mListRepostaje.remove(repostaje);
+
+			//refresh the listView
+			if(mListRepostaje.isEmpty()) {
+				mListRepostaje = null;
+				mListviewRepostaje.setVisibility(View.GONE);
+				mTxtEmptyListRepostaje.setVisibility(View.VISIBLE);
+			}
+			mAdapter.setItems(mListRepostaje);
+			mAdapter.notifyDataSetChanged();
+		}
+		else
+		{
+			Toast.makeText(getBaseContext(),
+					"Algo estás haciendo mal!", Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	private void lanzarEditRepostaje(Bundle extras) {
+		Intent i = new Intent(this, AddRepostajeActivity.class);
+		i.putExtras(extras);
+		startActivityForResult(i, 40);
+	}
+
 }

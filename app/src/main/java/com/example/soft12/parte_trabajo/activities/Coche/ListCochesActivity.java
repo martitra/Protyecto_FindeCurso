@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.Coche;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.adapter.ListCochesAdapter;
+import com.example.soft12.parte_trabajo.adapter.Coche.ListCochesAdapter;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.model.Coche;
 
@@ -66,8 +66,7 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 		this.mListviewCoches = (ListView) findViewById(R.id.list_coches);
 		this.mTxtEmptyListCoches = (TextView) findViewById(R.id.txt_empty_list_coches);
 		ImageButton mBtnAddCoche = (ImageButton) findViewById(R.id.btn_add_coche);
-		//this.mListviewCoches.setOnItemClickListener(this);
-		//this.mListviewCoches.setOnItemLongClickListener(this);
+
 		mBtnAddCoche.setOnClickListener(this);
 	}
 
@@ -128,9 +127,6 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Coche clickedCoche = mAdapter.getItem(position);
 		Log.d(TAG, "clickedItem : " + clickedCoche.getMatricula());
-		Bundle extras = clickedCoche.getBundle();
-		extras.putBoolean("add", false);
-		lanzarEditCoche(extras);
 	}
 
 	@Override
@@ -204,49 +200,4 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 		startActivityForResult(i, 40);
 	}
 
-	/*private void showDeleteDialogConfirmation(final Coche clickedCoche) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		 
-        alertDialogBuilder.setTitle("Delete");
-        alertDialogBuilder.setMessage("Are you sure you want to delete the \""+clickedCoche.getMatricula()+"\" coche ?");
- 
-        // set positive button YES message
-        alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// delete the company and refresh the list
-				if(mCocheDao != null) {
-					mCocheDao.deleteCoche(clickedCoche);
-					mListCoches.remove(clickedCoche);
-					
-					//refresh the listView
-					if(mListCoches.isEmpty()) {
-						mListCoches = null;
-						mListviewCoches.setVisibility(View.GONE);
-						mTxtEmptyListCoches.setVisibility(View.VISIBLE);
-					}
-					mAdapter.setItems(mListCoches);
-					mAdapter.notifyDataSetChanged();
-				}
-				
-				dialog.dismiss();
-				Toast.makeText(ListCochesActivity.this, R.string.coche_deleted_successfully, Toast.LENGTH_SHORT).show();
-			}
-		});
-        
-        // set neutral button OK
-        alertDialogBuilder.setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// Dismiss the dialog
-                dialog.dismiss();
-			}
-		});
-        
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        // show alert
-        alertDialog.show();
-	}*/
 }

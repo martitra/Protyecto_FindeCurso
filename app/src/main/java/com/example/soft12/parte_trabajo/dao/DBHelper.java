@@ -23,6 +23,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_REPOSTAJE_LITROS = "litros";
 	public static final String COLUMN_REPOSTAJE_COCHE_ID = "coche_id";
 
+	// columna of the CAU table
+	public static final String TABLE_CAU = "cau";
+	public static final String COLUMN_CAU_ID = "_id";
+	public static final String COLUMN_CAU_NOMBRE = "nombre";
+
 	private static final String DATABASE_NAME = "parte.db";
 	private static final int DATABASE_VERSION = 2;
 
@@ -42,6 +47,12 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_COCHE_MATRICULA + " TEXT NOT NULL "
 			+");";
 
+	// SQL statement of the cau table creation
+	public static final String SQL_CREATE_TABLE_CAU = "CREATE TABLE " + TABLE_CAU + "("
+			+ COLUMN_CAU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_CAU_NOMBRE + " TEXT NOT NULL "
+			+ ");";
+
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -50,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL(SQL_CREATE_TABLE_COCHE);
 		database.execSQL(SQL_CREATE_TABLE_REPOSTAJE);
+		database.execSQL(SQL_CREATE_TABLE_CAU);
 	}
 
 	@Override
@@ -59,12 +71,10 @@ public class DBHelper extends SQLiteOpenHelper {
 		// clear all data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPOSTAJE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_COCHE);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAU);
 		
 		// recreate the tables
 		onCreate(db);
 	}
 
-	/*public DBHelper(Context context, String name, CursorFactory factory,int version) {
-		super(context, DATABASE_NAME, factory, DATABASE_VERSION);
-	}*/
 }

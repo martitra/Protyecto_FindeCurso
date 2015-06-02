@@ -110,5 +110,12 @@ public class CocheDAO {
         coche.setMatricula(cursor.getString(1));
         return coche;
     }
+    public int updateCoche(Coche c) {
 
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_COCHE_MATRICULA, c.getMatricula());
+
+        return mDatabase.update(DBHelper.TABLE_COCHE, values, DBHelper.COLUMN_COCHE_ID + " = ?",
+        new String[] { String.valueOf(c.getId()) });
+    }
 }

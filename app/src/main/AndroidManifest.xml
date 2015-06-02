@@ -18,21 +18,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddCocheActivity"
+            android:name=".activities.Coche.AddCocheActivity"
             android:label="@string/add_new_coche"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.AddRepostajeActivity"
+            android:name=".activities.Repostaje.AddRepostajeActivity"
             android:label="@string/add_new_repostaje"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.ListRepostajeActivity"
+            android:name=".activities.Repostaje.ListRepostajeActivity"
             android:label="@string/all_repostaje"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activities.ListCochesActivity"
+        <activity android:name=".activities.Coche.ListCochesActivity"
             android:label="@string/all_coches"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />

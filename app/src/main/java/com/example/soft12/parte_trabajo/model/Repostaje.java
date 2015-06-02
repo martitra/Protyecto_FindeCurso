@@ -1,13 +1,16 @@
 package com.example.soft12.parte_trabajo.model;
 
+import android.os.Bundle;
+
+import com.example.soft12.parte_trabajo.dao.DBHelper;
+
 import java.io.Serializable;
 
 public class Repostaje implements Serializable {
 
 	public static final String TAG = "Employee";
-	private static final long serialVersionUID = -7406082437623008161L;
 
-	private long mId;
+	private long rId;
 	private String fecha;
 	private double euros;
 	private double euros_litro;
@@ -26,11 +29,11 @@ public class Repostaje implements Serializable {
 	}
 
 	public long getId() {
-		return mId;
+		return rId;
 	}
 
 	public void setId(long mId) {
-		this.mId = mId;
+		this.rId = mId;
 	}
 
 	public String getFecha() {
@@ -71,5 +74,28 @@ public class Repostaje implements Serializable {
 
 	public void setCoche(Coche mCoche) {
 		this.mCoche = mCoche;
+	}
+
+	public Bundle getBundle() {
+		Bundle bundle = new Bundle();
+		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_ID, rId);
+		bundle.putString(DBHelper.COLUMN_REPOSTAJE_FECHA, fecha);
+		bundle.putDouble(DBHelper.COLUMN_REPOSTAJE_EUROS, euros);
+		bundle.putDouble(DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO, euros_litro);
+		bundle.putDouble(DBHelper.COLUMN_REPOSTAJE_LITROS, litros);
+		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, mCoche.getId());
+		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, mCoche.getMatricula());
+		return bundle;
+	}
+
+	public void setBundle(Bundle bundle) {
+		rId = bundle.getLong(DBHelper.COLUMN_REPOSTAJE_ID);
+		fecha = bundle.getString(DBHelper.COLUMN_REPOSTAJE_FECHA);
+		euros = bundle.getDouble(DBHelper.COLUMN_REPOSTAJE_EUROS);
+		euros_litro = bundle.getDouble(DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO);
+		litros = bundle.getDouble(DBHelper.COLUMN_REPOSTAJE_LITROS);
+		mCoche = new Coche();
+		mCoche.setId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID));
+		mCoche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
 	}
 }

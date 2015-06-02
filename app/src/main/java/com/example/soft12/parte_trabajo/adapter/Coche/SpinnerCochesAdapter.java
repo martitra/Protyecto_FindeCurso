@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.adapter;
+package com.example.soft12.parte_trabajo.adapter.Coche;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -58,7 +58,7 @@ public class SpinnerCochesAdapter extends BaseAdapter {
 		if(currentItem != null) {
 			holder.txtCocheMatricula.setText(currentItem.getMatricula());
 		}
-		
+
 		return v;
 	}
 	
@@ -70,7 +70,15 @@ public class SpinnerCochesAdapter extends BaseAdapter {
 		this.mItems = mItems;
 	}
 
-	class ViewHolder {
+    public int getPositionById(long cId) {
+        Coche buscar = new Coche();
+        buscar.setId(cId);
+        // no me busca bien el coche en la lista de coches, no me da la posición
+        return mItems.indexOf(buscar);
+    }
+
+    class ViewHolder {
 		TextView txtCocheMatricula;
 	}
+
 }

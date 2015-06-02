@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.adapter;
+package com.example.soft12.parte_trabajo.adapter.Coche;
 
 import android.content.Context;
 import android.view.LayoutInflater;

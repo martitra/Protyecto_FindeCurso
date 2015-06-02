@@ -9,9 +9,8 @@ import java.io.Serializable;
 public class Coche implements Serializable {
 
 	public static final String TAG = "Employee";
-	private static final long serialVersionUID = -7406082437623008161L;
 	
-	private long mId;
+	private long cId;
 	private String nMatricula;
 
 	
@@ -24,10 +23,10 @@ public class Coche implements Serializable {
 	}
 	
 	public long getId() {
-		return mId;
+		return cId;
 	}
-	public void setId(long mId) {
-		this.mId = mId;
+	public void setId(long cId) {
+		this.cId = cId;
 	}
 	public String getMatricula() {
 		return nMatricula;
@@ -38,13 +37,13 @@ public class Coche implements Serializable {
 
 	public Bundle getBundle() {
 		Bundle bundle = new Bundle();
-		bundle.putLong(DBHelper.COLUMN_COCHE_ID, mId);
+		bundle.putLong(DBHelper.COLUMN_COCHE_ID, cId);
 		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, nMatricula);
 		return bundle;
 	}
 
 	public void setBundle(Bundle bundle) {
-		mId = bundle.getLong(DBHelper.COLUMN_COCHE_ID);
+		cId = bundle.getLong(DBHelper.COLUMN_COCHE_ID);
 		nMatricula = bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA);
 	}
 }
