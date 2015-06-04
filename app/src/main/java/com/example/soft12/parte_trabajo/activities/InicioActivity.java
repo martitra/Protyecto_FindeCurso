@@ -12,6 +12,7 @@ import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.activities.CAU.ListCAUActivity;
 import com.example.soft12.parte_trabajo.activities.Cliente.ListClientesActivity;
 import com.example.soft12.parte_trabajo.activities.Coche.ListCochesActivity;
+import com.example.soft12.parte_trabajo.activities.Diario.ListDiarioActivity;
 import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
 import com.example.soft12.parte_trabajo.activities.Solucion.ListSolucionesActivity;
 
@@ -104,6 +105,15 @@ public class InicioActivity extends Activity {
     public void HacerCAU(View v){
         try{
             Intent i = new Intent(this, ListCAUActivity.class);
+            startActivity(i);
+        }catch (Exception e){
+            Log.e(LOGTAG, e.getMessage());
+        }
+    }
+
+    public void HacerDiario(View v){
+        try {
+            Intent i = new Intent(this, ListDiarioActivity.class);
             startActivity(i);
         }catch (Exception e){
             Log.e(LOGTAG, e.getMessage());

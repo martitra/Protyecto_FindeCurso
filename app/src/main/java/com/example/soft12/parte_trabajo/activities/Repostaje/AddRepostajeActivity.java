@@ -1,6 +1,7 @@
 package com.example.soft12.parte_trabajo.activities.Repostaje;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.example.soft12.parte_trabajo.dao.RepostajeDAO;
 import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Repostaje;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class AddRepostajeActivity extends Activity implements OnClickListener {
@@ -36,6 +39,24 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
 	private EditText mTxtEuros_Litro;
 	private EditText mTxtLitros;
 	private Spinner mSpinnerCoche;
+
+    Calendar myCalendar = Calendar.getInstance();
+
+    /* DATE */
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            mTxtFecha.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+        }
+
+    };
 
 	private CocheDAO mCocheDao;
 	private RepostajeDAO mRepostajeDao;
@@ -108,6 +129,20 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
 		this.mTxtLitros = (EditText) findViewById(R.id.txt_litros);
 		this.mSpinnerCoche = (Spinner) findViewById(R.id.spinner_coches);
 		Button mBtnAdd = (Button) findViewById(R.id.btn_add);
+
+        this.mTxtFecha.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                new DatePickerDialog(v.getContext(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        this.mTxtFecha.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "/" +
+                (myCalendar.get(Calendar.MONTH) + 1)
+                + "/" + myCalendar.get(Calendar.YEAR));
 
         // para cuando pongamos algo en euros
         this.mTxtEuros.addTextChangedListener(new TextWatcher() {

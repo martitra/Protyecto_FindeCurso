@@ -31,8 +31,6 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 	public static final String TAG = "ListRepostajeActivity";
 
 	public static final int REQUEST_CODE_ADD_REPOSTAJE = 40;
-	//public static final String EXTRA_ADDED_REPOSTAJE = "extra_key_added_repostaje";
-	//public static final String EXTRA_SELECTED_COCHE_ID = "extra_key_selected_coche_id";
 
 	private ListView mListviewRepostaje;
 	private TextView mTxtEmptyListRepostaje;
@@ -48,12 +46,7 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 
 		// initialize views
 		initViews();
-
-		// get the company id from extras
 		mRepostajeDao = new RepostajeDAO(this);
-		//Intent intent  = getIntent();
-		//if(intent != null) {
-		//}
 
 		//if(mCocheId != -1) {
 			mListRepostaje = mRepostajeDao.getAllRepostaje();

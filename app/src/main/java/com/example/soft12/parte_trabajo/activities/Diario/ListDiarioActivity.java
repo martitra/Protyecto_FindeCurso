@@ -31,8 +31,6 @@ public class ListDiarioActivity extends Activity implements View.OnClickListener
     public static final String TAG = "ListDiarioActivity";
 
     public static final int REQUEST_CODE_ADD_DIARIO = 40;
-    //public static final String EXTRA_ADDED_REPOSTAJE = "extra_key_added_repostaje";
-    //public static final String EXTRA_SELECTED_COCHE_ID = "extra_key_selected_coche_id";
 
     private ListView mListviewDiario;
     private TextView mTxtEmptyListDiario;
@@ -49,7 +47,6 @@ public class ListDiarioActivity extends Activity implements View.OnClickListener
         // initialize views
         initViews();
 
-        // get the company id from extras
         mDiarioDAO = new DiarioDAO(this);
         //Intent intent  = getIntent();
         //if(intent != null) {

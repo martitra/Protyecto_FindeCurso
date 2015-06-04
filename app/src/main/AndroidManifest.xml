@@ -5,7 +5,8 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:icon="@android:drawable/sym_def_app_icon">
         <activity
             android:name=".activities.InicioActivity"
             android:label="@string/app_name"
@@ -27,12 +28,47 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
+            android:name=".activities.CAU.AddCAUActivity"
+            android:label="@string/cau"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"/>
+        <activity
+            android:name=".activities.Cliente.AddClienteActivity"
+            android:label="@string/cliente"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"/>
+        <activity android:name=".activities.Solucion.AddSolucionActivity"
+            android:label="@string/solucion"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" />
+
+        <activity android:name=".activities.Diario.AddDiarioActivity"
+            android:label="@string/diario"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"/>
+        <activity
             android:name=".activities.Repostaje.ListRepostajeActivity"
             android:label="@string/all_repostaje"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activities.Coche.ListCochesActivity"
             android:label="@string/all_coches"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity android:name=".activities.CAU.ListCAUActivity"
+            android:label="@string/all_cau"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity android:name=".activities.Cliente.ListClientesActivity"
+            android:label="@string/all_clientes"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity android:name=".activities.Solucion.ListSolucionesActivity"
+            android:label="@string/all_soluciones"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+        <activity android:name=".activities.Diario.ListDiarioActivity"
+            android:label="@string/all_diario"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>

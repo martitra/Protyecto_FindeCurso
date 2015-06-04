@@ -28,14 +28,14 @@ public class DiarioDAO {
     private SQLiteDatabase mDatabase;
     private DBHelper mDbHelper;
     private String[] mAllColumns = { DBHelper.COLUMN_DIARIO_ID,
-            DBHelper.COLUMN_DIARIO_FECHA,
-            DBHelper.COLUMN_DIARIO_CAU,
-            DBHelper.COLUMN_DIARIO_CLIENTE,
-            DBHelper.COLUMN_DIARIO_SOLUCION,
-            DBHelper.COLUMN_DIARIO_HORA_INI,
-            DBHelper.COLUMN_DIARIO_HORA_FIN,
-            DBHelper.COLUMN_DIARIO_VIAJE,
-            DBHelper.COLUMN_DIARIO_KMS};
+                                    DBHelper.COLUMN_DIARIO_FECHA,
+                                    DBHelper.COLUMN_DIARIO_CAU,
+                                    DBHelper.COLUMN_DIARIO_CLIENTE,
+                                    DBHelper.COLUMN_DIARIO_SOLUCION,
+                                    DBHelper.COLUMN_DIARIO_HORA_INI,
+                                    DBHelper.COLUMN_DIARIO_HORA_FIN,
+                                    DBHelper.COLUMN_DIARIO_VIAJE,
+                                    DBHelper.COLUMN_DIARIO_KMS};
 
     public DiarioDAO(Context context) {
         mDbHelper = new DBHelper(context);
