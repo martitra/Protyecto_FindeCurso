@@ -25,7 +25,8 @@ import com.example.soft12.parte_trabajo.model.Repostaje;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListRepostajeActivity extends Activity implements OnItemLongClickListener, OnItemClickListener, OnClickListener {
+public class ListRepostajeActivity extends Activity implements OnItemLongClickListener,
+		OnItemClickListener, OnClickListener {
 
 	public static final String TAG = "ListRepostajeActivity";
 

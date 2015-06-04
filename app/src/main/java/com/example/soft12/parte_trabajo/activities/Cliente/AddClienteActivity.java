@@ -80,7 +80,6 @@ public class AddClienteActivity  extends Activity implements View.OnClickListene
                 Editable clienteNombre = mTxtClienteNombre.getText();
                 if (!TextUtils.isEmpty(clienteNombre) ) {
                     // add the car to database
-                    final String matricula = mTxtClienteNombre.getText().toString();
                     if(add) {
                         Cliente createdCliente = mClienteDao.createCliente(clienteNombre.toString());
                         Log.d(TAG, "added coche : " + createdCliente.getnNombre());

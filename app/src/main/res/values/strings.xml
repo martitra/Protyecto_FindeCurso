@@ -76,4 +76,20 @@
     <string name="cau_edited_successfully">Cau modificado correctamente</string>
     <string name="solucion_created_successfully">Solución creada correctamente</string>
     <string name="solucion_edited_successfully">Solución modificada correctamente</string>
+    <string name="diario_created_successfully">Diario creado correctamente</string>
+    <string name="diario_edited_successfully">Diario editado correctamente</string>
+    <string name="add_cau">Crear CAU</string>
+    <string name="add_cliente">Crear Cliente</string>
+    <string name="add_solucion">Crear Solución</string>
+    <string name="select_a_cau">Selecciona un CAU</string>
+    <string name="kms">Kilómetros</string>
+    <string name="select_a_cliente">Selecciona un Cliente</string>
+    <string name="hora_ini">Hora de inicio</string>
+    <string name="hora_fin">Hora de Finalización</string>
+    <string name="viaje">Duración de viaje</string>
+    <string name="select_a_solucion">Sleccion una solución</string>
+    <string name="all_diario">Diairo</string>
+    <string name="no_diario_working_for_this_company_add_a_new_one_by_clicking_the_add_button_on_the_top_right">No hay ningún Diario creado</string>
+    <string name="delete_diario">Eliminar Diario</string>
+    <string name="edit_diario">Editar Diario</string>
 </resources>

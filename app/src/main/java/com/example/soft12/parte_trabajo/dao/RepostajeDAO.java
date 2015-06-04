@@ -89,24 +89,6 @@ public class RepostajeDAO {
         return listRepostaje;
     }
 
-    public List<Repostaje> getRepostajeOfCoche(long cocheId) {
-        List<Repostaje> listRepostaje = new ArrayList<>();
-
-        Cursor cursor = mDatabase.query(DBHelper.TABLE_REPOSTAJE, mAllColumns
-                , DBHelper.COLUMN_REPOSTAJE_COCHE_ID + " = ?",
-                new String[] { String.valueOf(cocheId) }, null, null, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Repostaje repostaje = cursorToRepostaje(cursor);
-            listRepostaje.add(repostaje);
-            cursor.moveToNext();
-        }
-        // make sure to close the cursor
-        cursor.close();
-        return listRepostaje;
-    }
-
     private Repostaje cursorToRepostaje(Cursor cursor) {
         Repostaje repostaje = new Repostaje();
         repostaje.setId(cursor.getLong(0));

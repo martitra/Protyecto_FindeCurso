@@ -47,7 +47,6 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
     private Double eur_lit;
 
     private boolean add;
-    private int id;
 
 	//public static final String EXTRA_SELECTED_REPOSTAJE_ID = "extra_key_selected_repostaje_id";
 

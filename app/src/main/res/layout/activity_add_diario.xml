@@ -1,0 +1,128 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    tools:context="${relativePackage}.${activityClass}" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/txt_fecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fecha"
+            android:inputType="text"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/black"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="11dp" />
+
+        <Spinner
+            android:id="@+id/spinner_cau"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/select_a_cau"
+            android:animateLayoutChanges="true"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/txt_fecha"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <Spinner
+            android:id="@+id/spinner_cliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/select_a_cliente"
+            android:animateLayoutChanges="true"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/spinner_cau"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/txt_hora_ini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hora_ini"
+            android:inputType="numberDecimal"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_cliente"
+            android:layout_alignParentLeft="true" />
+
+        <EditText
+            android:id="@+id/txt_hora_fin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hora_fin"
+            android:inputType="numberDecimal"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_hora_ini"
+            android:layout_alignParentLeft="true" />
+
+        <Spinner
+            android:id="@+id/spinner_solucion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/select_a_solucion"
+            android:animateLayoutChanges="true"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/txt_hora_fin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+        <EditText
+            android:id="@+id/txt_viaje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/viaje"
+            android:inputType="numberDecimal"
+            android:lines="2"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/spinner_solucion"
+            android:layout_alignParentLeft="true" />
+
+        <EditText
+            android:id="@+id/txt_kms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/kms"
+            android:inputType="numberDecimal"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_viaje"
+            android:layout_alignParentLeft="true" />
+
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="2dp"
+            android:text="@string/add"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="105dp"
+            android:layout_below="@+id/txt_kms"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</ScrollView>

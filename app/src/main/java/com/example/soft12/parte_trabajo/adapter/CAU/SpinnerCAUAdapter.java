@@ -11,7 +11,6 @@ import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.model.CAU;
 
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Created by soft12 on 02/06/2015.
@@ -20,10 +19,10 @@ public class SpinnerCAUAdapter extends BaseAdapter {
 
     public static final String TAG = "SpinnerCAUAdapter";
 
-    private Vector<CAU> mItems;
+    private List<CAU> mItems;
     private LayoutInflater mInflater;
 
-    public SpinnerCAUAdapter(Context context, Vector<CAU> listCAU) {
+    public SpinnerCAUAdapter(Context context, List<CAU> listCAU) {
         this.setItems(listCAU);
         this.mInflater = LayoutInflater.from(context);
     }
@@ -70,15 +69,20 @@ public class SpinnerCAUAdapter extends BaseAdapter {
         return mItems;
     }
 
-    public void setItems(Vector<CAU> mItems) {
+    public void setItems(List<CAU> mItems) {
         this.mItems = mItems;
     }
 
-    public int getPositionById(long cId) {
-        CAU buscar = new CAU();
-        buscar.setCauId(cId);
-        // no me busca bien el coche en la lista de coches, no me da la posición
-        return mItems.indexOf(buscar);
+    public int getPositionById(long id) {
+        if (!this.isEmpty()) {
+            for (int i = 0; i < this.getCount(); i++) {
+                if (this.getItemId(i) == id) {
+                    return i ;
+                }
+            }
+        }
+
+        return 0 ;
     }
 
     class ViewHolder {

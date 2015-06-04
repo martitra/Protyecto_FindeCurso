@@ -80,7 +80,6 @@ public class CAUDAO {
                 listCAU.add(cau);
                 cursor.moveToNext();
             }
-
             // make sure to close the cursor
             cursor.close();
         }

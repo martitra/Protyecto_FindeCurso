@@ -80,7 +80,6 @@ public class AddSolucionActivity extends Activity implements View.OnClickListene
                 Editable solucionNombre = mTxtSolucionNombre.getText();
                 if (!TextUtils.isEmpty(solucionNombre) ) {
                     // add the car to database
-                    final String matricula = mTxtSolucionNombre.getText().toString();
                     if(add) {
                         Solucion createdSolucion = mSolucionDao.createSolucion(solucionNombre.toString());
                         Log.d(TAG, "added solucion : " + createdSolucion.getnNombre());

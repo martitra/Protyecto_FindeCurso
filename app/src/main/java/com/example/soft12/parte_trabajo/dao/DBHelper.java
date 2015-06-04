@@ -9,19 +9,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	public static final String TAG = "DBHelper";
 
-	// columns of the coches table
-	public static final String TABLE_COCHE = "coche";
-	public static final String COLUMN_COCHE_ID = "_id";
-	public static final String COLUMN_COCHE_MATRICULA = "matricula";
+	private static final String DATABASE_NAME = "parte.db";
+	private static final int DATABASE_VERSION = 3;
 
-	// columns of the repostaje table
-	public static final String TABLE_REPOSTAJE = "repostaje";
-	public static final String COLUMN_REPOSTAJE_ID = "_id";
-	public static final String COLUMN_REPOSTAJE_FECHA = "fecha";
-	public static final String COLUMN_REPOSTAJE_EUROS = "euros";
-	public static final String COLUMN_REPOSTAJE_EUROS_LITRO = "euros_litro";
-	public static final String COLUMN_REPOSTAJE_LITROS = "litros";
-	public static final String COLUMN_REPOSTAJE_COCHE_ID = "coche_id";
+	//colums of the daiario table
+	public static final String TABLE_DIARIO = "diario";
+	public static final String COLUMN_DIARIO_ID = "_id";
+	public static final String COLUMN_DIARIO_FECHA = "fecha";
+	public static final String COLUMN_DIARIO_CAU = "cau_id";
+	public static final String COLUMN_DIARIO_CLIENTE = "cliente_id";
+	public static final String COLUMN_DIARIO_SOLUCION = "solucion_id";
+	public static final String COLUMN_DIARIO_HORA_INI = "fecha_ini";
+	public static final String COLUMN_DIARIO_HORA_FIN = "fecha_fin";
+	public static final String COLUMN_DIARIO_VIAJE = "viaje";
+	public static final String COLUMN_DIARIO_KMS = "kms";
 
 	// columna of the CAU table
 	public static final String TABLE_CAU = "cau";
@@ -38,24 +39,32 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_CLIENTE_ID = "_id";
 	public static final String COLUMN_CLIENTE_NOMBRE = "nombre";
 
-	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 2;
+	// columns of the repostaje table
+	public static final String TABLE_REPOSTAJE = "repostaje";
+	public static final String COLUMN_REPOSTAJE_ID = "_id";
+	public static final String COLUMN_REPOSTAJE_FECHA = "fecha";
+	public static final String COLUMN_REPOSTAJE_EUROS = "euros";
+	public static final String COLUMN_REPOSTAJE_EUROS_LITRO = "euros_litro";
+	public static final String COLUMN_REPOSTAJE_LITROS = "litros";
+	public static final String COLUMN_REPOSTAJE_COCHE_ID = "coche_id";
 
-	// SQL statement of the repostaje table creation
-	private static final String SQL_CREATE_TABLE_REPOSTAJE = "CREATE TABLE " + TABLE_REPOSTAJE + "("
-			+ COLUMN_REPOSTAJE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ COLUMN_REPOSTAJE_FECHA + " TEXT NOT NULL, "
-			+ COLUMN_REPOSTAJE_EUROS + " REAL NOT NULL, "
-			+ COLUMN_REPOSTAJE_EUROS_LITRO + " REAL NOT NULL, "
-			+ COLUMN_REPOSTAJE_LITROS + " REAL NOT NULL, "
-			+ COLUMN_REPOSTAJE_COCHE_ID + " INTEGER NOT NULL "
-			+");";
+	// columns of the coches table
+	public static final String TABLE_COCHE = "coche";
+	public static final String COLUMN_COCHE_ID = "_id";
+	public static final String COLUMN_COCHE_MATRICULA = "matricula";
 
-	// SQL statement of the coches table creation
-	private static final String SQL_CREATE_TABLE_COCHE = "CREATE TABLE " + TABLE_COCHE + "("
-			+ COLUMN_COCHE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ COLUMN_COCHE_MATRICULA + " TEXT NOT NULL "
-			+");";
+	// SQL statement of the cau table creation
+	public static final String SQL_CREATE_TABLE_DIARIO = "CREATE TABLE " + TABLE_DIARIO + "("
+			+ COLUMN_DIARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_DIARIO_FECHA + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_CAU + " LONG NOT NULL, "
+			+ COLUMN_DIARIO_SOLUCION + " LONG NOT NULL, "
+			+ COLUMN_DIARIO_CLIENTE + " LONG NOT NULL, "
+			+ COLUMN_DIARIO_HORA_INI + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_HORA_FIN + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_VIAJE + "REAL NOT NULL, "
+			+ COLUMN_DIARIO_KMS + " REAL NOT NULL"
+			+ ");";
 
 	// SQL statement of the cau table creation
 	public static final String SQL_CREATE_TABLE_CAU = "CREATE TABLE " + TABLE_CAU + "("
@@ -75,6 +84,22 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_CLIENTE_NOMBRE + " TEXT NOT NULL "
 			+ ");";
 
+	// SQL statement of the repostaje table creation
+	private static final String SQL_CREATE_TABLE_REPOSTAJE = "CREATE TABLE " + TABLE_REPOSTAJE + "("
+			+ COLUMN_REPOSTAJE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_REPOSTAJE_FECHA + " TEXT NOT NULL, "
+			+ COLUMN_REPOSTAJE_EUROS + " REAL NOT NULL, "
+			+ COLUMN_REPOSTAJE_EUROS_LITRO + " REAL NOT NULL, "
+			+ COLUMN_REPOSTAJE_LITROS + " REAL NOT NULL, "
+			+ COLUMN_REPOSTAJE_COCHE_ID + " INTEGER NOT NULL "
+			+");";
+
+	// SQL statement of the coches table creation
+	private static final String SQL_CREATE_TABLE_COCHE = "CREATE TABLE " + TABLE_COCHE + "("
+			+ COLUMN_COCHE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_COCHE_MATRICULA + " TEXT NOT NULL "
+			+");";
+
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -86,6 +111,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		database.execSQL(SQL_CREATE_TABLE_CAU);
 		database.execSQL(SQL_CREATE_TABLE_SOLUCION);
 		database.execSQL(SQL_CREATE_TABLE_CLIENTE);
+		database.execSQL(SQL_CREATE_TABLE_DIARIO);
 	}
 
 	@Override
@@ -98,6 +124,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAU);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLUCION);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DIARIO);
 		
 		// recreate the tables
 		onCreate(db);
