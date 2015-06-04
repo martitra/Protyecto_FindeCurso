@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Repostaje implements Serializable {
 
-	public static final String TAG = "Employee";
+	public static final String TAG = "Repostaje";
 
 	private long rId;
 	private String fecha;

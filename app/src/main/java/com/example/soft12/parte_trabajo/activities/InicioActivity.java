@@ -9,8 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.CAU.ListCAUActivity;
+import com.example.soft12.parte_trabajo.activities.Cliente.ListClientesActivity;
 import com.example.soft12.parte_trabajo.activities.Coche.ListCochesActivity;
 import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
+import com.example.soft12.parte_trabajo.activities.Solucion.ListSolucionesActivity;
 
 
 public class InicioActivity extends Activity {
@@ -74,6 +77,33 @@ public class InicioActivity extends Activity {
     public void VerCoches(View v){
         try{
             Intent i = new Intent(this, ListCochesActivity.class);
+            startActivity(i);
+        }catch (Exception e){
+            Log.e(LOGTAG, e.getMessage());
+        }
+    }
+
+    public void HacerSolucion(View v){
+        try{
+            Intent i = new Intent(this, ListSolucionesActivity.class);
+            startActivity(i);
+        }catch (Exception e){
+            Log.e(LOGTAG, e.getMessage());
+        }
+    }
+
+    public void HacerCliente(View v){
+        try{
+            Intent i = new Intent(this, ListClientesActivity.class);
+            startActivity(i);
+        }catch (Exception e){
+            Log.e(LOGTAG, e.getMessage());
+        }
+    }
+
+    public void HacerCAU(View v){
+        try{
+            Intent i = new Intent(this, ListCAUActivity.class);
             startActivity(i);
         }catch (Exception e){
             Log.e(LOGTAG, e.getMessage());

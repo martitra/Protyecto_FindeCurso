@@ -48,8 +48,6 @@ public class ListRepostajeAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.txtFecha = (TextView) v.findViewById(R.id.txt_fecha);
 			holder.txtEuros = (TextView) v.findViewById(R.id.txt_euros);
-			//holder.txtEuros_Litro = (TextView) v.findViewById(R.id.txt_euros_litro);
-			//holder.txtLitros = (TextView) v.findViewById(R.id.txt_litros);
 			holder.txtCoche = (TextView) v.findViewById(R.id.txt_coche_matricula);
 			v.setTag(holder);
 		}
@@ -61,7 +59,7 @@ public class ListRepostajeAdapter extends BaseAdapter {
 		Repostaje currentItem = getItem(position);
 		if(currentItem != null) {
 			holder.txtFecha.setText(currentItem.getFecha());
-			holder.txtEuros.setText(currentItem.getEuros()+" Euros");
+			holder.txtEuros.setText(String.valueOf(currentItem.getEuros()+" Euros"));
 			holder.txtCoche.setText(currentItem.getCoche().getMatricula());
 		}
 		

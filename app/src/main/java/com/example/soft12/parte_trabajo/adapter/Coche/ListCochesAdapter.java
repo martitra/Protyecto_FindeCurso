@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ListCochesAdapter extends BaseAdapter {
 	
-	public static final String TAG = "ListCompnaiesAdapter";
+	public static final String TAG = "ListCochesAdapter";
 	
 	private List<Coche> mItems;
 	private LayoutInflater mInflater;

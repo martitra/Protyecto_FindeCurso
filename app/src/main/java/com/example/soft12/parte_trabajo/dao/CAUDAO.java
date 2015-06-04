@@ -62,14 +62,6 @@ public class CAUDAO {
 
     public void deleteCAU(CAU cau) {
         long id = cau.getCauId();
-        // delete all employees of this company
-       /* DiarioDAO diarioDAO = new DiarioDAO(mContext);
-        List<Diario> listDiario = diarioDAO.getDiarioofCAU(id);
-        if (listDiario != null && !listDiario.isEmpty()) {
-            for (Diario d : listDiario) {
-                diarioDAO.deleteDiario(d);
-            }
-        }*/
 
         System.out.println("the deleted cau has the id: " + id);
         mDatabase.delete(DBHelper.TABLE_CAU, DBHelper.COLUMN_CAU_ID

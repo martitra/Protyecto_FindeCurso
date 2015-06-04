@@ -73,6 +73,7 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 		this.mListviewRepostaje = (ListView) findViewById(R.id.list_repostaje);
 		this.mTxtEmptyListRepostaje = (TextView) findViewById(R.id.txt_empty_list_repostaje);
 		ImageButton mBtnAddRepostaje = (ImageButton) findViewById(R.id.btn_add_repostaje);
+        this.mListviewRepostaje.setOnItemClickListener(this);
 		mBtnAddRepostaje.setOnClickListener(this);
 	}
 
@@ -80,8 +81,9 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_add_repostaje:
-			Intent intent = new Intent(this, AddRepostajeActivity.class);
-			startActivityForResult(intent, REQUEST_CODE_ADD_REPOSTAJE);
+            Bundle extras = new Bundle();
+            extras.putBoolean("add", true);
+            lanzarEditRepostaje(extras);
 			break;
 
 		default:
@@ -132,13 +134,17 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Repostaje clickedRepostaje = mAdapter.getItem(position);
 		Log.d(TAG, "clickedItem : " + clickedRepostaje.getFecha());
+		Bundle extras = clickedRepostaje.getBundle();
+		extras.putBoolean("add", false);
+        extras.putInt("id", (int) clickedRepostaje.getCoche().getId());
+		lanzarEditRepostaje(extras);
 	}
 
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		Repostaje clickedRepostaje = mAdapter.getItem(position);
-		Log.d(TAG, "longClickedItem : " + clickedRepostaje.getFecha() + " " + clickedRepostaje.getEuros());
+		Log.d(TAG, "longClickedItem : " + clickedRepostaje.getFecha());
 		return true;
 	}
 

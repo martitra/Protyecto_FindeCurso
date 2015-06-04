@@ -15,9 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.Coche.AddCocheActivity;
 import com.example.soft12.parte_trabajo.adapter.CAU.ListCAUAdapter;
-import com.example.soft12.parte_trabajo.adapter.Coche.ListCochesAdapter;
 import com.example.soft12.parte_trabajo.dao.CAUDAO;
 import com.example.soft12.parte_trabajo.model.CAU;
 
@@ -69,6 +67,7 @@ public class ListCAUActivity  extends Activity implements AdapterView.OnItemLong
         this.mTxtEmptyListCAU = (TextView) findViewById(R.id.txt_empty_list_cau);
         ImageButton mBtnAddCAU = (ImageButton) findViewById(R.id.btn_add_cau);
 
+        this.mListviewCAU.setOnItemClickListener(this);
         mBtnAddCAU.setOnClickListener(this);
     }
 

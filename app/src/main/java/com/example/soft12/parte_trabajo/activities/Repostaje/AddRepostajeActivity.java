@@ -7,16 +7,17 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.Coche.AddCocheActivity;
 import com.example.soft12.parte_trabajo.adapter.Coche.SpinnerCochesAdapter;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DBHelper;
@@ -26,7 +27,7 @@ import com.example.soft12.parte_trabajo.model.Repostaje;
 
 import java.util.List;
 
-public class AddRepostajeActivity extends Activity implements OnClickListener, OnItemSelectedListener {
+public class AddRepostajeActivity extends Activity implements OnClickListener {
 
 	public static final String TAG = "AddRepostajeActivity";
 
@@ -38,17 +39,17 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
 
 	private CocheDAO mCocheDao;
 	private RepostajeDAO mRepostajeDao;
-	
-	private Coche mSelectedCoche;
-	private SpinnerCochesAdapter mAdapter;
+
+    private SpinnerCochesAdapter mAdapter;
     private Repostaje repostajeEdit;
 
     private Double euros;
     private Double eur_lit;
 
     private boolean add;
+    private int id;
 
-	public static final String EXTRA_SELECTED_REPOSTAJE_ID = "extra_key_selected_repostaje_id";
+	//public static final String EXTRA_SELECTED_REPOSTAJE_ID = "extra_key_selected_repostaje_id";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
         Bundle extras;
         extras = getIntent().getExtras();
         add = extras.getBoolean("add");
+        //id = extras.getInt("id");
         if (add) {
             Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
         } else {
@@ -90,13 +92,14 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
         mTxtEuros_Litro.setText(String.valueOf(repostajeEdit.getEuros_litro()));
         mTxtLitros.setText(String.valueOf(repostajeEdit.getLitros()));
 
-        int position = 0;
-
+        //int position = 0;
+        int  pos = 0;
         if (!add) {
-            position = mAdapter.getPositionById(repostajeEdit.getCoche().getId());
-            Log.i("INFO", "Position=" + position);
+            pos = mAdapter.getPositionById(repostajeEdit.getCoche().getId());
+            Log.i("INFO", "Position=" + pos);
         }
-        mSpinnerCoche.setSelection(position);
+        mSpinnerCoche.setSelection(pos);
+
     }
 
     private void initViews() {
@@ -149,7 +152,8 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
                     try {
                         // calculamos
                         calculate();
-                    }catch (NumberFormatException nfe){
+                    }
+                    catch (NumberFormatException nfe){
                         nfe.getMessage();
                     }
                 }
@@ -166,7 +170,42 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
         mTxtLitros.setText(String.valueOf(totalLitros));
 	}
 
-	@Override
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.edit_repostaje, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        switch (id) {
+
+            case R.id.add_coche:
+                lanzarNuevoCoche();
+                break;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void lanzarNuevoCoche() {
+        Bundle extras = new Bundle();
+        // TODO Auto-generated method stub
+        extras.clear();
+        extras.putBoolean("add", true);
+        Intent i = new Intent(this, AddCocheActivity.class);
+        i.putExtras(extras);// pasar add
+        startActivity(i);
+    }
+
+    @Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_add:
@@ -174,7 +213,7 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
 			Editable euros = mTxtEuros.getText();
 			Editable euros_litro = mTxtEuros_Litro.getText();
 			Editable litros = mTxtLitros.getText();
-			mSelectedCoche = (Coche) mSpinnerCoche.getSelectedItem();
+            Coche mSelectedCoche = (Coche) mSpinnerCoche.getSelectedItem();
 			if (!TextUtils.isEmpty(fecha) && !TextUtils.isEmpty(euros)
 					&& !TextUtils.isEmpty(euros_litro) && !TextUtils.isEmpty(litros)
 					&& mSelectedCoche != null) {
@@ -194,10 +233,10 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
                 else{
                     Repostaje editRepostaje = new Repostaje();
                     editRepostaje.setId(repostajeEdit.getId());
-                    editRepostaje.setFecha(repostajeEdit.getFecha());
-                    editRepostaje.setEuros(repostajeEdit.getEuros());
-                    editRepostaje.setEuros_litro(repostajeEdit.getEuros_litro());
-                    editRepostaje.setLitros(repostajeEdit.getLitros());
+                    editRepostaje.setFecha(mTxtFecha.getText().toString());
+                    editRepostaje.setEuros(Double.parseDouble(mTxtEuros.getText().toString()));
+                    editRepostaje.setEuros_litro(Double.parseDouble(mTxtEuros_Litro.getText().toString()));
+                    editRepostaje.setLitros(Double.parseDouble(mTxtLitros.getText().toString()));
                     editRepostaje.setCoche((Coche) mSpinnerCoche.getSelectedItem());
                     mRepostajeDao.updateRepostaje(editRepostaje);
                     Intent i = new Intent(this, ListRepostajeActivity.class);
@@ -221,16 +260,5 @@ public class AddRepostajeActivity extends Activity implements OnClickListener, O
 	protected void onDestroy() {
 		super.onDestroy();
 		mCocheDao.close();
-	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		mSelectedCoche = mAdapter.getItem(position);
-		Log.d(TAG, "selectedCompany : " + mSelectedCoche.getId());
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-		
 	}
 }

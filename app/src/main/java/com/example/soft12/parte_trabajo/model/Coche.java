@@ -8,14 +8,12 @@ import java.io.Serializable;
 
 public class Coche implements Serializable {
 
-	public static final String TAG = "Employee";
+	public static final String TAG = "Coche";
 	
 	private long cId;
 	private String nMatricula;
 
-	
-	public Coche() {}
-	
+    public Coche() {}
 	
 	public Coche(String matriucla) {
 		this.nMatricula = matriucla;
@@ -25,12 +23,15 @@ public class Coche implements Serializable {
 	public long getId() {
 		return cId;
 	}
+
 	public void setId(long cId) {
 		this.cId = cId;
 	}
+
 	public String getMatricula() {
 		return nMatricula;
 	}
+
 	public void setMatricula(String matricula) {
 		this.nMatricula = matricula;
 	}

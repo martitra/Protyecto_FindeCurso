@@ -67,20 +67,20 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 		this.mTxtEmptyListCoches = (TextView) findViewById(R.id.txt_empty_list_coches);
 		ImageButton mBtnAddCoche = (ImageButton) findViewById(R.id.btn_add_coche);
 
+		this.mListviewCoches.setOnItemClickListener(this);
 		mBtnAddCoche.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
+		Bundle extras = new Bundle();
 		switch (v.getId()) {
-		case R.id.btn_add_coche:
-			Bundle extras = new Bundle();
-			extras.putBoolean("add", true);
-			lanzarEditCoche(extras);
-			break;
-
-		default:
-			break;
+			case R.id.btn_add_coche:
+				extras.putBoolean("add", true);
+				lanzarEditCoche(extras);
+				break;
+			default:
+				break;
 		}
 	}
 	
@@ -127,6 +127,9 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Coche clickedCoche = mAdapter.getItem(position);
 		Log.d(TAG, "clickedItem : " + clickedCoche.getMatricula());
+		Bundle extras = new Bundle();
+		extras.putBoolean("add", false);
+		lanzarEditCoche(extras);
 	}
 
 	@Override

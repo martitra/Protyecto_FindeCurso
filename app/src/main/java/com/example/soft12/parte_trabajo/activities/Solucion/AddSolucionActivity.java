@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities.CAU;
+package com.example.soft12.parte_trabajo.activities.Solucion;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,32 +12,32 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.dao.CAUDAO;
 import com.example.soft12.parte_trabajo.dao.DBHelper;
-import com.example.soft12.parte_trabajo.model.CAU;
+import com.example.soft12.parte_trabajo.dao.SolucionDAO;
+import com.example.soft12.parte_trabajo.model.Solucion;
 
 /**
- * Created by soft12 on 02/06/2015.
+ * Created by soft12 on 04/06/2015.
  */
-public class AddCAUActivity extends Activity implements View.OnClickListener {
+public class AddSolucionActivity extends Activity implements View.OnClickListener {
 
-    public static final String TAG = "AddCocheActivity";
+    public static final String TAG = "AddSolucionActivity";
 
-    private EditText mTxtCAUNombre;
+    private EditText mTxtSolucionNombre;
 
-    private CAUDAO mCAUDAO;
-    private CAU cauEdit;
+    private SolucionDAO mSolucionDao;
+    private Solucion solucionEdit;
 
     private boolean add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_cau);
+        setContentView(R.layout.activity_add_solucion);
 
         initViews();
 
-        cauEdit = new CAU();
+        solucionEdit = new Solucion();
         Bundle extras;
         extras = getIntent().getExtras();
         add = extras.getBoolean("add");
@@ -45,29 +45,29 @@ public class AddCAUActivity extends Activity implements View.OnClickListener {
             Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getBaseContext(),
-                    extras.getString(DBHelper.COLUMN_CAU_NOMBRE),
+                    extras.getString(DBHelper.COLUMN_SOLUCION_NOMBRE),
                     Toast.LENGTH_LONG).show();
-            cauEdit.setBundle(extras);
+            solucionEdit.setBundle(extras);
         }
         establecerValoresEditar();
 
-        this.mCAUDAO = new CAUDAO(this);
+        this.mSolucionDao = new SolucionDAO(this);
     }
 
     private void establecerValoresEditar() {
 
-        mTxtCAUNombre.setText(cauEdit.getcNombre());
+        mTxtSolucionNombre.setText(solucionEdit.getnNombre());
         int position;
 
         if (!add) {
-            long i = cauEdit.getCauId();
+            long i = solucionEdit.getcId();
             position = (int) i;
             Log.i("INFO", "Position=" + position);
         }
     }
 
     private void initViews() {
-        this.mTxtCAUNombre = (EditText) findViewById(R.id.txt_cau_nombre);
+        this.mTxtSolucionNombre = (EditText) findViewById(R.id.txt_solucion_nombre);
         Button mBtnAdd = (Button) findViewById(R.id.btn_add);
 
         mBtnAdd.setOnClickListener(this);
@@ -77,25 +77,26 @@ public class AddCAUActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add:
-                Editable cauNombre = mTxtCAUNombre.getText();
-                if (!TextUtils.isEmpty(cauNombre) ) {
+                Editable solucionNombre = mTxtSolucionNombre.getText();
+                if (!TextUtils.isEmpty(solucionNombre) ) {
                     // add the car to database
+                    final String matricula = mTxtSolucionNombre.getText().toString();
                     if(add) {
-                        CAU createdCAU = mCAUDAO.createCAU(cauNombre.toString());
-                        Log.d(TAG, "added coche : " + createdCAU.getcNombre());
+                        Solucion createdSolucion = mSolucionDao.createSolucion(solucionNombre.toString());
+                        Log.d(TAG, "added solucion : " + createdSolucion.getnNombre());
                         Intent intent = new Intent();
-                        intent.putExtra(ListCAUActivity.EXTRA_ADDED_CAU, createdCAU);
+                        intent.putExtra(ListSolucionesActivity.EXTRA_ADDED_SOLUCION, createdSolucion);
                         setResult(RESULT_OK, intent);
-                        Toast.makeText(this, R.string.cau_created_successfully, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.solucion_created_successfully, Toast.LENGTH_LONG).show();
                         finish();
                     }
                     else {
-                        cauEdit.setCauId(cauEdit.getCauId());
-                        cauEdit.setcNombre(mTxtCAUNombre.getText().toString());
-                        mCAUDAO.updateCAU(cauEdit);
-                        Intent i = new Intent(this, ListCAUActivity.class);
+                        solucionEdit.setcId(solucionEdit.getcId());
+                        solucionEdit.setnNombre(mTxtSolucionNombre.getText().toString());
+                        mSolucionDao.updateSolucion(solucionEdit);
+                        Intent i = new Intent(this, ListSolucionesActivity.class);
                         startActivity(i);
-                        Toast.makeText(this, R.string.cau_edited_successfully, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.solucion_edited_successfully, Toast.LENGTH_LONG).show();
                         finish();
                     }
                 }
@@ -112,7 +113,7 @@ public class AddCAUActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mCAUDAO.close();
+        mSolucionDao.close();
     }
 
 }

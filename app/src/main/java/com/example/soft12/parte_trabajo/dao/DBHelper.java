@@ -28,6 +28,16 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_CAU_ID = "_id";
 	public static final String COLUMN_CAU_NOMBRE = "nombre";
 
+	//column of the Solucion table
+	public static final String TABLE_SOLUCION = "solucion";
+	public static final String COLUMN_SOLUCION_ID = "_id";
+	public static final String COLUMN_SOLUCION_NOMBRE = "nombre";
+
+	//column of the Cliente table
+	public static final String TABLE_CLIENTE = "cliente";
+	public static final String COLUMN_CLIENTE_ID = "_id";
+	public static final String COLUMN_CLIENTE_NOMBRE = "nombre";
+
 	private static final String DATABASE_NAME = "parte.db";
 	private static final int DATABASE_VERSION = 2;
 
@@ -53,6 +63,18 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_CAU_NOMBRE + " TEXT NOT NULL "
 			+ ");";
 
+	// SQL statement of the solucion table creation
+	public static final String SQL_CREATE_TABLE_SOLUCION = "CREATE TABLE " + TABLE_SOLUCION + "("
+			+ COLUMN_SOLUCION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_SOLUCION_NOMBRE + " TEXT NOT NULL "
+			+ ");";
+
+	// SQL statement of the cliente table creation
+	public static final String SQL_CREATE_TABLE_CLIENTE = "CREATE TABLE " + TABLE_CLIENTE + "("
+			+ COLUMN_CLIENTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_CLIENTE_NOMBRE + " TEXT NOT NULL "
+			+ ");";
+
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -62,6 +84,8 @@ public class DBHelper extends SQLiteOpenHelper {
 		database.execSQL(SQL_CREATE_TABLE_COCHE);
 		database.execSQL(SQL_CREATE_TABLE_REPOSTAJE);
 		database.execSQL(SQL_CREATE_TABLE_CAU);
+		database.execSQL(SQL_CREATE_TABLE_SOLUCION);
+		database.execSQL(SQL_CREATE_TABLE_CLIENTE);
 	}
 
 	@Override
@@ -72,6 +96,8 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPOSTAJE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_COCHE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAU);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLUCION);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE);
 		
 		// recreate the tables
 		onCreate(db);

@@ -70,11 +70,16 @@ public class SpinnerCochesAdapter extends BaseAdapter {
 		this.mItems = mItems;
 	}
 
-    public int getPositionById(long cId) {
-        Coche buscar = new Coche();
-        buscar.setId(cId);
-        // no me busca bien el coche en la lista de coches, no me da la posición
-        return mItems.indexOf(buscar);
+    public int getPositionById(long id) {
+        if (!this.isEmpty()) {
+            for (int i = 0; i < this.getCount(); i++) {
+                if (this.getItemId(i) == id) {
+                    return i ;
+                }
+            }
+        }
+
+        return 0 ;
     }
 
     class ViewHolder {

@@ -105,7 +105,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
                             mCocheDao.updateCoche(cocheEdit);
                             Intent i = new Intent(this, ListCochesActivity.class);
                             startActivity(i);
-                            Toast.makeText(this, R.string.coche_created_successfully, Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, R.string.coche_edited_successfully, Toast.LENGTH_LONG).show();
                             finish();
                         }
                     }

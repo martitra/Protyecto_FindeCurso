@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.soft12.parte_trabajo.model.Coche;
-import com.example.soft12.parte_trabajo.model.Repostaje;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,15 +59,6 @@ public class CocheDAO {
 
     public void deleteCoche(Coche coche) {
         long id = coche.getId();
-        // delete all employees of this company
-        RepostajeDAO repostajeDAO = new RepostajeDAO(mContext);
-        List<Repostaje> listRepostaje = repostajeDAO.getRepostajeOfCoche(id);
-        if (listRepostaje != null && !listRepostaje.isEmpty()) {
-            for (Repostaje r : listRepostaje) {
-                repostajeDAO.deleteRepostaje(r);
-            }
-        }
-
         System.out.println("the deleted coche has the id: " + id);
         mDatabase.delete(DBHelper.TABLE_COCHE, DBHelper.COLUMN_COCHE_ID
                 + " = " + id, null);

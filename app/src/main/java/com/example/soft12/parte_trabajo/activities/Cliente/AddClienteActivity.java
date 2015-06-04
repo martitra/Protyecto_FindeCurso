@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities.CAU;
+package com.example.soft12.parte_trabajo.activities.Cliente;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,32 +12,32 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.dao.CAUDAO;
+import com.example.soft12.parte_trabajo.dao.ClienteDAO;
 import com.example.soft12.parte_trabajo.dao.DBHelper;
-import com.example.soft12.parte_trabajo.model.CAU;
+import com.example.soft12.parte_trabajo.model.Cliente;
 
 /**
- * Created by soft12 on 02/06/2015.
+ * Created by soft12 on 04/06/2015.
  */
-public class AddCAUActivity extends Activity implements View.OnClickListener {
+public class AddClienteActivity  extends Activity implements View.OnClickListener{
 
-    public static final String TAG = "AddCocheActivity";
+    public static final String TAG = "AddClienteActivity";
 
-    private EditText mTxtCAUNombre;
+    private EditText mTxtClienteNombre;
 
-    private CAUDAO mCAUDAO;
-    private CAU cauEdit;
+    private ClienteDAO mClienteDao;
+    private Cliente clienteEdit;
 
     private boolean add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_cau);
+        setContentView(R.layout.activity_add_cliente);
 
         initViews();
 
-        cauEdit = new CAU();
+        clienteEdit = new Cliente();
         Bundle extras;
         extras = getIntent().getExtras();
         add = extras.getBoolean("add");
@@ -45,29 +45,29 @@ public class AddCAUActivity extends Activity implements View.OnClickListener {
             Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getBaseContext(),
-                    extras.getString(DBHelper.COLUMN_CAU_NOMBRE),
+                    extras.getString(DBHelper.COLUMN_CLIENTE_NOMBRE),
                     Toast.LENGTH_LONG).show();
-            cauEdit.setBundle(extras);
+            clienteEdit.setBundle(extras);
         }
         establecerValoresEditar();
 
-        this.mCAUDAO = new CAUDAO(this);
+        this.mClienteDao = new ClienteDAO(this);
     }
 
     private void establecerValoresEditar() {
 
-        mTxtCAUNombre.setText(cauEdit.getcNombre());
+        mTxtClienteNombre.setText(clienteEdit.getnNombre());
         int position;
 
         if (!add) {
-            long i = cauEdit.getCauId();
+            long i = clienteEdit.getcId();
             position = (int) i;
             Log.i("INFO", "Position=" + position);
         }
     }
 
     private void initViews() {
-        this.mTxtCAUNombre = (EditText) findViewById(R.id.txt_cau_nombre);
+        this.mTxtClienteNombre = (EditText) findViewById(R.id.txt_cliente_nombre);
         Button mBtnAdd = (Button) findViewById(R.id.btn_add);
 
         mBtnAdd.setOnClickListener(this);
@@ -77,25 +77,26 @@ public class AddCAUActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add:
-                Editable cauNombre = mTxtCAUNombre.getText();
-                if (!TextUtils.isEmpty(cauNombre) ) {
+                Editable clienteNombre = mTxtClienteNombre.getText();
+                if (!TextUtils.isEmpty(clienteNombre) ) {
                     // add the car to database
+                    final String matricula = mTxtClienteNombre.getText().toString();
                     if(add) {
-                        CAU createdCAU = mCAUDAO.createCAU(cauNombre.toString());
-                        Log.d(TAG, "added coche : " + createdCAU.getcNombre());
+                        Cliente createdCliente = mClienteDao.createCliente(clienteNombre.toString());
+                        Log.d(TAG, "added coche : " + createdCliente.getnNombre());
                         Intent intent = new Intent();
-                        intent.putExtra(ListCAUActivity.EXTRA_ADDED_CAU, createdCAU);
+                        intent.putExtra(ListClientesActivity.EXTRA_ADDED_CLIENTE, createdCliente);
                         setResult(RESULT_OK, intent);
-                        Toast.makeText(this, R.string.cau_created_successfully, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.cliente_created_successfully, Toast.LENGTH_LONG).show();
                         finish();
                     }
                     else {
-                        cauEdit.setCauId(cauEdit.getCauId());
-                        cauEdit.setcNombre(mTxtCAUNombre.getText().toString());
-                        mCAUDAO.updateCAU(cauEdit);
-                        Intent i = new Intent(this, ListCAUActivity.class);
+                        clienteEdit.setcId(clienteEdit.getcId());
+                        clienteEdit.setnNombre(mTxtClienteNombre.getText().toString());
+                        mClienteDao.updateCliente(clienteEdit);
+                        Intent i = new Intent(this, ListClientesActivity.class);
                         startActivity(i);
-                        Toast.makeText(this, R.string.cau_edited_successfully, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.cliente_edited_successfully, Toast.LENGTH_LONG).show();
                         finish();
                     }
                 }
@@ -112,7 +113,7 @@ public class AddCAUActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mCAUDAO.close();
+        mClienteDao.close();
     }
 
 }

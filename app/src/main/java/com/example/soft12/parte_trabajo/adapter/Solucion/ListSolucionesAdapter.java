@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.adapter.CAU;
+package com.example.soft12.parte_trabajo.adapter.Solucion;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,23 +8,22 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.model.CAU;
+import com.example.soft12.parte_trabajo.model.Solucion;
 
 import java.util.List;
-import java.util.Vector;
 
 /**
- * Created by soft12 on 02/06/2015.
+ * Created by soft12 on 03/06/2015.
  */
-public class SpinnerCAUAdapter extends BaseAdapter {
+public class ListSolucionesAdapter extends BaseAdapter {
 
-    public static final String TAG = "SpinnerCAUAdapter";
+    public static final String TAG = "ListSolucionesAdapter";
 
-    private Vector<CAU> mItems;
+    private List<Solucion> mItems;
     private LayoutInflater mInflater;
 
-    public SpinnerCAUAdapter(Context context, Vector<CAU> listCAU) {
-        this.setItems(listCAU);
+    public ListSolucionesAdapter(Context context, List<Solucion> listCliente) {
+        this.setItems(listCliente);
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -34,13 +33,13 @@ public class SpinnerCAUAdapter extends BaseAdapter {
     }
 
     @Override
-    public CAU getItem(int position) {
+    public Solucion getItem(int position) {
         return (getItems() != null && !getItems().isEmpty()) ? getItems().get(position) : null ;
     }
 
     @Override
     public long getItemId(int position) {
-        return (getItems() != null && !getItems().isEmpty()) ? getItems().get(position).getCauId() : position;
+        return (getItems() != null && !getItems().isEmpty()) ? getItems().get(position).getcId() : position;
     }
 
     @Override
@@ -48,9 +47,9 @@ public class SpinnerCAUAdapter extends BaseAdapter {
         View v = convertView;
         ViewHolder holder;
         if(v == null) {
-            v = mInflater.inflate(R.layout.spinner_item_cau, parent, false);
+            v = mInflater.inflate(R.layout.list_item_solucion, parent, false);
             holder = new ViewHolder();
-            holder.txtNombreCAU = (TextView) v.findViewById(R.id.txt_cau_nombre);
+            holder.txtNombre = (TextView) v.findViewById(R.id.txt_solucion_nombre);
             v.setTag(holder);
         }
         else {
@@ -58,31 +57,25 @@ public class SpinnerCAUAdapter extends BaseAdapter {
         }
 
         // fill row data
-        CAU currentItem = getItem(position);
+        Solucion currentItem = getItem(position);
         if(currentItem != null) {
-            holder.txtNombreCAU.setText(currentItem.getcNombre());
+            holder.txtNombre.setText(currentItem.getnNombre());
         }
 
         return v;
     }
 
-    public List<CAU> getItems() {
+    public List<Solucion> getItems() {
         return mItems;
     }
 
-    public void setItems(Vector<CAU> mItems) {
+    public void setItems(List<Solucion> mItems) {
         this.mItems = mItems;
     }
 
-    public int getPositionById(long cId) {
-        CAU buscar = new CAU();
-        buscar.setCauId(cId);
-        // no me busca bien el coche en la lista de coches, no me da la posición
-        return mItems.indexOf(buscar);
+    class ViewHolder {
+        TextView txtNombre;
     }
 
-    class ViewHolder {
-        TextView txtNombreCAU;
-    }
 
 }
