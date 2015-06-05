@@ -19,7 +19,7 @@ import com.example.soft12.parte_trabajo.activities.Solucion.ListSolucionesActivi
 
 public class InicioActivity extends Activity {
 
-    private static final String LOGTAG = "MainActivity";
+    private static final String LOGTAG = "InicioActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

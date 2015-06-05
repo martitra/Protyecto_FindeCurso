@@ -19,12 +19,10 @@ public class CocheDAO {
     // Database fields
     private SQLiteDatabase mDatabase;
     private DBHelper mDbHelper;
-    private Context mContext;
     private String[] mAllColumns = { DBHelper.COLUMN_COCHE_ID,
             DBHelper.COLUMN_COCHE_MATRICULA };
 
     public CocheDAO(Context context) {
-        this.mContext = context;
         mDbHelper = new DBHelper(context);
         // open the database
         try {

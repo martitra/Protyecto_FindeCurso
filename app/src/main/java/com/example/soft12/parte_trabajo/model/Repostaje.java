@@ -21,13 +21,6 @@ public class Repostaje implements Serializable {
 
 	}
 
-	public Repostaje(String fecha, double euros,double euros_litro, double litros) {
-		this.fecha = fecha;
-		this.euros = euros;
-		this.euros_litro = euros_litro;
-		this.litros = litros;
-	}
-
 	public long getId() {
 		return rId;
 	}

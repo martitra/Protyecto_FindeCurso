@@ -22,12 +22,10 @@ public class CAUDAO {
     // Database fields
     private SQLiteDatabase mDatabase;
     private DBHelper mDbHelper;
-    private Context mContext;
     private String[] mAllColumns = { DBHelper.COLUMN_CAU_ID,
             DBHelper.COLUMN_CAU_NOMBRE};
 
     public CAUDAO(Context context) {
-        this.mContext = context;
         mDbHelper = new DBHelper(context);
         // open the database
         try {

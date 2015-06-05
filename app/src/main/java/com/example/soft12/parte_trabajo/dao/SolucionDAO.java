@@ -22,12 +22,10 @@ public class SolucionDAO {
     // Database fields
     private SQLiteDatabase mDatabase;
     private DBHelper mDbHelper;
-    private Context mContext;
     private String[] mAllColumns = { DBHelper.COLUMN_SOLUCION_ID,
             DBHelper.COLUMN_SOLUCION_NOMBRE };
 
     public SolucionDAO(Context context) {
-        this.mContext = context;
         mDbHelper = new DBHelper(context);
         // open the database
         try {
