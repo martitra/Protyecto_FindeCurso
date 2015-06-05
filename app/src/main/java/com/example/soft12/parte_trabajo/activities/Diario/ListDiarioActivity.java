@@ -48,9 +48,6 @@ public class ListDiarioActivity extends Activity implements View.OnClickListener
         initViews();
 
         mDiarioDAO = new DiarioDAO(this);
-        //Intent intent  = getIntent();
-        //if(intent != null) {
-        //}
 
         //if(mCocheId != -1) {
         mListDiario = mDiarioDAO.getAllDiario();
@@ -71,6 +68,7 @@ public class ListDiarioActivity extends Activity implements View.OnClickListener
         this.mListviewDiario = (ListView) findViewById(R.id.list_diario);
         this.mTxtEmptyListDiario = (TextView) findViewById(R.id.txt_empty_list_diario);
         ImageButton mBtnAddRepostaje = (ImageButton) findViewById(R.id.btn_add_diario);
+
         this.mListviewDiario.setOnItemClickListener(this);
         mBtnAddRepostaje.setOnClickListener(this);
     }

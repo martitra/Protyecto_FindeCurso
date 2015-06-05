@@ -107,8 +107,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
 
     private boolean add;
 
-    //public static final String EXTRA_SELECTED_REPOSTAJE_ID = "extra_key_selected_repostaje_id";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,11 +170,11 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         int posSolucion = 0;
         if (!add) {
             posCAU = mCAUAdapter.getPositionById(diarioEdit.getCau().getCauId());
-            Log.i("INFO", "Position=" + posCAU);
+            Log.i("INFO", "Position CAU = " + posCAU);
             posCliente = mClienteAdapter.getPositionById(diarioEdit.getCliente().getcId());
-            Log.i("INFO", "Position=" + posCliente);
+            Log.i("INFO", "Position Cliente = " + posCliente);
             posSolucion = mSolucionAdapter.getPositionById(diarioEdit.getSolucion().getcId());
-            Log.i("INFO", "Position=" + posSolucion);
+            Log.i("INFO", "Position Soluión = " + posSolucion);
         }
         spinnerCau.setSelection(posCAU);
         spinnerCliente.setSelection(posCliente);
@@ -199,7 +197,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
                 new DatePickerDialog(v.getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -208,7 +205,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         this.mTxtFecha.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "/" +
                 (myCalendar.get(Calendar.MONTH) + 1) + "/" +
                 myCalendar.get(Calendar.YEAR));
-
         /* HORA INICIO */
         this.mTxtHoraIni.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +223,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             }
         });
         mTxtHoraFin.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
+
         mBtnAdd.setOnClickListener(this);
     }
 
