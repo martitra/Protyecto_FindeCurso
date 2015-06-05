@@ -73,7 +73,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
     };
 
     /* TIME */
-    TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
+    TimePickerDialog.OnTimeSetListener timeIni = new TimePickerDialog.OnTimeSetListener() {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -81,6 +81,17 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             myCalendar.set(Calendar.MINUTE,minute);
 
             mTxtHoraIni.setText(hourOfDay + ":" + minute);
+        }
+    };
+    /* TIME */
+    TimePickerDialog.OnTimeSetListener timeFin = new TimePickerDialog.OnTimeSetListener() {
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay+1);
+            myCalendar.set(Calendar.MINUTE,minute);
+
+            mTxtHoraFin.setText(hourOfDay + ":" + minute);
         }
     };
 
@@ -202,7 +213,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         this.mTxtHoraIni.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(v.getContext(), time , myCalendar.get(Calendar.HOUR),
+                new TimePickerDialog(v.getContext(), timeIni , myCalendar.get(Calendar.HOUR),
                         myCalendar.get(Calendar.MINUTE),true).show();
             }
         });
@@ -211,7 +222,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         this.mTxtHoraFin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(v.getContext(), time , myCalendar.get(Calendar.HOUR),
+                new TimePickerDialog(v.getContext(), timeFin , myCalendar.get(Calendar.HOUR),
                         myCalendar.get(Calendar.MINUTE),true).show();
             }
         });
