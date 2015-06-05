@@ -21,7 +21,7 @@ import com.example.soft12.parte_trabajo.model.CAU;
  */
 public class AddCAUActivity extends Activity implements View.OnClickListener {
 
-    public static final String TAG = "AddCocheActivity";
+    public static final String TAG = "AddCAUActivity";
 
     private EditText mTxtCAUNombre;
 

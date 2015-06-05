@@ -16,7 +16,7 @@ import java.util.List;
  * Created by soft12 on 02/06/2015.
  */
 public class ListCAUAdapter extends BaseAdapter {
-    public static final String TAG = "ListCompnaiesAdapter";
+    public static final String TAG = "ListCAUAdapter";
 
     private List<CAU> mItems;
     private LayoutInflater mInflater;

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class SpinnerSolucionesAdapter extends BaseAdapter {
 
-    public static final String TAG = "SpinnerClientesAdapter";
+    public static final String TAG = "SpinnerSolucionesAdapter";
 
     private List<Solucion> mItems;
     private LayoutInflater mInflater;

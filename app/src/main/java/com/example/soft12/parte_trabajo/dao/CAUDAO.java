@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CAUDAO {
 
-    public static final String TAG = "CocheDAO";
+    public static final String TAG = "CAUDAO";
 
     // Database fields
     private SQLiteDatabase mDatabase;
