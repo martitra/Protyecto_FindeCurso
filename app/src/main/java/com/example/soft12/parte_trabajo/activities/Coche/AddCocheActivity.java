@@ -26,11 +26,11 @@ public class AddCocheActivity extends Activity implements OnClickListener {
     private EditText mTxtCocheMatricula;
 
     public static final Pattern MATRICULA_COCHE = Pattern.compile (
-                    "^[A-Z]{0,2}"+
-                    "\\s?"+
-                    "\\d{4}" +
-                    "\\s" +
-                    "([B-D]|[F-H]|[J-N]|[P-T]|[V-Z]){2,3}$"
+        "^[A-Z]{0,2}"+
+        "\\s?"+
+        "\\d{4}" +
+        "\\s" +
+        "([B-D]|[F-H]|[J-N]|[P-T]|[V-Z]){2,3}$"
     );
 
     private CocheDAO mCocheDao;
