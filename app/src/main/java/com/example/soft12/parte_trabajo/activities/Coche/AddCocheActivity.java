@@ -70,7 +70,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
         if (!add) {
             long i = cocheEdit.getId();
             position = (int) i;
-            Log.i("INFO", "Position=" + position);
+            Log.i("INFO", "Position = " + position);
         }
     }
 

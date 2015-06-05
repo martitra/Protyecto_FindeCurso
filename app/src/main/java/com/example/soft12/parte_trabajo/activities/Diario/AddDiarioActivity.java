@@ -359,4 +359,28 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         mSolucionDAO.close();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        List<CAU> listCAU = mCAUDao.getAllCAU();
+        if(listCAU != null) {
+            mCAUAdapter = new SpinnerCAUAdapter(this, listCAU);
+            spinnerCau.setAdapter(mCAUAdapter);
+        }
+
+        //fill the spinner with cliente
+        List<Cliente> listCliente = mClienteDAO.getAllClientes();
+        if(listCliente != null) {
+            mClienteAdapter = new SpinnerClientesAdapter(this, listCliente);
+            spinnerCliente.setAdapter(mClienteAdapter);
+        }
+
+        //fill the spinner with solucion
+        List<Solucion> listSolucion = mSolucionDAO.getAllSoluciones();
+        if(listSolucion != null) {
+            mSolucionAdapter = new SpinnerSolucionesAdapter(this, listSolucion);
+            spinnerSolucion.setAdapter(mSolucionAdapter);
+        }
+    }
 }

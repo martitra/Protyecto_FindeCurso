@@ -128,7 +128,7 @@ public class ListClientesActivity extends Activity implements View.OnClickListen
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Cliente clickedCliente = mAdapter.getItem(position);
         Log.d(TAG, "clickedItem : " + clickedCliente.getnNombre());
-        Bundle extras = new Bundle();
+        Bundle extras = clickedCliente.getBundle();
         extras.putBoolean("add", false);
         lanzarEditCliente(extras);
     }

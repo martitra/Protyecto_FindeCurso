@@ -128,6 +128,9 @@ public class ListCAUActivity  extends Activity implements AdapterView.OnItemLong
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CAU clickedCAU = mAdapter.getItem(position);
         Log.d(TAG, "clickedItem : " + clickedCAU.getcNombre());
+        Bundle extras = clickedCAU.getBundle();
+        extras.putBoolean("add", false);
+        lanzarEditCAU(extras);
     }
 
     @Override

@@ -82,7 +82,6 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
         Bundle extras;
         extras = getIntent().getExtras();
         add = extras.getBoolean("add");
-        //id = extras.getInt("id");
         if (add) {
             Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
         } else {
@@ -295,4 +294,16 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 		mCocheDao.close();
 	}
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //fill the spinner with companies
+        List<Coche> listCoches = mCocheDao.getAllCoches();
+        if(listCoches != null) {
+            mAdapter = new SpinnerCochesAdapter(this, listCoches);
+            mSpinnerCoche.setAdapter(mAdapter);
+            //mSpinnerCoche.setOnItemSelectedListener(this);
+        }
+    }
 }

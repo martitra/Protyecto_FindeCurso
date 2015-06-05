@@ -127,7 +127,7 @@ public class ListCochesActivity extends Activity implements OnItemLongClickListe
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Coche clickedCoche = mAdapter.getItem(position);
 		Log.d(TAG, "clickedItem : " + clickedCoche.getMatricula());
-		Bundle extras = new Bundle();
+		Bundle extras = clickedCoche.getBundle();
 		extras.putBoolean("add", false);
 		lanzarEditCoche(extras);
 	}

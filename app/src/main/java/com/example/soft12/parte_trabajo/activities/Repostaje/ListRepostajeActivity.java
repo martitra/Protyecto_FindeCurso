@@ -130,7 +130,6 @@ public class ListRepostajeActivity extends Activity implements OnItemLongClickLi
 		Log.d(TAG, "clickedItem : " + clickedRepostaje.getFecha());
 		Bundle extras = clickedRepostaje.getBundle();
 		extras.putBoolean("add", false);
-        extras.putInt("id", (int) clickedRepostaje.getCoche().getId());
 		lanzarEditRepostaje(extras);
 	}
 

@@ -127,7 +127,7 @@ public class ListSolucionesActivity extends Activity implements View.OnClickList
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Solucion clickedSolucion = mAdapter.getItem(position);
         Log.d(TAG, "clickedItem : " + clickedSolucion.getnNombre());
-        Bundle extras = new Bundle();
+        Bundle extras = clickedSolucion.getBundle();
         extras.putBoolean("add", false);
         lanzarEditSolucion(extras);
     }

@@ -96,4 +96,5 @@
     <string name="cliente">Cliente</string>
     <string name="solucion">Solución</string>
     <string name="diario">Diario</string>
+    <string name="inicio">Inicio</string>
 </resources>
