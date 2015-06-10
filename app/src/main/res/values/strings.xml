@@ -97,4 +97,15 @@
     <string name="solucion">Solución</string>
     <string name="diario">Diario</string>
     <string name="inicio">Inicio</string>
+    <string name="TextViewCAU">CAU:</string>
+    <string name="textviewCliente">Cliente:</string>
+    <string name="textview_solucion">Solución:</string>
+    <string name="textview_euros">Euros:</string>
+    <string name="textview_euros_litro">Euros / Litro:</string>
+    <string name="textview_litros">Litros:</string>
+    <string name="textview_coche">Coche:</string>
+    <string name="textview_viaje">Duración de viaje (minutos):</string>
+    <string name="textview_kms">Kilómetros:</string>
+    <string name="hora_ini_mayor">La hora inicial o final errónea</string>
+    <string name="minutos_ini_mayor">La hora inicial es mayor que la final.</string>
 </resources>

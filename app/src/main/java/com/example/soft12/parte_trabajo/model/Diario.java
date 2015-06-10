@@ -20,7 +20,7 @@ public class Diario implements Serializable {
     private Cliente cliente;
     private String horaIni;
     private String horaFin;
-    private Double viaje;
+    private String viaje;
     private Double kms;
 
     public Diario() {
@@ -82,11 +82,11 @@ public class Diario implements Serializable {
         this.horaFin = horaFin;
     }
 
-    public Double getViaje() {
+    public String getViaje() {
         return viaje;
     }
 
-    public void setViaje(Double viaje) {
+    public void setViaje(String viaje) {
         this.viaje = viaje;
     }
 
@@ -112,7 +112,7 @@ public class Diario implements Serializable {
 
         bundle.putString(DBHelper.COLUMN_DIARIO_HORA_INI, horaIni);
         bundle.putString(DBHelper.COLUMN_DIARIO_HORA_FIN, horaFin);
-        bundle.putDouble(DBHelper.COLUMN_DIARIO_VIAJE, viaje);
+        bundle.putString(DBHelper.COLUMN_DIARIO_VIAJE, viaje);
         bundle.putDouble(DBHelper.COLUMN_DIARIO_KMS, kms);
 
         return bundle;
@@ -136,7 +136,7 @@ public class Diario implements Serializable {
 
         horaIni = bundle.getString(DBHelper.COLUMN_DIARIO_HORA_INI);
         horaFin = bundle.getString(DBHelper.COLUMN_DIARIO_HORA_FIN);
-        viaje = bundle.getDouble(DBHelper.COLUMN_DIARIO_VIAJE);
+        viaje = bundle.getString(DBHelper.COLUMN_DIARIO_VIAJE);
         kms = bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS);
     }
 

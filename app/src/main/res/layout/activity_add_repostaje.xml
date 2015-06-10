@@ -22,6 +22,14 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="11dp" />
 
+    <TextView
+        android:id="@+id/txtview_euros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_fecha"
+        android:text="@string/textview_euros"
+        android:textAppearance="?android:attr/textAppearance"
+        android:layout_marginLeft="2dp" />
     <EditText
         android:id="@+id/txt_euros"
         android:layout_width="match_parent"
@@ -31,8 +39,16 @@
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txt_fecha"
+        android:layout_below="@+id/txtview_euros"
         android:layout_alignParentLeft="true" />
+    <TextView
+        android:id="@+id/txtview_euros_litro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_euros"
+        android:text="@string/textview_euros_litro"
+        android:textAppearance="?android:attr/textAppearance"
+        android:layout_marginLeft="2dp" />
 
     <EditText
         android:id="@+id/txt_euros_litro"
@@ -45,9 +61,17 @@
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txt_euros"
+        android:layout_below="@+id/txtview_euros_litro"
         android:layout_alignParentLeft="true" />
 
+    <TextView
+        android:id="@+id/txtview_litros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_euros_litro"
+        android:text="@string/textview_litros"
+        android:textAppearance="?android:attr/textAppearance"
+        android:layout_marginLeft="2dp" />
     <EditText
         android:id="@+id/txt_litros"
         android:layout_width="match_parent"
@@ -57,9 +81,16 @@
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txt_euros_litro"
+        android:layout_below="@+id/txtview_litros"
         android:layout_alignParentLeft="true" />
-
+    <TextView
+        android:id="@+id/txtview_coche"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_litros"
+        android:text="@string/textview_coche"
+        android:textAppearance="?android:attr/textAppearance"
+        android:layout_marginLeft="2dp" />
     <Spinner
         android:id="@+id/spinner_coches"
         android:layout_width="match_parent"
@@ -67,7 +98,7 @@
         android:prompt="@string/select_a_coche"
         android:animateLayoutChanges="true"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/txt_litros"
+        android:layout_below="@+id/txtview_coche"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -82,10 +113,9 @@
         android:paddingTop="2dp"
         android:text="@string/add"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="195dp"
+        android:layout_marginTop="88dp"
         android:layout_below="@+id/spinner_coches"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignStart="@+id/txtview_coche" />
 
 </RelativeLayout>
 

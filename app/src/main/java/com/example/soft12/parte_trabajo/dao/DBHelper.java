@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TAG = "DBHelper";
 
 	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 
 	//colums of the daiario table
 	public static final String TABLE_DIARIO = "diario";
@@ -62,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_DIARIO_CLIENTE + " LONG NOT NULL, "
 			+ COLUMN_DIARIO_HORA_INI + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_HORA_FIN + " TEXT NOT NULL, "
-			+ COLUMN_DIARIO_VIAJE + " REAL NOT NULL, "
+			+ COLUMN_DIARIO_VIAJE + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_KMS + " REAL NOT NULL"
 			+ ");";
 

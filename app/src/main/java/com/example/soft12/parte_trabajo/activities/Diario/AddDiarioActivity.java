@@ -95,6 +95,18 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         }
     };
 
+    /* TIME */
+    TimePickerDialog.OnTimeSetListener timeViaje = new TimePickerDialog.OnTimeSetListener() {
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            myCalendar.set(Calendar.MINUTE,minute);
+
+            mTxtViaje.setText(hourOfDay + ":" + minute);
+        }
+    };
+
     private CAUDAO mCAUDao;
     private ClienteDAO mClienteDAO;
     private SolucionDAO mSolucionDAO;
@@ -223,6 +235,15 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             }
         });
         mTxtHoraFin.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
+        /* VIAJE */
+        this.mTxtViaje.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(v.getContext(), timeViaje, myCalendar.get(Calendar.HOUR),
+                        myCalendar.get(Calendar.MINUTE),true).show();
+            }
+        });
+        mTxtViaje.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
 
         mBtnAdd.setOnClickListener(this);
     }
@@ -298,6 +319,12 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                 Editable viaje = mTxtViaje.getText();
                 Editable kms = mTxtKms.getText();
 
+                String hora_inicial = mTxtHoraIni.getText().toString();
+                String [] h_ini = hora_inicial.split(":");
+
+                String hora_final = mTxtHoraFin.getText().toString();
+                String [] h_fin = hora_final.split(":");
+
                 CAU mSelectedCAU = (CAU) spinnerCau.getSelectedItem();
                 Cliente mSelectedCliente = (Cliente) spinnerCliente.getSelectedItem();
                 Solucion mSelectedSolucion = (Solucion) spinnerSolucion.getSelectedItem();
@@ -305,40 +332,85 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                         && !TextUtils.isEmpty(hora_fin) && !TextUtils.isEmpty(viaje)
                         && !TextUtils.isEmpty(kms) && mSelectedCliente != null
                         && mSelectedCAU != null && mSelectedSolucion != null){
-                    //if() { poner aquí para comparar las fehca ini < fecha fin
-                        if (add) {
-                            // add the diario to database
-                            Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
-                                    mSelectedCAU.getCauId(),
-                                    mSelectedCliente.getcId(),
-                                    mSelectedSolucion.getcId(),
-                                    hora_ini.toString(),
-                                    hora_fin.toString(),
-                                    Double.parseDouble(viaje.toString()),
-                                    Double.parseDouble(kms.toString()));
-                            Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " "
-                                    + createdDiario.getViaje() + ", repostaje.cocheId : " + createdDiario.getCliente().getnNombre());
-                            setResult(RESULT_OK);
-                            finish();
-                        } else {
-                            Diario editDiario = new Diario();
-                            editDiario.setId(diarioEdit.getId());
-                            editDiario.setFecha(mTxtFecha.getText().toString());
-                            editDiario.setHoraIni(mTxtHoraIni.getText().toString());
-                            editDiario.setHoraFin(mTxtHoraFin.getText().toString());
-                            editDiario.setViaje(Double.parseDouble(mTxtViaje.getText().toString()));
-                            editDiario.setKms(Double.parseDouble(mTxtKms.getText().toString()));
-                            editDiario.setCau((CAU) spinnerCau.getSelectedItem());
-                            editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
-                            editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
-                            mDiarioDao.updateDiario(editDiario);
-                            Intent i = new Intent(this, ListDiarioActivity.class);
-                            startActivity(i);
-                            Toast.makeText(this, R.string.diario_edited_successfully, Toast.LENGTH_LONG).show();
-                            finish();
+                    if(Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]) // si la hora inicial es menor que la final ó
+                            || Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // son iguales
+                        if(Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // si son iguales las horas
+                            if (Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1])) { // los minutos ini tienen que ser menores que fin
+                                if (add) {
+                                    // add the diario to database
+                                    Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
+                                            mSelectedCAU.getCauId(),
+                                            mSelectedCliente.getcId(),
+                                            mSelectedSolucion.getcId(),
+                                            hora_ini.toString(),
+                                            hora_fin.toString(),
+                                            Double.parseDouble(viaje.toString()),
+                                            Double.parseDouble(kms.toString()));
+                                    Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
+                                    Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " "
+                                            + createdDiario.getViaje() + ", repostaje.cocheId : " + createdDiario.getCliente().getnNombre());
+                                    setResult(RESULT_OK);
+                                    finish();
+                                } else {
+                                    Diario editDiario = new Diario();
+                                    editDiario.setId(diarioEdit.getId());
+                                    editDiario.setFecha(mTxtFecha.getText().toString());
+                                    editDiario.setHoraIni(mTxtHoraIni.getText().toString());
+                                    editDiario.setHoraFin(mTxtHoraFin.getText().toString());
+                                    editDiario.setViaje(mTxtViaje.getText().toString());
+                                    editDiario.setKms(Double.parseDouble(mTxtKms.getText().toString()));
+                                    editDiario.setCau((CAU) spinnerCau.getSelectedItem());
+                                    editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
+                                    editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
+                                    mDiarioDao.updateDiario(editDiario);
+                                    Intent i = new Intent(this, ListDiarioActivity.class);
+                                    startActivity(i);
+                                    Toast.makeText(this, R.string.diario_edited_successfully, Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            }
+                            else {
+                                Toast.makeText(this, R.string.minutos_ini_mayor, Toast.LENGTH_LONG).show();
+                            }
                         }
-                    //}
+                        else { // si no son iguales pero la fecha ini es menor que la fecha fin entra
+                            if (add) {
+                                // add the diario to database
+                                Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
+                                        mSelectedCAU.getCauId(),
+                                        mSelectedCliente.getcId(),
+                                        mSelectedSolucion.getcId(),
+                                        hora_ini.toString(),
+                                        hora_fin.toString(),
+                                        Double.parseDouble(viaje.toString()),
+                                        Double.parseDouble(kms.toString()));
+                                Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
+                                Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " "
+                                        + createdDiario.getViaje() + ", repostaje.cocheId : " + createdDiario.getCliente().getnNombre());
+                                setResult(RESULT_OK);
+                                finish();
+                            } else {
+                                Diario editDiario = new Diario();
+                                editDiario.setId(diarioEdit.getId());
+                                editDiario.setFecha(mTxtFecha.getText().toString());
+                                editDiario.setHoraIni(mTxtHoraIni.getText().toString());
+                                editDiario.setHoraFin(mTxtHoraFin.getText().toString());
+                                editDiario.setViaje(mTxtViaje.getText().toString());
+                                editDiario.setKms(Double.parseDouble(mTxtKms.getText().toString()));
+                                editDiario.setCau((CAU) spinnerCau.getSelectedItem());
+                                editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
+                                editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
+                                mDiarioDao.updateDiario(editDiario);
+                                Intent i = new Intent(this, ListDiarioActivity.class);
+                                startActivity(i);
+                                Toast.makeText(this, R.string.diario_edited_successfully, Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        }
+                    }
+                    else {
+                        Toast.makeText(this, R.string.hora_ini_mayor, Toast.LENGTH_LONG).show();
+                    }
 
                 }
                 else {

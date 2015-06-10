@@ -47,7 +47,7 @@ public class ListDiarioAdapter extends BaseAdapter {
         View v = convertView;
         ViewHolder holder;
         if(v == null) {
-            v = mInflater.inflate(R.layout.list_item_repostaje, parent, false);
+            v = mInflater.inflate(R.layout.list_item_diario, parent, false);
             holder = new ViewHolder();
             holder.txtFecha = (TextView) v.findViewById(R.id.txt_fecha);
             holder.txtCau = (TextView) v.findViewById(R.id.txt_cau_nombre);
@@ -63,9 +63,9 @@ public class ListDiarioAdapter extends BaseAdapter {
         Diario currentItem = getItem(position);
         if(currentItem != null) {
             holder.txtFecha.setText(currentItem.getFecha());
-            holder.txtCau.setText(String.valueOf(currentItem.getCau().getcNombre()));
-            holder.txtCliente.setText(currentItem.getCliente().getnNombre());
-            holder.txtSolucion.setText(currentItem.getSolucion().getnNombre());
+            holder.txtCau.setText(currentItem.getCau().getcNombre() + " - CAU");
+            holder.txtCliente.setText(currentItem.getCliente().getnNombre() +" - Cliente");
+            holder.txtSolucion.setText(currentItem.getSolucion().getnNombre() + " - Solución");
         }
 
         return v;

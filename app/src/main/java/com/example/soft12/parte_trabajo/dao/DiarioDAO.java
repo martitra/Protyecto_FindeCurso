@@ -103,33 +103,37 @@ public class DiarioDAO {
 
     private Diario cursorToDiario(Cursor cursor) {
         Diario diario = new Diario();
+        // id,fecha cau, cliente, solucion, fechaini, fechafin, viaje, kms
         diario.setId(cursor.getLong(0));
         diario.setFecha(cursor.getString(1));
-        diario.setHoraIni(cursor.getString(2));
-        diario.setHoraFin(cursor.getString(3));
-        diario.setViaje(Double.parseDouble(cursor.getString(4)));
-        diario.setKms(Double.parseDouble(cursor.getString(5)));
 
         // get The cau by id
-        long cauId = cursor.getLong(6);
+        long cauId = cursor.getLong(2);
         CAUDAO caudao = new CAUDAO(mContext);
         CAU cau = caudao.getCAUById(cauId);
         if(cau != null)
             diario.setCau(cau);
 
         // get the cliente by id
-        long clienteId = cursor.getLong(7);
+        long clienteId = cursor.getLong(3);
         ClienteDAO clienteDAO = new ClienteDAO(mContext);
         Cliente cliente = clienteDAO.getClienteById(clienteId);
         if(cliente != null)
             diario.setCliente(cliente);
 
         //get the solucion by id
-        long solucionId = cursor.getLong(8);
+        long solucionId = cursor.getLong(4);
         SolucionDAO solucionDAO = new SolucionDAO(mContext);
         Solucion solucion = solucionDAO.getSolucionById(solucionId);
         if(solucion != null)
             diario.setSolucion(solucion);
+
+        diario.setHoraIni(cursor.getString(5));
+        diario.setHoraFin(cursor.getString(6));
+        diario.setViaje(cursor.getString(7));
+        diario.setKms(Double.parseDouble(cursor.getString(8)));
+
+
 
         return diario;
     }
