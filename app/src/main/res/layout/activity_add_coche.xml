@@ -14,7 +14,7 @@
         android:inputType="text|textCapWords"
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
-        android:maxLength="8" />
+        android:maxLength="11" />
 
 
     
