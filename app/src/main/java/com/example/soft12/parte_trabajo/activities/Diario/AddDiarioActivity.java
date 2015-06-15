@@ -95,18 +95,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         }
     };
 
-    /* TIME */
-    TimePickerDialog.OnTimeSetListener timeViaje = new TimePickerDialog.OnTimeSetListener() {
-
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            myCalendar.set(Calendar.MINUTE,minute);
-
-            mTxtViaje.setText(hourOfDay + ":" + minute);
-        }
-    };
-
     private CAUDAO mCAUDao;
     private ClienteDAO mClienteDAO;
     private SolucionDAO mSolucionDAO;
@@ -235,15 +223,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             }
         });
         mTxtHoraFin.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
-        /* VIAJE */
-        this.mTxtViaje.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                new TimePickerDialog(v.getContext(), timeViaje, myCalendar.get(Calendar.HOUR),
-                        myCalendar.get(Calendar.MINUTE),true).show();
-            }
-        });
-        mTxtViaje.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
 
         mBtnAdd.setOnClickListener(this);
     }

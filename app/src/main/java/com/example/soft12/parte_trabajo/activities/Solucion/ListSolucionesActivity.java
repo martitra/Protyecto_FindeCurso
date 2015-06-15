@@ -162,7 +162,7 @@ public class ListSolucionesActivity extends Activity implements View.OnClickList
                 lanzarEditSolucion(extras);
                 return true;
 
-            case R.id.delete_cliente:
+            case R.id.delete_solucion:
                 eliminarSolucion(solucion);
                 // poner confirmación, para que no se borre a la primera
                 Toast.makeText(getBaseContext(),
