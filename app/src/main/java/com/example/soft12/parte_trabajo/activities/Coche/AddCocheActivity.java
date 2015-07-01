@@ -23,7 +23,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
 
     public static final String TAG = "AddCocheActivity";
 
-    private EditText mTxtCocheMatricula;
+    private EditText mTxtCocheMatricula, mTxtCocheKilometros;
 
     public static final Pattern MATRICULA_COCHE = Pattern.compile (
         "^[A-Z]{0,2}"+
@@ -65,6 +65,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
     private void establecerValoresEditar() {
 
         mTxtCocheMatricula.setText(cocheEdit.getMatricula());
+        mTxtCocheKilometros.setText(String.valueOf(cocheEdit.getcKilometros()));
         int position;
 
         if (!add) {
@@ -76,6 +77,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
 
     private void initViews() {
         this.mTxtCocheMatricula = (EditText) findViewById(R.id.txt_coche_matricula);
+        this.mTxtCocheKilometros = (EditText) findViewById(R.id.txt_coche_kilometros);
         Button mBtnAdd = (Button) findViewById(R.id.btn_add);
 
         mBtnAdd.setOnClickListener(this);
@@ -86,12 +88,15 @@ public class AddCocheActivity extends Activity implements OnClickListener {
         switch (v.getId()) {
             case R.id.btn_add:
                 Editable cocheMatricula = mTxtCocheMatricula.getText();
-                if (!TextUtils.isEmpty(cocheMatricula) ) {
+                Editable cocheKilometros = mTxtCocheKilometros.getText();
+                if (!TextUtils.isEmpty(cocheMatricula) && !TextUtils.isEmpty(cocheKilometros) ) {
                     // add the car to database
                     final String matricula = mTxtCocheMatricula.getText().toString();
                     if(MATRICULA_COCHE.matcher(matricula).matches()) {
                         if(add) {
-                            Coche createdCoche = mCocheDao.createCoche(cocheMatricula.toString());
+                            Coche createdCoche = mCocheDao.createCoche(
+                                    cocheMatricula.toString(),
+                                    Integer.parseInt(cocheKilometros.toString()));
                             Log.d(TAG, "added coche : " + createdCoche.getMatricula());
                             Intent intent = new Intent();
                             intent.putExtra(ListCochesActivity.EXTRA_ADDED_COCHE, createdCoche);
@@ -102,6 +107,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
                         else {
                             cocheEdit.setId(cocheEdit.getId());
                             cocheEdit.setMatricula(mTxtCocheMatricula.getText().toString());
+                            cocheEdit.setcKilometros(Integer.parseInt(mTxtCocheKilometros.getText().toString()));
                             mCocheDao.updateCoche(cocheEdit);
                             Intent i = new Intent(this, ListCochesActivity.class);
                             startActivity(i);

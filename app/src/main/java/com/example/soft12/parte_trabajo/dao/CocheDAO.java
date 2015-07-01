@@ -20,7 +20,8 @@ public class CocheDAO {
     private SQLiteDatabase mDatabase;
     private DBHelper mDbHelper;
     private String[] mAllColumns = { DBHelper.COLUMN_COCHE_ID,
-            DBHelper.COLUMN_COCHE_MATRICULA };
+            DBHelper.COLUMN_COCHE_MATRICULA,
+            DBHelper.COLUMN_COCHE_KMS };
 
     public CocheDAO(Context context) {
         mDbHelper = new DBHelper(context);
@@ -41,9 +42,10 @@ public class CocheDAO {
         mDbHelper.close();
     }
 
-    public Coche createCoche(String matricula) {
+    public Coche createCoche(String matricula, int kilometros) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_COCHE_MATRICULA, matricula);
+        values.put(DBHelper.COLUMN_COCHE_KMS, kilometros);
         long insertId = mDatabase
                 .insert(DBHelper.TABLE_COCHE, null, values);
         Cursor cursor = mDatabase.query(DBHelper.TABLE_COCHE, mAllColumns,
@@ -96,12 +98,14 @@ public class CocheDAO {
         Coche coche = new Coche();
         coche.setId(cursor.getLong(0));
         coche.setMatricula(cursor.getString(1));
+        coche.setcKilometros(cursor.getInt(2));
         return coche;
     }
     public int updateCoche(Coche c) {
 
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_COCHE_MATRICULA, c.getMatricula());
+        values.put(DBHelper.COLUMN_COCHE_KMS, c.getcKilometros());
 
         return mDatabase.update(DBHelper.TABLE_COCHE, values, DBHelper.COLUMN_COCHE_ID + " = ?",
         new String[] { String.valueOf(c.getId()) });

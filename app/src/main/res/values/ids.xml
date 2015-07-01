@@ -3,4 +3,6 @@
     <item name="edit_coche" type="id">Editar Coche</item>
     <item name="delete_coche" type="id">Eliminar Coche</item>
     <item name="btn_add_cau" type="id">Guardar</item>
+    <item type="id" name="action_next" />
+    <item type="id" name="action_flip" />
 </resources>

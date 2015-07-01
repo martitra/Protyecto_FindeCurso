@@ -11,14 +11,10 @@ public class Coche implements Serializable {
 	public static final String TAG = "Coche";
 	
 	private long cId;
-	private String nMatricula;
+	private String cMatricula;
+	private int cKilometros;
 
     public Coche() {}
-	
-	public Coche(String matriucla) {
-		this.nMatricula = matriucla;
-
-	}
 	
 	public long getId() {
 		return cId;
@@ -29,22 +25,33 @@ public class Coche implements Serializable {
 	}
 
 	public String getMatricula() {
-		return nMatricula;
+		return cMatricula;
 	}
 
 	public void setMatricula(String matricula) {
-		this.nMatricula = matricula;
+		this.cMatricula = matricula;
+	}
+
+	public int getcKilometros() {
+		return cKilometros;
+	}
+
+	public void setcKilometros(int cKilometros) {
+		this.cKilometros = cKilometros;
 	}
 
 	public Bundle getBundle() {
 		Bundle bundle = new Bundle();
 		bundle.putLong(DBHelper.COLUMN_COCHE_ID, cId);
-		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, nMatricula);
+		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, cMatricula);
+		bundle.putInt(DBHelper.COLUMN_COCHE_KMS, cKilometros);
 		return bundle;
 	}
 
 	public void setBundle(Bundle bundle) {
 		cId = bundle.getLong(DBHelper.COLUMN_COCHE_ID);
-		nMatricula = bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA);
+		cMatricula = bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA);
+		cKilometros = bundle.getInt(DBHelper.COLUMN_COCHE_KMS);
 	}
+
 }

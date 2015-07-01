@@ -16,13 +16,25 @@
         android:textColor="@android:color/black"
         android:maxLength="11" />
 
+    <EditText
+        android:id="@+id/txt_coche_kilometros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/coche_kilometros"
+        android:layout_marginTop="24dp"
+        android:inputType="number"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textColor="@android:color/black"
+        android:maxLength="11"
+        android:layout_below="@+id/txt_coche_matricula"/>
+
 
     
     <Button
         android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="53dp"
         android:gravity="center"
         android:paddingBottom="2dp"
         android:paddingLeft="12dp"
@@ -30,8 +42,7 @@
         android:paddingTop="2dp"
         android:text="@string/add"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/txt_coche_matricula"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txt_coche_kilometros"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

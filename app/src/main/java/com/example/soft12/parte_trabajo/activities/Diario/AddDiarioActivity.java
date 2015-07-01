@@ -52,7 +52,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
     private EditText mTxtHoraIni;
     private EditText mTxtHoraFin;
     private EditText mTxtViaje;
-    private EditText mTxtKms;
+    private EditText mTxtKmini;
+    private EditText mTxtKmFin;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -162,7 +163,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         mTxtHoraIni.setText(diarioEdit.getHoraIni());
         mTxtHoraFin.setText(diarioEdit.getHoraFin());
         mTxtViaje.setText(String.valueOf(diarioEdit.getViaje()));
-        mTxtKms.setText(String.valueOf(diarioEdit.getKms()));
+        mTxtKmini.setText(String.valueOf(diarioEdit.getKmIni()));
+        mTxtKmFin.setText(String.valueOf(diarioEdit.getKmFin()));
 
         //int position = 0;
         int posCAU = 0;
@@ -186,7 +188,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         this.mTxtHoraIni = (EditText) findViewById(R.id.txt_hora_ini);
         this.mTxtHoraFin = (EditText) findViewById(R.id.txt_hora_fin);
         this.mTxtViaje = (EditText) findViewById(R.id.txt_viaje);
-        this.mTxtKms  = (EditText) findViewById(R.id.txt_kms);
+        this.mTxtKmini  = (EditText) findViewById(R.id.txt_kmini);
+        this.mTxtKmFin = (EditText) findViewById(R.id.txt_kmfin);
         this.spinnerCau = (Spinner) findViewById(R.id.spinner_cau);
         this.spinnerCliente = (Spinner) findViewById(R.id.spinner_cliente);
         this.spinnerSolucion = (Spinner) findViewById(R.id.spinner_solucion);
@@ -215,11 +218,11 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         });
         mTxtHoraIni.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
         /* HORA FIN */
-        this.mTxtHoraFin.setOnClickListener(new View.OnClickListener(){
+        this.mTxtHoraFin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(v.getContext(), timeFin , myCalendar.get(Calendar.HOUR),
-                        myCalendar.get(Calendar.MINUTE),true).show();
+                new TimePickerDialog(v.getContext(), timeFin, myCalendar.get(Calendar.HOUR),
+                        myCalendar.get(Calendar.MINUTE), true).show();
             }
         });
         mTxtHoraFin.setText(myCalendar.get(Calendar.HOUR_OF_DAY) + ":" + myCalendar.get(Calendar.MINUTE));
@@ -296,7 +299,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                 Editable hora_ini = mTxtHoraIni.getText();
                 Editable hora_fin = mTxtHoraFin.getText();
                 Editable viaje = mTxtViaje.getText();
-                Editable kms = mTxtKms.getText();
+                Editable kmini = mTxtKmini.getText();
+                Editable kmfin = mTxtKmFin.getText();
 
                 String hora_inicial = mTxtHoraIni.getText().toString();
                 String [] h_ini = hora_inicial.split(":");
@@ -309,8 +313,9 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                 Solucion mSelectedSolucion = (Solucion) spinnerSolucion.getSelectedItem();
                 if (!TextUtils.isEmpty(fecha) && !TextUtils.isEmpty(hora_ini)
                         && !TextUtils.isEmpty(hora_fin) && !TextUtils.isEmpty(viaje)
-                        && !TextUtils.isEmpty(kms) && mSelectedCliente != null
-                        && mSelectedCAU != null && mSelectedSolucion != null){
+                        && !TextUtils.isEmpty(kmini) && !TextUtils.isEmpty(kmfin)
+                        && mSelectedCliente != null && mSelectedCAU != null
+                        && mSelectedSolucion != null){
                     if(Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]) // si la hora inicial es menor que la final ó
                             || Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // son iguales
                         if(Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // si son iguales las horas
@@ -324,11 +329,13 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                             hora_ini.toString(),
                                             hora_fin.toString(),
                                             Double.parseDouble(viaje.toString()),
-                                            Double.parseDouble(kms.toString()));
+                                            Double.parseDouble(kmini.toString()),
+                                            Double.parseDouble(kmfin.toString()));
                                     Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
-                                    Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " "
-                                            + createdDiario.getViaje() + ", repostaje.cocheId : " + createdDiario.getCliente().getnNombre());
+                                    Log.d(TAG, "added diario : " + createdDiario.getFecha() + " ");
                                     setResult(RESULT_OK);
+                                    // aquí crear un mail para la incidencia
+                                    lanzarEmail(createdDiario);
                                     finish();
                                 } else {
                                     Diario editDiario = new Diario();
@@ -337,7 +344,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                     editDiario.setHoraIni(mTxtHoraIni.getText().toString());
                                     editDiario.setHoraFin(mTxtHoraFin.getText().toString());
                                     editDiario.setViaje(mTxtViaje.getText().toString());
-                                    editDiario.setKms(Double.parseDouble(mTxtKms.getText().toString()));
+                                    editDiario.setKmIni(Double.parseDouble(mTxtKmini.getText().toString()));
+                                    editDiario.setKmFin(Double.parseDouble(mTxtKmFin.getText().toString()));
                                     editDiario.setCau((CAU) spinnerCau.getSelectedItem());
                                     editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
                                     editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
@@ -345,6 +353,9 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                     Intent i = new Intent(this, ListDiarioActivity.class);
                                     startActivity(i);
                                     Toast.makeText(this, R.string.diario_edited_successfully, Toast.LENGTH_LONG).show();
+                                    setResult(RESULT_OK);
+                                    // aquí crear un mail para la incidencia
+                                    lanzarEmail(editDiario);
                                     finish();
                                 }
                             }
@@ -362,11 +373,13 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                         hora_ini.toString(),
                                         hora_fin.toString(),
                                         Double.parseDouble(viaje.toString()),
-                                        Double.parseDouble(kms.toString()));
+                                        Double.parseDouble(kmini.toString()),
+                                        Double.parseDouble(kmfin.toString()));
                                 Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " "
-                                        + createdDiario.getViaje() + ", repostaje.cocheId : " + createdDiario.getCliente().getnNombre());
+                                Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " ");
                                 setResult(RESULT_OK);
+                                // aquí crear un mail para la incidencia
+                                lanzarEmail(createdDiario);
                                 finish();
                             } else {
                                 Diario editDiario = new Diario();
@@ -375,7 +388,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                 editDiario.setHoraIni(mTxtHoraIni.getText().toString());
                                 editDiario.setHoraFin(mTxtHoraFin.getText().toString());
                                 editDiario.setViaje(mTxtViaje.getText().toString());
-                                editDiario.setKms(Double.parseDouble(mTxtKms.getText().toString()));
+                                editDiario.setKmIni(Double.parseDouble(mTxtKmini.getText().toString()));
+                                editDiario.setKmFin(Double.parseDouble(mTxtKmFin.getText().toString()));
                                 editDiario.setCau((CAU) spinnerCau.getSelectedItem());
                                 editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
                                 editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
@@ -383,6 +397,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                 Intent i = new Intent(this, ListDiarioActivity.class);
                                 startActivity(i);
                                 Toast.makeText(this, R.string.diario_edited_successfully, Toast.LENGTH_LONG).show();
+                                // aquí crear un mail para la incidencia
+                                lanzarEmail(editDiario);
                                 finish();
                             }
                         }
@@ -400,6 +416,22 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             default:
                 break;
         }
+    }
+
+    //
+    private void lanzarEmail(Diario diario) {
+        // TODO Auto-generated method stub
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        String[] to = { "martagalmangarcia@gmail.com" };
+        String subject = "" + diario.getCau().getcNombre();
+        String body = diario.toString();
+        i.putExtra(Intent.EXTRA_EMAIL, to);
+        i.putExtra(Intent.EXTRA_SUBJECT, subject);
+        i.putExtra(Intent.EXTRA_TEXT, body);
+        startActivity(i);
+
     }
 
     @Override

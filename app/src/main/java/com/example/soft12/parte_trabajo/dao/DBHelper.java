@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TAG = "DBHelper";
 
 	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 9;
 
 	//colums of the daiario table
 	public static final String TABLE_DIARIO = "diario";
@@ -22,7 +22,9 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_DIARIO_HORA_INI = "fecha_ini";
 	public static final String COLUMN_DIARIO_HORA_FIN = "fecha_fin";
 	public static final String COLUMN_DIARIO_VIAJE = "viaje";
-	public static final String COLUMN_DIARIO_KMS = "kms";
+	public static final String COLUMN_DIARIO_KMS_INI = "kms_ini";
+	public static final String COLUMN_DIARIO_KMS_FIN = "kms_fin";
+	public static final String COLUMN_DIARIO_TECNICO = "tecnico_id";
 
 	// columna of the CAU table
 	public static final String TABLE_CAU = "cau";
@@ -52,6 +54,15 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TABLE_COCHE = "coche";
 	public static final String COLUMN_COCHE_ID = "_id";
 	public static final String COLUMN_COCHE_MATRICULA = "matricula";
+	public static final String COLUMN_COCHE_KMS = "kms";
+
+	// columns of the usuario table
+	public static final String TABLE_USUARIO = "usuario";
+	public static final String COLUMN_USUARIO_ID = "_id";
+	public static final String COLUMN_USUARIO_NOMBRE = "usuario";
+	public static final String COLUMN_USUARIO_PASS = "pass";
+	public static final String COLUMN_USUARIO_EMAIL = "mail";
+	// correo
 
 	// SQL statement of the cau table creation
 	public static final String SQL_CREATE_TABLE_DIARIO = "CREATE TABLE " + TABLE_DIARIO + "("
@@ -63,7 +74,9 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_DIARIO_HORA_INI + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_HORA_FIN + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_VIAJE + " TEXT NOT NULL, "
-			+ COLUMN_DIARIO_KMS + " REAL NOT NULL"
+			+ COLUMN_DIARIO_KMS_INI + " REAL NOT NULL, "
+			+ COLUMN_DIARIO_KMS_FIN + " REAL NOT NULL, "
+			+ COLUMN_DIARIO_TECNICO + " LONG NOL NULL "
 			+ ");";
 
 	// SQL statement of the cau table creation
@@ -97,8 +110,18 @@ public class DBHelper extends SQLiteOpenHelper {
 	// SQL statement of the coches table creation
 	private static final String SQL_CREATE_TABLE_COCHE = "CREATE TABLE " + TABLE_COCHE + "("
 			+ COLUMN_COCHE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ COLUMN_COCHE_MATRICULA + " TEXT NOT NULL "
+			+ COLUMN_COCHE_MATRICULA + " TEXT NOT NULL, "
+			+ COLUMN_COCHE_KMS + " INTEGER NOT NULL "
 			+");";
+
+	// SQL statement of the coches table creation
+	private static final String SQL_CREATE_TABLE_USUARIO = "CREATE TABLE " + TABLE_USUARIO + "("
+			+ COLUMN_USUARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_USUARIO_NOMBRE + " TEXT NOT NULL, "
+			+ COLUMN_USUARIO_PASS + " TEXT NOT NULL, "
+			+ COLUMN_USUARIO_EMAIL + " TEXT NOT NULL "
+			+");";
+
 
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -112,6 +135,10 @@ public class DBHelper extends SQLiteOpenHelper {
 		database.execSQL(SQL_CREATE_TABLE_SOLUCION);
 		database.execSQL(SQL_CREATE_TABLE_CLIENTE);
 		database.execSQL(SQL_CREATE_TABLE_DIARIO);
+		database.execSQL(SQL_CREATE_TABLE_USUARIO);
+
+		database.execSQL("INSERT INTO usuario (usuario,pass,mail) VALUES('Pepe','123.','pepe@pepe.com') ");
+		database.execSQL("INSERT INTO usuario (usuario,pass,mail) VALUES('Marta','123.','marta@marta.com') ");
 	}
 
 	@Override
@@ -125,7 +152,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLUCION);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DIARIO);
-		
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIO);
 		// recreate the tables
 		onCreate(db);
 	}

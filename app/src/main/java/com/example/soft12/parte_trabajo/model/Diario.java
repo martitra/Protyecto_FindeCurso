@@ -21,7 +21,9 @@ public class Diario implements Serializable {
     private String horaIni;
     private String horaFin;
     private String viaje;
-    private Double kms;
+    private Double kmIni;
+    private Double kmFin;
+    private Login tecnico;
 
     public Diario() {
     }
@@ -90,12 +92,28 @@ public class Diario implements Serializable {
         this.viaje = viaje;
     }
 
-    public Double getKms() {
-        return kms;
+    public Double getKmIni() {
+        return kmIni;
     }
 
-    public void setKms(Double kms) {
-        this.kms = kms;
+    public void setKmIni(Double kmIni) {
+        this.kmIni = kmIni;
+    }
+
+    public Double getKmFin() {
+        return kmFin;
+    }
+
+    public void setKmFin(Double kmFin) {
+        this.kmFin = kmFin;
+    }
+
+    public Login getTecnico() {
+        return tecnico;
+    }
+
+    public void setTecnico(Login tecnico) {
+        this.tecnico = tecnico;
     }
 
     public Bundle getBundle() {
@@ -109,11 +127,15 @@ public class Diario implements Serializable {
         bundle.putString(DBHelper.COLUMN_CLIENTE_NOMBRE, cliente.getnNombre());
         bundle.putLong(DBHelper.COLUMN_DIARIO_SOLUCION, solucion.getcId());
         bundle.putString(DBHelper.COLUMN_SOLUCION_NOMBRE, solucion.getnNombre());
+        bundle.putLong(DBHelper.COLUMN_DIARIO_TECNICO, tecnico.getcId());
+        bundle.putString(DBHelper.COLUMN_USUARIO_NOMBRE, tecnico.getNombre());
+        bundle.putString(DBHelper.COLUMN_USUARIO_EMAIL, tecnico.getMail());
 
         bundle.putString(DBHelper.COLUMN_DIARIO_HORA_INI, horaIni);
         bundle.putString(DBHelper.COLUMN_DIARIO_HORA_FIN, horaFin);
         bundle.putString(DBHelper.COLUMN_DIARIO_VIAJE, viaje);
-        bundle.putDouble(DBHelper.COLUMN_DIARIO_KMS, kms);
+        bundle.putDouble(DBHelper.COLUMN_DIARIO_KMS_INI, kmIni);
+        bundle.putDouble(DBHelper.COLUMN_DIARIO_KMS_FIN, kmFin);
 
         return bundle;
     }
@@ -134,10 +156,32 @@ public class Diario implements Serializable {
         solucion.setcId(bundle.getLong(DBHelper.COLUMN_SOLUCION_ID));
         solucion.setnNombre(bundle.getString(DBHelper.COLUMN_SOLUCION_NOMBRE));
 
+        tecnico = new Login();
+        tecnico.setcId(bundle.getLong(DBHelper.COLUMN_USUARIO_ID));
+        tecnico.setNombre(bundle.getString(DBHelper.COLUMN_USUARIO_NOMBRE));
+        tecnico.setMail(bundle.getString(DBHelper.COLUMN_USUARIO_EMAIL));
+
         horaIni = bundle.getString(DBHelper.COLUMN_DIARIO_HORA_INI);
         horaFin = bundle.getString(DBHelper.COLUMN_DIARIO_HORA_FIN);
         viaje = bundle.getString(DBHelper.COLUMN_DIARIO_VIAJE);
-        kms = bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS);
+        kmIni = bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS_INI);
+        kmFin = bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS_FIN);
     }
 
+
+    @Override
+    public String toString() {
+        return "Diario{" +
+                "fecha='" + fecha + '\'' +
+                ", cau=" + cau +
+                ", solucion=" + solucion +
+                ", cliente=" + cliente +
+                ", horaIni='" + horaIni + '\'' +
+                ", horaFin='" + horaFin + '\'' +
+                ", viaje='" + viaje + '\'' +
+                ", kmIni=" + kmIni +
+                ", kmFin=" + kmFin +
+                ", tecnico=" + tecnico +
+                '}';
+    }
 }

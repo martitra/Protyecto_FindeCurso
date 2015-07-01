@@ -2,29 +2,59 @@ package com.example.soft12.parte_trabajo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.activities.CAU.ListCAUActivity;
 import com.example.soft12.parte_trabajo.activities.Cliente.ListClientesActivity;
 import com.example.soft12.parte_trabajo.activities.Coche.ListCochesActivity;
-import com.example.soft12.parte_trabajo.activities.Diario.ListDiarioActivity;
 import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
+import com.example.soft12.parte_trabajo.activities.SlideScreen.IniciarFragmentActivity;
 import com.example.soft12.parte_trabajo.activities.Solucion.ListSolucionesActivity;
+import com.example.soft12.parte_trabajo.model.Login;
 
 
 public class InicioActivity extends Activity {
 
     private static final String LOGTAG = "InicioActivity";
+    public String trabajador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+
+        Login loguearse = new Login();
+        Bundle extras;
+        extras = getIntent().getExtras();
+        boolean login = extras.getBoolean("login");
+
+        if(login) {
+            loguearse.setBundle(extras);
+            this.trabajador = loguearse.getNombre();
+            SharedPreferences.Editor editor = getSharedPreferences("MisPreferencias", MODE_PRIVATE).edit();
+            editor.putString("trabajador", trabajador);
+            editor.apply();
+            Toast.makeText(getBaseContext(),
+                    trabajador, Toast.LENGTH_SHORT)
+                    .show();
+
+        }else {
+            Toast.makeText(getBaseContext(),
+                    "No puedes acceder sin estar logueado.", Toast.LENGTH_SHORT)
+                    .show();
+            Intent i = new Intent(this, InicioSesion.class);
+            startActivity(i);
+        }
+
+
+
     }
 
     @Override
@@ -49,15 +79,6 @@ public class InicioActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Al Hacer Click en EditDiario
-//    public void HacerDiario(View v){
-//        try {
-//            Intent i = new Intent(this, EditDiario.class);
-//            startActivity(i);
-//        } catch (Exception e) {
-//            Log.e(LOGTAG, e.getMessage());
-//        }
-//    }
     // Al hacer click en Salir
     public void Salir(View v){
         finish();
@@ -112,11 +133,19 @@ public class InicioActivity extends Activity {
     }
 
     public void HacerDiario(View v){
-        try {
+        /*try {
             Intent i = new Intent(this, ListDiarioActivity.class);
             startActivity(i);
         }catch (Exception e){
             Log.e(LOGTAG, e.getMessage());
-        }
+        }*/
+       try{
+           Intent i = new Intent(this, IniciarFragmentActivity.class);
+           startActivity(i);
+       }catch (Exception e){
+           Log.e(LOGTAG, e.getMessage());
+       }
+
     }
+
 }
