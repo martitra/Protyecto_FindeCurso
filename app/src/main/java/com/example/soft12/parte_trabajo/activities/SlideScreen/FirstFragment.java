@@ -37,10 +37,6 @@ public class FirstFragment extends Fragment {
     ClienteDAO clienteDAO;
     private AutoCompleteTextView autoCliente;
 
-    // TODO COMPROBAR FEHCA INI MENOR QUE FECHA FIN
-    // TODO QUE LOS CAMPOS NO ESTEAN VACÍOS
-    // TODO CREAR AUTOCOMPLETAR EN CLIENTES
-
     /* TIME */
     TimePickerDialog.OnTimeSetListener timeIni = new TimePickerDialog.OnTimeSetListener() {
 

@@ -30,8 +30,7 @@ import java.util.List;
  */
 public class ThirdFragment extends Fragment {
 
-    // TODO CAMPOS NO VACÍOS
-    // TODO KM INI MENOR QUE KM FIN
+    //TODO mirar esto bien del timepicker porque uso dos clases y debería ser solo la de range
 
     EditText mTxtDesplazamiento, mTxtKmIni, mTxtKmFin;
     Spinner mSpinnerCoche;
@@ -39,7 +38,8 @@ public class ThirdFragment extends Fragment {
     Diario diario;
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.third_frag, container, false);
 
         diario = new Diario();

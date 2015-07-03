@@ -20,7 +20,6 @@ import com.example.soft12.parte_trabajo.model.Diario;
  */
 public class SecondFragment extends Fragment {
 
-    // TODO CAMPO NO VACÍO
     EditText mTxtSolucion;
     Diario diario;
 
