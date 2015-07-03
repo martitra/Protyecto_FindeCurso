@@ -95,6 +95,20 @@ public class SolucionDAO {
         return cursorToSolucion(cursor);
     }
 
+    public Solucion getSinlgeSolucionEntry(String nombre)
+    {
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_SOLUCION, mAllColumns,
+                DBHelper.COLUMN_SOLUCION_NOMBRE + " = ? ",
+                new String[]{nombre}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+        }
+        cursor.moveToFirst();
+        return cursorToSolucion(cursor);
+
+    }
+
     protected Solucion cursorToSolucion(Cursor cursor) {
         Solucion solucion = new Solucion();
         solucion.setcId(cursor.getLong(0));

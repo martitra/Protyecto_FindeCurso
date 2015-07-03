@@ -40,6 +40,7 @@ public class InicioActivity extends Activity {
             this.trabajador = loguearse.getNombre();
             SharedPreferences.Editor editor = getSharedPreferences("MisPreferencias", MODE_PRIVATE).edit();
             editor.putString("trabajador", trabajador);
+            editor.putLong("trabajadorid",loguearse.getcId());
             editor.apply();
             Toast.makeText(getBaseContext(),
                     trabajador, Toast.LENGTH_SHORT)
@@ -52,8 +53,6 @@ public class InicioActivity extends Activity {
             Intent i = new Intent(this, InicioSesion.class);
             startActivity(i);
         }
-
-
 
     }
 

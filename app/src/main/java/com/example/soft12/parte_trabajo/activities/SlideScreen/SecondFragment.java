@@ -27,22 +27,30 @@ public class SecondFragment extends Fragment {
         View v = inflater.inflate(R.layout.second_frag, container, false);
 
         diario = new Diario();
-
-        this.mTxtSolucion = (EditText) v.findViewById(R.id.editTextSolucion);
-
-        mTxtSolucion.setText(diario.getSolucion().toString());
-
-        Editable solucion = mTxtSolucion.getText();
-
-        SharedPreferences.Editor editor = this.getActivity().
-                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
-        editor.putString("solucion", solucion.toString());
-        editor.apply();
+        initViews(v);
 
         return v;
     }
 
+    private void initViews(View v) {
 
+        this.mTxtSolucion = (EditText) v.findViewById(R.id.editTextSolucion);
+        mTxtSolucion.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Editable solucion = mTxtSolucion.getText();
+
+                    SharedPreferences.Editor editor = getActivity().
+                            getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
+                    editor.putString("solucion", solucion.toString());
+                    editor.apply();
+                }
+
+            }
+        });
+
+    }
 
     public static SecondFragment newInstance(int text) {
 

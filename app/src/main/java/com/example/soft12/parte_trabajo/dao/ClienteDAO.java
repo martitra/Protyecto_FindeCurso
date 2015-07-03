@@ -85,6 +85,20 @@ public class ClienteDAO {
         return listClientes;
     }
 
+    public Cursor fetchItemsByDesc(String inputText) throws SQLException {
+        Log.w(TAG, inputText);
+        Cursor mCursor = mDatabase.query(true, DBHelper.TABLE_CLIENTE,
+                new String[] {DBHelper.COLUMN_CLIENTE_ID,
+                        DBHelper.COLUMN_CLIENTE_NOMBRE},
+                DBHelper.COLUMN_CLIENTE_NOMBRE + " like '%" + inputText + "%'", null,
+                null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+
     public Cliente getClienteById(long id) {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_CLIENTE, mAllColumns,
                 DBHelper.COLUMN_CLIENTE_ID + " = ?",
@@ -94,6 +108,20 @@ public class ClienteDAO {
         }
 
         return cursorToCliente(cursor);
+    }
+
+    public Cliente getSinlgeClienteEntry(String nombre)
+    {
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_CLIENTE, mAllColumns,
+                DBHelper.COLUMN_CLIENTE_NOMBRE + " = ? ",
+                new String[]{nombre}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+        }
+        cursor.moveToFirst();
+        return cursorToCliente(cursor);
+
     }
 
     protected Cliente cursorToCliente(Cursor cursor) {

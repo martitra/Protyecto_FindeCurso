@@ -4,7 +4,9 @@ package com.example.soft12.parte_trabajo.activities.SlideScreen;
  * Created by soft12 on 30/06/2015.
  */
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,12 +20,23 @@ import android.view.View;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.activities.InicioActivity;
+import com.example.soft12.parte_trabajo.dao.CAUDAO;
+import com.example.soft12.parte_trabajo.dao.ClienteDAO;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
+import com.example.soft12.parte_trabajo.dao.LoginDAO;
+import com.example.soft12.parte_trabajo.dao.SolucionDAO;
+import com.example.soft12.parte_trabajo.model.CAU;
+import com.example.soft12.parte_trabajo.model.Cliente;
 import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
+import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.model.Solucion;
 
-public class IniciarFragmentActivity extends FragmentActivity {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class IniciarFragmentActivity extends FragmentActivity{
 
     ViewPager pager;
 
@@ -48,6 +61,7 @@ public class IniciarFragmentActivity extends FragmentActivity {
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
+
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -68,6 +82,8 @@ public class IniciarFragmentActivity extends FragmentActivity {
         public int getCount() {
             return 4;
         }
+
+
     }
 
     @Override
@@ -114,15 +130,75 @@ public class IniciarFragmentActivity extends FragmentActivity {
 
     public void EnviarDatosDiario(View v){
         DiarioDAO diarioDAO;
-        Diario diario;
         // necesitamos el coche para poder poner los kilómetros actuale
         // también necesitaremos los datos de Login para el técnico
-        Coche coche;
+
+        CAUDAO caudao;
+        ClienteDAO clienteDAO;
+        SolucionDAO solucionDAO;
+        LoginDAO loginDAO;
         CocheDAO cocheDAO;
+
+        caudao = new CAUDAO(this);
+        clienteDAO = new ClienteDAO(this);
+        solucionDAO = new SolucionDAO(this);
+        loginDAO = new LoginDAO(this);
+        cocheDAO = new CocheDAO(this);
+
         // cambiar lo de diario de todos los fragmentos para aquí, pasar los datos
         // con el shared preferences y poner aquí para crear un nuevo diario
         // pero aquí y no en cada fragment
-        diario = new Diario();
 
+
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+
+        String caunombre = prefs.getString("cau", " ");
+        String clientenombre = prefs.getString("cliente", " ");
+        String hora_ini = prefs.getString("hora_ini", " ");
+        String hora_fin = prefs.getString("hora_fin", " ");
+        String solucionnombre = prefs.getString("solucion", " ");
+        String desplazamiento = prefs.getString("desplazamiento", " ");
+        String km_ini = prefs.getString("km_ini", " ");
+        String km_fin = prefs.getString("km_fin", " ");
+        String cochematricula = prefs.getString("coche", " ");
+        String tecnico = prefs.getString("trabajador", " ");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = sdf.format(new Date());
+
+        Cliente cliente = clienteDAO.getSinlgeClienteEntry(clientenombre);
+        Solucion solucion = solucionDAO.getSinlgeSolucionEntry(solucionnombre);
+        Login login = loginDAO.getSinlgeLoginIdEntry(tecnico);
+        Coche coche = cocheDAO.getSingleCocheMatriculaEntry(cochematricula);
+        CAU cau = caudao.getSinlgeCAUEntry(caunombre);
+
+        diarioDAO = new DiarioDAO(this);
+
+        Diario createdDiario = diarioDAO.createDiario(fecha,
+                cau.getcNombre(),
+                cliente.getnNombre(),
+                solucion.getnNombre(),
+                hora_ini,
+                hora_fin,
+                desplazamiento,
+                Double.parseDouble(km_ini),
+                Double.parseDouble(km_fin),
+                login.getcId(),
+                coche.getId()
+        );
+
+        lanzarEmail(createdDiario);
+    }
+
+    private void lanzarEmail(Diario diario) {
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        String[] to = { "martagalmangarcia@gmail.com" };
+        String subject = "" + diario.getCau();
+        String body = diario.toString();
+        i.putExtra(Intent.EXTRA_EMAIL, to);
+        i.putExtra(Intent.EXTRA_SUBJECT, subject);
+        i.putExtra(Intent.EXTRA_TEXT, body);
+        startActivity(i);
     }
 }

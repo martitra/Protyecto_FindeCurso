@@ -7,11 +7,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.soft12.parte_trabajo.model.CAU;
-import com.example.soft12.parte_trabajo.model.Cliente;
+import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
 import com.example.soft12.parte_trabajo.model.Login;
-import com.example.soft12.parte_trabajo.model.Solucion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +33,11 @@ public class DiarioDAO {
                                     DBHelper.COLUMN_DIARIO_SOLUCION,
                                     DBHelper.COLUMN_DIARIO_HORA_INI,
                                     DBHelper.COLUMN_DIARIO_HORA_FIN,
-                                    DBHelper.COLUMN_DIARIO_VIAJE,
+                                    DBHelper.COLUMN_DIARIO_DESPLAZAMIENTO,
                                     DBHelper.COLUMN_DIARIO_KMS_INI,
                                     DBHelper.COLUMN_DIARIO_KMS_FIN,
-                                    DBHelper.COLUMN_DIARIO_TECNICO};
+                                    DBHelper.COLUMN_DIARIO_TECNICO,
+                                    DBHelper.COLUMN_DIARIO_COCHE_ID};
 
     public DiarioDAO(Context context) {
         mDbHelper = new DBHelper(context);
@@ -61,20 +60,21 @@ public class DiarioDAO {
         mDbHelper.close();
     }
 
-    public Diario createDiario(String fecha, long cauId, long clienteId, long solucionId,
-                               String horaIni, String horaFin, double viaje, double kmini,
-                               double kmfin, long tecnicoId) {
+    public Diario createDiario(String fecha, String cau, String cliente, String solucion,
+                               String horaIni, String horaFin, String desplazamiento, double kmini,
+                               double kmfin, long tecnicoId, long cocheId) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_DIARIO_FECHA, fecha);
-        values.put(DBHelper.COLUMN_DIARIO_CAU, cauId);
-        values.put(DBHelper.COLUMN_DIARIO_CLIENTE, clienteId);
-        values.put(DBHelper.COLUMN_DIARIO_SOLUCION, solucionId);
+        values.put(DBHelper.COLUMN_DIARIO_CAU, cau);
+        values.put(DBHelper.COLUMN_DIARIO_CLIENTE, cliente);
+        values.put(DBHelper.COLUMN_DIARIO_SOLUCION, solucion);
         values.put(DBHelper.COLUMN_DIARIO_HORA_INI, horaIni);
         values.put(DBHelper.COLUMN_DIARIO_HORA_FIN, horaFin);
-        values.put(DBHelper.COLUMN_DIARIO_VIAJE, viaje);
+        values.put(DBHelper.COLUMN_DIARIO_DESPLAZAMIENTO, desplazamiento);
         values.put(DBHelper.COLUMN_DIARIO_KMS_INI, kmini);
         values.put(DBHelper.COLUMN_DIARIO_KMS_FIN, kmfin);
         values.put(DBHelper.COLUMN_DIARIO_TECNICO, tecnicoId);
+        values.put(DBHelper.COLUMN_DIARIO_COCHE_ID, cocheId);
         long insertId = mDatabase.insert(DBHelper.TABLE_DIARIO, null, values);
         Cursor cursor = mDatabase.query(DBHelper.TABLE_DIARIO,
                 mAllColumns, DBHelper.COLUMN_DIARIO_ID + " = " + insertId, null, null, null, null);
@@ -112,31 +112,11 @@ public class DiarioDAO {
         // id,fecha cau, cliente, solucion, fechaini, fechafin, viaje, kms
         diario.setId(cursor.getLong(0));
         diario.setFecha(cursor.getString(1));
-
-        // get The cau by id
-        long cauId = cursor.getLong(2);
-        CAUDAO caudao = new CAUDAO(mContext);
-        CAU cau = caudao.getCAUById(cauId);
-        if(cau != null)
-            diario.setCau(cau);
-
-        // get the cliente by id
-        long clienteId = cursor.getLong(3);
-        ClienteDAO clienteDAO = new ClienteDAO(mContext);
-        Cliente cliente = clienteDAO.getClienteById(clienteId);
-        if(cliente != null)
-            diario.setCliente(cliente);
-
-        //get the solucion by id
-        long solucionId = cursor.getLong(4);
-        SolucionDAO solucionDAO = new SolucionDAO(mContext);
-        Solucion solucion = solucionDAO.getSolucionById(solucionId);
-        if(solucion != null)
-            diario.setSolucion(solucion);
-
+        diario.setCau(cursor.getString(2));
+        diario.setCliente(cursor.getString(3));
+        diario.setSolucion(cursor.getString(4));
         diario.setHoraIni(cursor.getString(5));
         diario.setHoraFin(cursor.getString(6));
-        diario.setViaje(cursor.getString(7));
         diario.setKmIni(Double.parseDouble(cursor.getString(8)));
         diario.setKmFin(Double.parseDouble(cursor.getString(9)));
 
@@ -148,6 +128,13 @@ public class DiarioDAO {
             diario.setTecnico(login);
         }
 
+        //get the coche by id
+        long cocheId = cursor.getLong(11);
+        CocheDAO cocheDAO = new CocheDAO(mContext);
+        Coche coche = cocheDAO.getCocheById(cocheId);
+        if (coche != null){
+            diario.setCoche(coche);
+        }
 
         return diario;
     }
@@ -156,15 +143,16 @@ public class DiarioDAO {
 
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_DIARIO_FECHA, diario.getFecha());
-        values.put(DBHelper.COLUMN_DIARIO_CAU, diario.getCau().getCauId());
-        values.put(DBHelper.COLUMN_DIARIO_CLIENTE, diario.getCliente().getcId());
-        values.put(DBHelper.COLUMN_DIARIO_SOLUCION, diario.getSolucion().getcId());
+        values.put(DBHelper.COLUMN_DIARIO_CAU, diario.getCau());
+        values.put(DBHelper.COLUMN_DIARIO_CLIENTE, diario.getCliente());
+        values.put(DBHelper.COLUMN_DIARIO_SOLUCION, diario.getSolucion());
         values.put(DBHelper.COLUMN_DIARIO_HORA_INI, diario.getHoraIni());
         values.put(DBHelper.COLUMN_DIARIO_HORA_FIN, diario.getHoraFin());
-        values.put(DBHelper.COLUMN_DIARIO_VIAJE, diario.getViaje());
+        values.put(DBHelper.COLUMN_DIARIO_DESPLAZAMIENTO, diario.getDesplazamiento());
         values.put(DBHelper.COLUMN_DIARIO_KMS_INI, diario.getKmIni());
         values.put(DBHelper.COLUMN_DIARIO_KMS_FIN, diario.getKmFin());
         values.put(DBHelper.COLUMN_DIARIO_TECNICO, diario.getTecnico().getcId());
+        values.put(DBHelper.COLUMN_DIARIO_COCHE_ID, diario.getCoche().getId());
 
         return mDatabase.update(DBHelper.TABLE_DIARIO, values, DBHelper.COLUMN_DIARIO_ID + " = ?",
                 new String[] { String.valueOf(diario.getId()) });

@@ -63,9 +63,9 @@ public class ListDiarioAdapter extends BaseAdapter {
         Diario currentItem = getItem(position);
         if(currentItem != null) {
             holder.txtFecha.setText(currentItem.getFecha());
-            holder.txtCau.setText(currentItem.getCau().getcNombre() + " - CAU");
-            holder.txtCliente.setText(currentItem.getCliente().getnNombre() +" - Cliente");
-            holder.txtSolucion.setText(currentItem.getSolucion().getnNombre() + " - Solución");
+            holder.txtCau.setText(currentItem.getCau() + " - CAU");
+            holder.txtCliente.setText(currentItem.getCliente() +" - Cliente");
+            holder.txtSolucion.setText(currentItem.getSolucion() + " - Solución");
         }
 
         return v;

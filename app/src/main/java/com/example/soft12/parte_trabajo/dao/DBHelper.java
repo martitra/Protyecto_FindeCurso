@@ -10,21 +10,23 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TAG = "DBHelper";
 
 	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 9;
+	private static final int DATABASE_VERSION = 12;
 
 	//colums of the daiario table
 	public static final String TABLE_DIARIO = "diario";
 	public static final String COLUMN_DIARIO_ID = "_id";
 	public static final String COLUMN_DIARIO_FECHA = "fecha";
-	public static final String COLUMN_DIARIO_CAU = "cau_id";
-	public static final String COLUMN_DIARIO_CLIENTE = "cliente_id";
-	public static final String COLUMN_DIARIO_SOLUCION = "solucion_id";
+	public static final String COLUMN_DIARIO_CAU = "cau";
+	public static final String COLUMN_DIARIO_CLIENTE = "cliente";
+	public static final String COLUMN_DIARIO_SOLUCION = "solucion";
 	public static final String COLUMN_DIARIO_HORA_INI = "fecha_ini";
 	public static final String COLUMN_DIARIO_HORA_FIN = "fecha_fin";
-	public static final String COLUMN_DIARIO_VIAJE = "viaje";
+	public static final String COLUMN_DIARIO_DESPLAZAMIENTO = "desplazamiento";
 	public static final String COLUMN_DIARIO_KMS_INI = "kms_ini";
 	public static final String COLUMN_DIARIO_KMS_FIN = "kms_fin";
 	public static final String COLUMN_DIARIO_TECNICO = "tecnico_id";
+	public static final String COLUMN_DIARIO_COCHE_ID = "coche_id";
+
 
 	// columna of the CAU table
 	public static final String TABLE_CAU = "cau";
@@ -68,15 +70,16 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String SQL_CREATE_TABLE_DIARIO = "CREATE TABLE " + TABLE_DIARIO + "("
 			+ COLUMN_DIARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ COLUMN_DIARIO_FECHA + " TEXT NOT NULL, "
-			+ COLUMN_DIARIO_CAU + " LONG NOT NULL, "
-			+ COLUMN_DIARIO_SOLUCION + " LONG NOT NULL, "
-			+ COLUMN_DIARIO_CLIENTE + " LONG NOT NULL, "
+			+ COLUMN_DIARIO_CAU + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_SOLUCION + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_CLIENTE + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_HORA_INI + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_HORA_FIN + " TEXT NOT NULL, "
-			+ COLUMN_DIARIO_VIAJE + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_DESPLAZAMIENTO + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_KMS_INI + " REAL NOT NULL, "
 			+ COLUMN_DIARIO_KMS_FIN + " REAL NOT NULL, "
-			+ COLUMN_DIARIO_TECNICO + " LONG NOL NULL "
+			+ COLUMN_DIARIO_TECNICO + " LONG NOL NULL, "
+			+ COLUMN_DIARIO_COCHE_ID + " LONG NOT NULL"
 			+ ");";
 
 	// SQL statement of the cau table creation

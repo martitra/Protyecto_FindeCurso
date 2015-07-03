@@ -15,15 +15,17 @@ public class Diario implements Serializable {
 
     private long id;
     private String fecha;
-    private CAU cau;
-    private Solucion solucion;
-    private Cliente cliente;
+
+    private String cau;
+    private String solucion;
+    private String cliente;
     private String horaIni;
     private String horaFin;
-    private String viaje;
+    private String desplazamiento;
     private Double kmIni;
     private Double kmFin;
     private Login tecnico;
+    private Coche coche;
 
     public Diario() {
     }
@@ -44,27 +46,27 @@ public class Diario implements Serializable {
         this.fecha = fecha;
     }
 
-    public CAU getCau() {
+    public String getCau() {
         return cau;
     }
 
-    public void setCau(CAU cau) {
+    public void setCau(String cau) {
         this.cau = cau;
     }
 
-    public Solucion getSolucion() {
+    public String getSolucion() {
         return solucion;
     }
 
-    public void setSolucion(Solucion solucion) {
+    public void setSolucion(String solucion) {
         this.solucion = solucion;
     }
 
-    public Cliente getCliente() {
+    public String getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(String cliente) {
         this.cliente = cliente;
     }
 
@@ -84,12 +86,12 @@ public class Diario implements Serializable {
         this.horaFin = horaFin;
     }
 
-    public String getViaje() {
-        return viaje;
+    public String getDesplazamiento() {
+        return desplazamiento;
     }
 
-    public void setViaje(String viaje) {
-        this.viaje = viaje;
+    public void setDesplazamiento(String desplazamiento) {
+        this.desplazamiento = desplazamiento;
     }
 
     public Double getKmIni() {
@@ -116,24 +118,33 @@ public class Diario implements Serializable {
         this.tecnico = tecnico;
     }
 
+    public Coche getCoche() {
+        return coche;
+    }
+
+    public void setCoche(Coche coche) {
+        this.coche = coche;
+    }
+
     public Bundle getBundle() {
         Bundle bundle = new Bundle();
         bundle.putLong(DBHelper.COLUMN_DIARIO_ID, id);
         bundle.putString(DBHelper.COLUMN_DIARIO_FECHA, fecha);
+        bundle.putString(DBHelper.COLUMN_DIARIO_CAU, cau);
+        bundle.putString(DBHelper.COLUMN_DIARIO_CLIENTE, cliente);
+        bundle.putString(DBHelper.COLUMN_DIARIO_SOLUCION, solucion);
 
-        bundle.putLong(DBHelper.COLUMN_DIARIO_CAU, cau.getCauId());
-        bundle.putString(DBHelper.COLUMN_CAU_NOMBRE, cau.getcNombre());
-        bundle.putLong(DBHelper.COLUMN_DIARIO_CLIENTE, cliente.getcId());
-        bundle.putString(DBHelper.COLUMN_CLIENTE_NOMBRE, cliente.getnNombre());
-        bundle.putLong(DBHelper.COLUMN_DIARIO_SOLUCION, solucion.getcId());
-        bundle.putString(DBHelper.COLUMN_SOLUCION_NOMBRE, solucion.getnNombre());
         bundle.putLong(DBHelper.COLUMN_DIARIO_TECNICO, tecnico.getcId());
         bundle.putString(DBHelper.COLUMN_USUARIO_NOMBRE, tecnico.getNombre());
         bundle.putString(DBHelper.COLUMN_USUARIO_EMAIL, tecnico.getMail());
 
+        bundle.putLong(DBHelper.COLUMN_DIARIO_COCHE_ID, coche.getId());
+        bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, coche.getMatricula());
+        bundle.putInt(DBHelper.COLUMN_COCHE_KMS, coche.getcKilometros());
+
         bundle.putString(DBHelper.COLUMN_DIARIO_HORA_INI, horaIni);
         bundle.putString(DBHelper.COLUMN_DIARIO_HORA_FIN, horaFin);
-        bundle.putString(DBHelper.COLUMN_DIARIO_VIAJE, viaje);
+        bundle.putString(DBHelper.COLUMN_DIARIO_DESPLAZAMIENTO, desplazamiento);
         bundle.putDouble(DBHelper.COLUMN_DIARIO_KMS_INI, kmIni);
         bundle.putDouble(DBHelper.COLUMN_DIARIO_KMS_FIN, kmFin);
 
@@ -142,28 +153,27 @@ public class Diario implements Serializable {
 
     public void setBundle(Bundle bundle) {
         id = bundle.getLong(DBHelper.COLUMN_REPOSTAJE_ID);
-        fecha = bundle.getString(DBHelper.COLUMN_REPOSTAJE_FECHA);
+        fecha = bundle.getString(DBHelper.COLUMN_DIARIO_FECHA);
 
-        cau = new CAU();
-        cau.setCauId(bundle.getLong(DBHelper.COLUMN_CAU_ID));
-        cau.setcNombre(bundle.getString(DBHelper.COLUMN_CAU_NOMBRE));
+        cau = bundle.getString(DBHelper.COLUMN_DIARIO_CAU);
 
-        cliente = new Cliente();
-        cliente.setcId(bundle.getLong(DBHelper.COLUMN_CLIENTE_ID));
-        cliente.setnNombre(bundle.getString(DBHelper.COLUMN_CLIENTE_NOMBRE));
+        cliente = bundle.getString(DBHelper.COLUMN_DIARIO_CLIENTE);
 
-        solucion = new Solucion();
-        solucion.setcId(bundle.getLong(DBHelper.COLUMN_SOLUCION_ID));
-        solucion.setnNombre(bundle.getString(DBHelper.COLUMN_SOLUCION_NOMBRE));
+        solucion = bundle.getString(DBHelper.COLUMN_DIARIO_SOLUCION);
 
         tecnico = new Login();
         tecnico.setcId(bundle.getLong(DBHelper.COLUMN_USUARIO_ID));
         tecnico.setNombre(bundle.getString(DBHelper.COLUMN_USUARIO_NOMBRE));
         tecnico.setMail(bundle.getString(DBHelper.COLUMN_USUARIO_EMAIL));
 
+        coche = new Coche();
+        coche.setId(bundle.getLong(DBHelper.COLUMN_COCHE_ID));
+        coche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
+        coche.setcKilometros(bundle.getInt(DBHelper.COLUMN_COCHE_KMS));
+
         horaIni = bundle.getString(DBHelper.COLUMN_DIARIO_HORA_INI);
         horaFin = bundle.getString(DBHelper.COLUMN_DIARIO_HORA_FIN);
-        viaje = bundle.getString(DBHelper.COLUMN_DIARIO_VIAJE);
+        desplazamiento = bundle.getString(DBHelper.COLUMN_DIARIO_DESPLAZAMIENTO);
         kmIni = bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS_INI);
         kmFin = bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS_FIN);
     }
@@ -171,17 +181,16 @@ public class Diario implements Serializable {
 
     @Override
     public String toString() {
-        return "Diario{" +
-                "fecha='" + fecha + '\'' +
-                ", cau=" + cau +
-                ", solucion=" + solucion +
-                ", cliente=" + cliente +
-                ", horaIni='" + horaIni + '\'' +
-                ", horaFin='" + horaFin + '\'' +
-                ", viaje='" + viaje + '\'' +
-                ", kmIni=" + kmIni +
-                ", kmFin=" + kmFin +
-                ", tecnico=" + tecnico +
-                '}';
+        return "Fecha = '" + fecha + '\'' +
+                "\nCau =" + cau +
+                "\nSolucion =" + solucion +
+                "\nCliente = " + cliente +
+                "\nHora de Inicio = '" + horaIni + '\'' +
+                "\nHora de Finalización = '" + horaFin + '\'' +
+                "\nDesplazamiento = '" + desplazamiento + '\'' +
+                "\nKilómetros Iniciales = " + kmIni +
+                "\nKilómetros Actuales =" + kmFin +
+                "\nTécnico = " + tecnico.getNombre() +
+                "\nCoche = " + coche.getMatricula();
     }
 }

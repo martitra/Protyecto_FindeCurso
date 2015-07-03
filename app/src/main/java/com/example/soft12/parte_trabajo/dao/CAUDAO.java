@@ -95,6 +95,20 @@ public class CAUDAO {
         return cursorToCAU(cursor);
     }
 
+    public CAU getSinlgeCAUEntry(String nombre)
+    {
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_CAU, mAllColumns,
+                DBHelper.COLUMN_CAU_NOMBRE + " = ? ",
+                new String[]{nombre}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+        }
+        cursor.moveToFirst();
+        return cursorToCAU(cursor);
+
+    }
+
     protected CAU cursorToCAU(Cursor cursor) {
         CAU cau = new CAU();
         cau.setCauId(cursor.getLong(0));

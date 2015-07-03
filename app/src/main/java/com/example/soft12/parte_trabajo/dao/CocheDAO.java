@@ -94,6 +94,16 @@ public class CocheDAO {
         return cursorToCoche(cursor);
     }
 
+    public Coche getSingleCocheMatriculaEntry(String cochematricula) {
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_COCHE, mAllColumns,
+                DBHelper.COLUMN_COCHE_MATRICULA + " = ?",
+                new String[]{ String.valueOf(cochematricula) }, null, null, null);
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        return cursorToCoche(cursor);
+    }
+
     protected Coche cursorToCoche(Cursor cursor) {
         Coche coche = new Coche();
         coche.setId(cursor.getLong(0));
@@ -110,4 +120,6 @@ public class CocheDAO {
         return mDatabase.update(DBHelper.TABLE_COCHE, values, DBHelper.COLUMN_COCHE_ID + " = ?",
         new String[] { String.valueOf(c.getId()) });
     }
+
+
 }

@@ -3,11 +3,12 @@ package com.example.soft12.parte_trabajo.activities.Diario;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +52,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
     private Spinner spinnerSolucion;
     private EditText mTxtHoraIni;
     private EditText mTxtHoraFin;
-    private EditText mTxtViaje;
+    private EditText mTxtDesplazamiento;
     private EditText mTxtKmini;
     private EditText mTxtKmFin;
 
@@ -162,7 +163,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         mTxtFecha.setText(diarioEdit.getFecha());
         mTxtHoraIni.setText(diarioEdit.getHoraIni());
         mTxtHoraFin.setText(diarioEdit.getHoraFin());
-        mTxtViaje.setText(String.valueOf(diarioEdit.getViaje()));
+        mTxtDesplazamiento.setText(diarioEdit.getDesplazamiento());
         mTxtKmini.setText(String.valueOf(diarioEdit.getKmIni()));
         mTxtKmFin.setText(String.valueOf(diarioEdit.getKmFin()));
 
@@ -171,12 +172,12 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         int posCliente = 0;
         int posSolucion = 0;
         if (!add) {
-            posCAU = mCAUAdapter.getPositionById(diarioEdit.getCau().getCauId());
+            /*posCAU = mCAUAdapter.getPositionById(diarioEdit.getCau().getCauId());
             Log.i("INFO", "Position CAU = " + posCAU);
             posCliente = mClienteAdapter.getPositionById(diarioEdit.getCliente().getcId());
             Log.i("INFO", "Position Cliente = " + posCliente);
             posSolucion = mSolucionAdapter.getPositionById(diarioEdit.getSolucion().getcId());
-            Log.i("INFO", "Position Soluión = " + posSolucion);
+            Log.i("INFO", "Position Soluión = " + posSolucion);*/
         }
         spinnerCau.setSelection(posCAU);
         spinnerCliente.setSelection(posCliente);
@@ -187,7 +188,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         this.mTxtFecha = (EditText) findViewById(R.id.txt_fecha);
         this.mTxtHoraIni = (EditText) findViewById(R.id.txt_hora_ini);
         this.mTxtHoraFin = (EditText) findViewById(R.id.txt_hora_fin);
-        this.mTxtViaje = (EditText) findViewById(R.id.txt_viaje);
+        this.mTxtDesplazamiento = (EditText) findViewById(R.id.txt_viaje);
         this.mTxtKmini  = (EditText) findViewById(R.id.txt_kmini);
         this.mTxtKmFin = (EditText) findViewById(R.id.txt_kmfin);
         this.spinnerCau = (Spinner) findViewById(R.id.spinner_cau);
@@ -298,7 +299,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                 Editable fecha = mTxtFecha.getText();
                 Editable hora_ini = mTxtHoraIni.getText();
                 Editable hora_fin = mTxtHoraFin.getText();
-                Editable viaje = mTxtViaje.getText();
+                Editable viaje = mTxtDesplazamiento.getText();
                 Editable kmini = mTxtKmini.getText();
                 Editable kmfin = mTxtKmFin.getText();
 
@@ -321,21 +322,24 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                         if(Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // si son iguales las horas
                             if (Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1])) { // los minutos ini tienen que ser menores que fin
                                 if (add) {
+                                    SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                                    Long trabajador = prefs.getLong("trabajadorid", 0);
                                     // add the diario to database
-                                    Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
-                                            mSelectedCAU.getCauId(),
-                                            mSelectedCliente.getcId(),
-                                            mSelectedSolucion.getcId(),
+                                    /*Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
+                                            mSelectedCAU.getcNombre(),
+                                            mSelectedCliente.getnNombre(),
+                                            mSelectedSolucion.getnNombre(),
                                             hora_ini.toString(),
                                             hora_fin.toString(),
                                             Double.parseDouble(viaje.toString()),
                                             Double.parseDouble(kmini.toString()),
-                                            Double.parseDouble(kmfin.toString()));
+                                            Double.parseDouble(kmfin.toString()),
+                                            trabajador);
                                     Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
                                     Log.d(TAG, "added diario : " + createdDiario.getFecha() + " ");
                                     setResult(RESULT_OK);
                                     // aquí crear un mail para la incidencia
-                                    lanzarEmail(createdDiario);
+                                    lanzarEmail(createdDiario);*/
                                     finish();
                                 } else {
                                     Diario editDiario = new Diario();
@@ -343,12 +347,12 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                     editDiario.setFecha(mTxtFecha.getText().toString());
                                     editDiario.setHoraIni(mTxtHoraIni.getText().toString());
                                     editDiario.setHoraFin(mTxtHoraFin.getText().toString());
-                                    editDiario.setViaje(mTxtViaje.getText().toString());
+                                    editDiario.setDesplazamiento(mTxtDesplazamiento.getText().toString());
                                     editDiario.setKmIni(Double.parseDouble(mTxtKmini.getText().toString()));
                                     editDiario.setKmFin(Double.parseDouble(mTxtKmFin.getText().toString()));
-                                    editDiario.setCau((CAU) spinnerCau.getSelectedItem());
-                                    editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
-                                    editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
+                                    //editDiario.setCau((CAU) spinnerCau.getSelectedItem());
+                                    //editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
+                                    //editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
                                     mDiarioDao.updateDiario(editDiario);
                                     Intent i = new Intent(this, ListDiarioActivity.class);
                                     startActivity(i);
@@ -365,21 +369,24 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                         }
                         else { // si no son iguales pero la fecha ini es menor que la fecha fin entra
                             if (add) {
+                                SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                                Long trabajador = prefs.getLong("trabajadorid", 0);
                                 // add the diario to database
-                                Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
-                                        mSelectedCAU.getCauId(),
-                                        mSelectedCliente.getcId(),
-                                        mSelectedSolucion.getcId(),
+                                /*Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
+                                        mSelectedCAU.getcNombre(),
+                                        mSelectedCliente.getnNombre(),
+                                        mSelectedSolucion.getnNombre(),
                                         hora_ini.toString(),
                                         hora_fin.toString(),
                                         Double.parseDouble(viaje.toString()),
                                         Double.parseDouble(kmini.toString()),
-                                        Double.parseDouble(kmfin.toString()));
+                                        Double.parseDouble(kmfin.toString()),
+                                        trabajador);
                                 Toast.makeText(this, R.string.diario_created_successfully, Toast.LENGTH_LONG).show();
                                 Log.d(TAG, "added repostaje : " + createdDiario.getFecha() + " ");
                                 setResult(RESULT_OK);
                                 // aquí crear un mail para la incidencia
-                                lanzarEmail(createdDiario);
+                                lanzarEmail(createdDiario);*/
                                 finish();
                             } else {
                                 Diario editDiario = new Diario();
@@ -387,12 +394,12 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                                 editDiario.setFecha(mTxtFecha.getText().toString());
                                 editDiario.setHoraIni(mTxtHoraIni.getText().toString());
                                 editDiario.setHoraFin(mTxtHoraFin.getText().toString());
-                                editDiario.setViaje(mTxtViaje.getText().toString());
+                                editDiario.setDesplazamiento(mTxtDesplazamiento.getText().toString());
                                 editDiario.setKmIni(Double.parseDouble(mTxtKmini.getText().toString()));
                                 editDiario.setKmFin(Double.parseDouble(mTxtKmFin.getText().toString()));
-                                editDiario.setCau((CAU) spinnerCau.getSelectedItem());
-                                editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
-                                editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
+                                //editDiario.setCau((CAU) spinnerCau.getSelectedItem());
+                                //editDiario.setCliente((Cliente) spinnerCliente.getSelectedItem());
+                                //editDiario.setSolucion((Solucion) spinnerSolucion.getSelectedItem());
                                 mDiarioDao.updateDiario(editDiario);
                                 Intent i = new Intent(this, ListDiarioActivity.class);
                                 startActivity(i);
@@ -425,7 +432,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
         String[] to = { "martagalmangarcia@gmail.com" };
-        String subject = "" + diario.getCau().getcNombre();
+        String subject = "" + diario.getCau();
         String body = diario.toString();
         i.putExtra(Intent.EXTRA_EMAIL, to);
         i.putExtra(Intent.EXTRA_SUBJECT, subject);

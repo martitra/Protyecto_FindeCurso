@@ -52,7 +52,7 @@ public class InicioSesion extends Activity{
 
         if (!mail.isEmpty() && !password.isEmpty()) {// si no están vacíos
             // fetch the Password form database for respective user name
-            Login login = loginDAO.getSinlgeEntry(mail);
+            Login login = loginDAO.getSinlgeLoginMailEntry(mail);
 
             // check if the Stored password matches with  Password entered by user
             if (password.equals(login.getPass())) {
@@ -62,13 +62,13 @@ public class InicioSesion extends Activity{
                 extras.putBoolean("login", true);
                 i.putExtras(extras);
                 startActivity(i);
-                txtUsuario.setText("");
-                txtPassword.setText("");
 
             } else {
                 Toast.makeText(InicioSesion.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
             }
         }
+        txtUsuario.setText("");
+        txtPassword.setText("");
 
     }
 

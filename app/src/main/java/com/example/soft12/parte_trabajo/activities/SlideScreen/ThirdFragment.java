@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -30,19 +31,20 @@ public class ThirdFragment extends Fragment {
     EditText mTxtDesplazamiento, mTxtKmIni, mTxtKmFin;
     Spinner mSpinnerCoche;
 
-    private SpinnerCochesAdapter mAdapter;
-    private CocheDAO mCocheDao;
     Diario diario;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.third_frag, container, false);
+
         diario = new Diario();
 
         initViews(v);
-        establecerValores();
+
         return v;
     }
+
+
 
     private void initViews(View v) {
         this.mTxtDesplazamiento = (EditText) v.findViewById(R.id.editText_desplazamiento);
@@ -50,22 +52,51 @@ public class ThirdFragment extends Fragment {
         this.mTxtKmFin = (EditText) v.findViewById(R.id.editText_km_fin);
         this.mSpinnerCoche = (Spinner) v.findViewById(R.id.spinner_coches);
 
-        this.mCocheDao = new CocheDAO(getActivity());
+        mTxtDesplazamiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        CocheDAO mCocheDao = new CocheDAO(getActivity());
 
         //fill the spinner with companies
         List<Coche> listCoches = mCocheDao.getAllCoches();
         if(listCoches != null) {
-            mAdapter = new SpinnerCochesAdapter(getActivity(), listCoches);
+            SpinnerCochesAdapter mAdapter = new SpinnerCochesAdapter(getActivity(), listCoches);
             mSpinnerCoche.setAdapter(mAdapter);
             //mSpinnerCoche.setOnItemSelectedListener(this);
         }
+
+        mTxtKmFin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    establecerValores();
+                }
+
+            }
+        });
+
+        mSpinnerCoche.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                establecerValores();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void establecerValores() {
-        mTxtDesplazamiento.setText(diario.getViaje());
-        mTxtKmIni.setText(diario.getKmIni().toString());
-        mTxtKmFin.setText(diario.getKmFin().toString());
-        mSpinnerCoche.setSelection(0);
+       // mTxtDesplazamiento.setText(diario.getViaje());
+       // mTxtKmIni.setText(String.valueOf(diario.getKmIni()));
+       // mTxtKmFin.setText(String.valueOf(diario.getKmFin()));
+       // mSpinnerCoche.setSelection(0);
 
         Editable desplazamiento = mTxtDesplazamiento.getText();
         Editable kmini = mTxtKmIni.getText();
@@ -77,7 +108,9 @@ public class ThirdFragment extends Fragment {
         editor.putString("desplazamiento", desplazamiento.toString());
         editor.putString("km_ini", kmini.toString());
         editor.putString("km_fin", kmfin.toString());
-        editor.putString("coche", mSelectedCoche.toString());
+        if(mSelectedCoche != null) {
+            editor.putLong("coche", mSelectedCoche.getId());
+        }
         editor.apply();
     }
 
@@ -91,4 +124,5 @@ public class ThirdFragment extends Fragment {
 
         return f;
     }
+
 }

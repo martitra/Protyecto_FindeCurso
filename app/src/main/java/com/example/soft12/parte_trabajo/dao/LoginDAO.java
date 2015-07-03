@@ -80,10 +80,24 @@ public class LoginDAO {
         return cursorToLogin(cursor);
     }
 
-    public Login getSinlgeEntry(String userName)
+    public Login getSinlgeLoginMailEntry(String mail)
     {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
                 DBHelper.COLUMN_USUARIO_EMAIL + " = ? ",
+                new String[]{mail}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+        {
+            cursor.close();
+        }
+        cursor.moveToFirst();
+        return cursorToLogin(cursor);
+
+    }
+
+    public Login getSinlgeLoginIdEntry(String userName)
+    {
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
+                DBHelper.COLUMN_USUARIO_NOMBRE + " = ? ",
                 new String[]{userName}, null, null, null);
         if(cursor.getCount()<1) // UserName Not Exist
         {
