@@ -4,8 +4,11 @@ package com.example.soft12.parte_trabajo.Excel;
  * Created by soft12 on 29/06/2015.
  */
 
+import com.example.soft12.parte_trabajo.model.Diario;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 import jxl.CellView;
@@ -13,7 +16,6 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.format.Alignment;
 import jxl.format.VerticalAlignment;
-import jxl.write.Formula;
 import jxl.write.Label;
 import jxl.write.Number;
 import jxl.write.WritableCellFormat;
@@ -33,15 +35,16 @@ public class CreateExcel {
         this.inputFile = inputFile;
     }
 
-    public void write() throws IOException, WriteException {
-        File file = new File(this.inputFile);
+    public void write(List<Diario> diarioList) throws IOException, WriteException {
+        this.setOutputFile("lars.xlx");
+        File file = new File(inputFile);
         WorkbookSettings wbSettings = new WorkbookSettings();
         wbSettings.setLocale(new Locale("en", "EN"));
         WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
         workbook.createSheet("Report", 0);
         WritableSheet excelSheet = workbook.getSheet(0);
         this.createLabel(excelSheet);
-        this.createContent(excelSheet);
+        this.createContent(excelSheet, diarioList);
         workbook.write();
         workbook.close();
     }
@@ -55,7 +58,6 @@ public class CreateExcel {
         WritableCellFormat cellFormat = new WritableCellFormat(timesBold);
         cellFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
         cellFormat.setAlignment(Alignment.CENTRE);
-        sheet.setColumnGroup(0,8,true);
         sheet.setColumnView(1, 16);
         sheet.setColumnView(2, 20);
         sheet.setColumnView(3, 10);
@@ -80,11 +82,21 @@ public class CreateExcel {
         cv.setAutosize(true);
     }
 
-    private void createContent(WritableSheet sheet) throws WriteException {
+    private void createContent(WritableSheet sheet, List<Diario> diarios) throws WriteException {
 
         // aquí se llamaría a los datos para poner
 
-        for(int buf = 1; buf < 10; ++buf) {
+        WritableCellFormat cellFormat = new WritableCellFormat();
+        cellFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
+        cellFormat.setAlignment(Alignment.CENTRE);
+
+        for (int i=0;i<diarios.size();i++){
+            for (int y=0;y<9;i++){
+                sheet.addCell(new Label(y+1,i+1, diarios.get(y + 1).toString(),cellFormat));
+            }
+        }
+
+        /*for(int buf = 1; buf < 10; ++buf) {
             this.addNumber(sheet, 0, buf, buf + 10);
             this.addNumber(sheet, 1, buf, buf * buf);
         }
@@ -101,9 +113,7 @@ public class CreateExcel {
         for(int i = 12; i < 20; ++i) {
             this.addLabel(sheet, 0, i, "Boring text " + i);
             this.addLabel(sheet, 1, i, "Another text");
-        }
-
-
+        }*/
     }
 
     /*
@@ -126,7 +136,7 @@ public class CreateExcel {
     public static void main(String[] args) throws WriteException, IOException {
         CreateExcel test = new CreateExcel();
         test.setOutputFile("lars.xls");
-        test.write();
-        System.out.println("Please check the result file under c:/temp/lars.xls ");
+        //test.write();
+        System.out.println("Please check the result file under lars.xls ");
     }
 }

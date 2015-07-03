@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +30,8 @@ import java.util.Calendar;
  */
 public class FirstFragment extends Fragment {
 
-    public EditText mTxtHoraIni, mTxtHoraFin, mTxtCAU, mTxtCliente, itemView;
+    public EditText mTxtHoraIni, mTxtHoraFin, mTxtCAU;
+    //public TextView itemcod;
     Diario diario;
     Calendar myCalendar = Calendar.getInstance();
     ClienteDAO clienteDAO;
@@ -118,10 +121,8 @@ public class FirstFragment extends Fragment {
                 return getFilterQueryProvider().runQuery(constraint);
             }
 
-            Cursor cursor = mDbHelper.fetchItemsByDesc(
+            return mDbHelper.fetchItemsByDesc(
                     (constraint != null ? constraint.toString() : "@@@@"));
-
-            return cursor;
         }
 
         /**
@@ -136,9 +137,8 @@ public class FirstFragment extends Fragment {
          */
         @Override
         public String convertToString(Cursor cursor) {
-            final int columnIndex = cursor.getColumnIndexOrThrow("description");
-            final String str = cursor.getString(columnIndex);
-            return str;
+            final int columnIndex = cursor.getColumnIndexOrThrow("nombre");
+            return cursor.getString(columnIndex);
         }
 
         /**
@@ -158,9 +158,13 @@ public class FirstFragment extends Fragment {
         public void bindView(View view, Context context, Cursor cursor) {
             //final String text = convertToString(cursor);
             //((TextView) view).setText(text);
-            final int itemColumnIndex = cursor.getColumnIndexOrThrow("itemNumber");
-            TextView text1 = (TextView) view.findViewById(R.id.text1);
+
+            final int itemColumnIndex = cursor.getColumnIndexOrThrow("codigo");
+            final int descColumnIndex = cursor.getColumnIndexOrThrow("nombre");
+            TextView text1 = (TextView) view.findViewById(R.id.txt_cliente_nombre);
             text1.setText(cursor.getString(itemColumnIndex));
+            TextView text2 = (TextView) view.findViewById(R.id.txt_cliente_codigo);
+            text2.setText(cursor.getString(descColumnIndex));
         }
 
         /**
@@ -180,8 +184,7 @@ public class FirstFragment extends Fragment {
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             final LayoutInflater inflater = LayoutInflater.from(context);
-            final View view = inflater.inflate(R.layout.list_item_cliente,parent, false);
-            return view;
+            return inflater.inflate(R.layout.list_item_cliente,parent, false);
         }
 
         /**
@@ -205,10 +208,13 @@ public class FirstFragment extends Fragment {
             Cursor cursor = (Cursor) listView.getItemAtPosition(position);
 
             // Get the Item Number from this row in the database.
-            String itemNumber = cursor.getString(cursor.getColumnIndexOrThrow("itemNumber"));
+            String itemNumber = cursor.getString(cursor.getColumnIndexOrThrow("codigo"));
 
             // Update the parent class's TextView
-            itemView.setText(itemNumber);
+            autoCliente.setText(autoCliente.getText() + " - " + itemNumber);
+            //itemcod.setText(autoCliente.getText());
+            //Log.w("Quantity:", String.valueOf(itemcod.getText().length()));
+            //autoCliente.setText("");
         }
 
     }
@@ -222,14 +228,17 @@ public class FirstFragment extends Fragment {
         Editable cau = mTxtCAU.getText();
         Editable hora_ini = mTxtHoraIni.getText();
         Editable hora_fin = mTxtHoraFin.getText();
-        Editable cliente = mTxtCliente.getText();
+        Editable cliente = autoCliente.getText();
+        String cli = cliente.toString();
+
+        String[] clien = cli.split(" -");
 
         SharedPreferences.Editor editor = this.getActivity().
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
         editor.putString("cau", cau.toString());
         editor.putString("hora_ini", hora_ini.toString());
         editor.putString("hora_fin", hora_fin.toString());
-        editor.putString("cliente", cliente.toString());
+        editor.putString("cliente", clien[0]);
         editor.apply();
     }
 
@@ -239,7 +248,8 @@ public class FirstFragment extends Fragment {
         this.mTxtHoraFin = (EditText) v.findViewById(R.id.txt_hora_fin);
         //this.mTxtCliente = (EditText) v.findViewById(R.id.editText_cliente);
         this.autoCliente = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_cliente);
-        itemView = (EditText) v.findViewById(R.id.item);
+        //this.itemcod = (TextView) v.findViewById(R.id.itemDesc);
+        //itemView = (EditText) v.findViewById(R.id.item);
         this.mTxtCAU = (EditText) v.findViewById(R.id.editText_cau);
 
         /* HORA INICIO */
@@ -276,7 +286,6 @@ public class FirstFragment extends Fragment {
                 if (!hasFocus){
                     establecerValores();
                 }
-
             }
         });
     }
@@ -292,4 +301,14 @@ public class FirstFragment extends Fragment {
         return f;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(getActivity());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

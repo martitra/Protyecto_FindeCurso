@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/MyListItem">
+
+    <TextView
+        android:id="@+id/txt_cliente_codigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/cliente_codigo"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txt_cliente_nombre"
@@ -13,5 +26,6 @@
         android:text="@string/cliente_nombre"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
+
 
 </LinearLayout>

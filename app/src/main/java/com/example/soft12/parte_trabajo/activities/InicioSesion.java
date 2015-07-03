@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.SlideScreen.IniciarFragmentActivity;
 import com.example.soft12.parte_trabajo.dao.LoginDAO;
 import com.example.soft12.parte_trabajo.model.Login;
 
@@ -58,18 +59,25 @@ public class InicioSesion extends Activity{
             if (password.equals(login.getPass())) {
                 Toast.makeText(InicioSesion.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
                 Bundle extras = login.getBundle();
-                Intent i = new Intent(this, InicioActivity.class);
+                Intent i = new Intent(this, IniciarFragmentActivity.class);
                 extras.putBoolean("login", true);
                 i.putExtras(extras);
                 startActivity(i);
+                txtUsuario.setText("");
+                txtPassword.setText("");
 
             } else {
-                Toast.makeText(InicioSesion.this, "User Name or Password does not match", Toast.LENGTH_LONG).show();
+                Toast.makeText(InicioSesion.this, "Ningún usuario con esa contraseña.", Toast.LENGTH_LONG).show();
             }
         }
-        txtUsuario.setText("");
-        txtPassword.setText("");
+        else{
+            Toast.makeText(InicioSesion.this, R.string.empty_fields_message, Toast.LENGTH_LONG).show();
+        }
 
+
+    }
+    public void Salir(View v){
+        finish();
     }
 
     @Override

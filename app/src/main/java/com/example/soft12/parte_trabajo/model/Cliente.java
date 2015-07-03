@@ -14,6 +14,7 @@ public class Cliente implements Serializable{
     public static final String TAG = "Cliente";
 
     private long cId;
+    private String codigo;
     private String nNombre;
 
 
@@ -32,6 +33,14 @@ public class Cliente implements Serializable{
         this.cId = cId;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public String getnNombre() {
         return nNombre;
     }
@@ -43,12 +52,14 @@ public class Cliente implements Serializable{
     public Bundle getBundle() {
         Bundle bundle = new Bundle();
         bundle.putLong(DBHelper.COLUMN_CLIENTE_ID, cId);
+        bundle.putString(DBHelper.COLUMN_CLIENTE_CODIGO, codigo);
         bundle.putString(DBHelper.COLUMN_CLIENTE_NOMBRE, nNombre);
         return bundle;
     }
 
     public void setBundle(Bundle bundle) {
         cId = bundle.getLong(DBHelper.COLUMN_CLIENTE_ID);
+        codigo = bundle.getString(DBHelper.COLUMN_CLIENTE_CODIGO);
         nNombre = bundle.getString(DBHelper.COLUMN_CLIENTE_NOMBRE);
     }
 

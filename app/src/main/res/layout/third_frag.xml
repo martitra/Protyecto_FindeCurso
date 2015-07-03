@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Desplazamiento(minutos):"
+        android:text="@string/textview_desplazamiento"
         android:id="@+id/textView2"
         android:layout_marginTop="54dp"
         android:layout_alignParentTop="true"
@@ -22,14 +22,15 @@
         android:textColor="@android:color/black"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:inputType="text" />
     <TextView
         android:id="@+id/textview_Kmini"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
-        android:text="Kilómetros iniciales:"
+        android:text="@string/text_km_ini"
         android:layout_below="@+id/editText_desplazamiento"/>
     <EditText
         android:layout_width="fill_parent"
@@ -38,14 +39,14 @@
         android:layout_below="@id/textview_Kmini"
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
-        />
+        android:inputType="number" />
     <TextView
         android:id="@+id/textview_Kmfin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
-        android:text="Kilómetros ahora:"
+        android:text="@string/txt_km_actuales"
         android:layout_below="@+id/editText_km_ini"/>
     <EditText
         android:layout_width="fill_parent"
@@ -54,7 +55,7 @@
         android:layout_below="@id/textview_Kmfin"
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
-        />
+        android:inputType="number" />
     <TextView
         android:id="@+id/textView_coche"
         android:layout_width="fill_parent"
@@ -62,7 +63,7 @@
         android:textAppearance="?android:attr/textAppearance"
         android:textColor="@android:color/black"
         android:layout_below="@+id/editText_km_fin"
-        android:text="Coche:"/>
+        android:text="@string/txt_coche"/>
     <Spinner
         android:id="@+id/spinner_coches"
         android:layout_width="match_parent"

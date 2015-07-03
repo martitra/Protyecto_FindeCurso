@@ -108,13 +108,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinner_solucion"
-            android:text="@string/textview_viaje"
+            android:text="@string/textview_desplazamiento"
             android:textAppearance="?android:attr/textAppearance"/>
         <EditText
             android:id="@+id/txt_viaje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/viaje"
+            android:hint="@string/desplazamiento"
             android:inputType="text"
             android:lines="2"
             android:maxLines="2"

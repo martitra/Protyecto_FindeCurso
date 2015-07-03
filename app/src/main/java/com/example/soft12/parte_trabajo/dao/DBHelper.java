@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TAG = "DBHelper";
 
 	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 12;
+	private static final int DATABASE_VERSION = 15;
 
 	//colums of the daiario table
 	public static final String TABLE_DIARIO = "diario";
@@ -41,6 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	//column of the Cliente table
 	public static final String TABLE_CLIENTE = "cliente";
 	public static final String COLUMN_CLIENTE_ID = "_id";
+	public static final String COLUMN_CLIENTE_CODIGO = "codigo";
 	public static final String COLUMN_CLIENTE_NOMBRE = "nombre";
 
 	// columns of the repostaje table
@@ -85,7 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	// SQL statement of the cau table creation
 	public static final String SQL_CREATE_TABLE_CAU = "CREATE TABLE " + TABLE_CAU + "("
 			+ COLUMN_CAU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ COLUMN_CAU_NOMBRE + " TEXT NOT NULL "
+			+ COLUMN_CAU_NOMBRE + " TEXT "
 			+ ");";
 
 	// SQL statement of the solucion table creation
@@ -97,6 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	// SQL statement of the cliente table creation
 	public static final String SQL_CREATE_TABLE_CLIENTE = "CREATE TABLE " + TABLE_CLIENTE + "("
 			+ COLUMN_CLIENTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ COLUMN_CLIENTE_CODIGO + " TEXT NOT NULL, "
 			+ COLUMN_CLIENTE_NOMBRE + " TEXT NOT NULL "
 			+ ");";
 
@@ -142,6 +144,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
 		database.execSQL("INSERT INTO usuario (usuario,pass,mail) VALUES('Pepe','123.','pepe@pepe.com') ");
 		database.execSQL("INSERT INTO usuario (usuario,pass,mail) VALUES('Marta','123.','marta@marta.com') ");
+
+		database.execSQL("INSERT INTO cliente (nombre,codigo) VALUES('Eroski','9654-8')");
+		database.execSQL("INSERT INTO cliente (nombre,codigo) VALUES('Vegalsa','12-UI')");
 	}
 
 	@Override

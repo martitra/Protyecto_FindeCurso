@@ -85,7 +85,7 @@ public class LoginDAO {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
                 DBHelper.COLUMN_USUARIO_EMAIL + " = ? ",
                 new String[]{mail}, null, null, null);
-        if(cursor.getCount()<1) // UserName Not Exist
+        if(cursor.getCount() == 0) // UserName Not Exist
         {
             cursor.close();
         }
@@ -99,7 +99,7 @@ public class LoginDAO {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
                 DBHelper.COLUMN_USUARIO_NOMBRE + " = ? ",
                 new String[]{userName}, null, null, null);
-        if(cursor.getCount()<1) // UserName Not Exist
+        if(cursor.getCount() == 0) // UserName Not Exist
         {
             cursor.close();
         }
@@ -110,10 +110,13 @@ public class LoginDAO {
 
     protected Login cursorToLogin(Cursor cursor) {
         Login login = new Login();
-        login.setcId(cursor.getLong(0));
-        login.setNombre(cursor.getString(1));
-        login.setPass(cursor.getString(2));
-        login.setMail(cursor.getString(3));
+
+        if(cursor.getCount() != 0) {
+            login.setcId(cursor.getLong(0));
+            login.setNombre(cursor.getString(1));
+            login.setPass(cursor.getString(2));
+            login.setMail(cursor.getString(3));
+        }
         return login;
     }
 

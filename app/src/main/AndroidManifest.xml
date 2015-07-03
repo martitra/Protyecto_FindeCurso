@@ -10,6 +10,7 @@
         <activity android:name=".activities.InicioSesion"
             android:label="Login"
             android:theme="@style/CustomActionBarTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -83,7 +84,8 @@
         <activity android:name=".activities.SlideScreen.IniciarFragmentActivity"
             android:label="Diario"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" />
+            android:theme="@style/CustomActionBarTheme"
+            android:parentActivityName=".activities.InicioSesion"/>
     </application>
 
 </manifest>

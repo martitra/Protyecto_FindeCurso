@@ -9,32 +9,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
         android:text="Cancel"
-        android:layout_below="@+id/numberPicker1"
-        android:layout_toEndOf="@+id/numberPicker1"
-        android:layout_marginStart="61dp" />
+        android:layout_marginEnd="110dp"
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button2"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_marginRight="16dp"
-        android:layout_toLeftOf="@+id/numberPicker1"
-        android:text="Set" />
+        android:text="Aceptar"
+        android:layout_alignTop="@+id/button2"
+        android:layout_alignEnd="@+id/numberPicker1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=":"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/button1"
+        android:layout_toStartOf="@+id/numberPicker2"
+        android:layout_marginBottom="45dp" />
 
     <NumberPicker
         android:id="@+id/numberPicker1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="41dp" />
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/numberPicker2"
+        android:layout_marginEnd="30dp" />
 
     <NumberPicker
         android:id="@+id/numberPicker2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_alignEnd="@+id/numberPicker2"
+        android:layout_marginEnd="16dp" />
 
 
 </RelativeLayout>

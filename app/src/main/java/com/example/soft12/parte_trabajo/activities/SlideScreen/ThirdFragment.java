@@ -1,16 +1,20 @@
 package com.example.soft12.parte_trabajo.activities.SlideScreen;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.adapter.Coche.SpinnerCochesAdapter;
@@ -18,6 +22,7 @@ import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,17 +39,67 @@ public class ThirdFragment extends Fragment {
     Diario diario;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.third_frag, container, false);
 
         diario = new Diario();
 
         initViews(v);
+        mTxtDesplazamiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RangeTimePickerDialog timePickerDialog = new RangeTimePickerDialog(
+                        getActivity(), timeSetListener,
+                        Calendar.getInstance().get(Calendar.HOUR),
+                        CustomTimePickerDialog.getRoundedMinute(
+                                Calendar.getInstance().get(Calendar.MINUTE) +
+                                        CustomTimePickerDialog.TIME_PICKER_INTERVAL),  true);
+                timePickerDialog.setTitle("Set hours and minutes");
+                timePickerDialog.setMin(0, 0);
+                timePickerDialog.setMax(15,55);
+                timePickerDialog.show();
+            }
+        });
 
         return v;
     }
+    public static class CustomTimePickerDialog extends TimePickerDialog {
 
+        public static final int TIME_PICKER_INTERVAL=5;
+        private boolean mIgnoreEvent=false;
 
+        public CustomTimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView) {
+            super(context, callBack, hourOfDay, minute, is24HourView);
+        }
+
+        @Override
+        public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
+            super.onTimeChanged(timePicker, hourOfDay, minute);
+            if (!mIgnoreEvent){
+                minute = getRoundedMinute(minute);
+                mIgnoreEvent=true;
+                timePicker.setCurrentMinute(minute);
+                mIgnoreEvent=false;
+            }
+        }
+
+        public static  int getRoundedMinute(int minute){
+            if(minute % TIME_PICKER_INTERVAL != 0){
+                int minuteFloor = minute - (minute % TIME_PICKER_INTERVAL);
+                minute = minuteFloor + (minute == minuteFloor + 1 ? TIME_PICKER_INTERVAL : 0);
+                if (minute == 60)  minute=0;
+            }
+
+            return minute;
+        }
+    }
+
+    private CustomTimePickerDialog.OnTimeSetListener timeSetListener = new CustomTimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            mTxtDesplazamiento.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
+        }
+    };
 
     private void initViews(View v) {
         this.mTxtDesplazamiento = (EditText) v.findViewById(R.id.editText_desplazamiento);
@@ -52,12 +107,7 @@ public class ThirdFragment extends Fragment {
         this.mTxtKmFin = (EditText) v.findViewById(R.id.editText_km_fin);
         this.mSpinnerCoche = (Spinner) v.findViewById(R.id.spinner_coches);
 
-        mTxtDesplazamiento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         CocheDAO mCocheDao = new CocheDAO(getActivity());
 
@@ -106,10 +156,10 @@ public class ThirdFragment extends Fragment {
         SharedPreferences.Editor editor = this.getActivity().
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
         editor.putString("desplazamiento", desplazamiento.toString());
-        editor.putString("km_ini", kmini.toString());
-        editor.putString("km_fin", kmfin.toString());
+        editor.putInt("km_ini", Integer.parseInt(String.valueOf(kmini)));
+        editor.putInt("km_fin", Integer.parseInt(kmfin.toString()));
         if(mSelectedCoche != null) {
-            editor.putLong("coche", mSelectedCoche.getId());
+            editor.putString("coche", mSelectedCoche.getMatricula());
         }
         editor.apply();
     }
@@ -123,6 +173,17 @@ public class ThirdFragment extends Fragment {
         f.setArguments(b);
 
         return f;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(getActivity());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

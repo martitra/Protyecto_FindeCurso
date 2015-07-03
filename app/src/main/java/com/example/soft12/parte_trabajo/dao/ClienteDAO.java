@@ -23,6 +23,7 @@ public class ClienteDAO {
     private SQLiteDatabase mDatabase;
     private DBHelper mDbHelper;
     private String[] mAllColumns = { DBHelper.COLUMN_CLIENTE_ID,
+            DBHelper.COLUMN_CLIENTE_CODIGO,
             DBHelper.COLUMN_CLIENTE_NOMBRE };
 
     public ClienteDAO(Context context) {
@@ -44,9 +45,10 @@ public class ClienteDAO {
         mDbHelper.close();
     }
 
-    public Cliente createCliente(String nombre) {
+    public Cliente createCliente(String nombre, String codigo) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_CLIENTE_NOMBRE, nombre);
+        values.put(DBHelper.COLUMN_CLIENTE_CODIGO, codigo);
         long insertId = mDatabase
                 .insert(DBHelper.TABLE_CLIENTE, null, values);
         Cursor cursor = mDatabase.query(DBHelper.TABLE_CLIENTE, mAllColumns,
@@ -88,7 +90,7 @@ public class ClienteDAO {
     public Cursor fetchItemsByDesc(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = mDatabase.query(true, DBHelper.TABLE_CLIENTE,
-                new String[] {DBHelper.COLUMN_CLIENTE_ID,
+                new String[] {DBHelper.COLUMN_CLIENTE_ID, DBHelper.COLUMN_CLIENTE_CODIGO,
                         DBHelper.COLUMN_CLIENTE_NOMBRE},
                 DBHelper.COLUMN_CLIENTE_NOMBRE + " like '%" + inputText + "%'", null,
                 null, null, null, null);
@@ -127,14 +129,15 @@ public class ClienteDAO {
     protected Cliente cursorToCliente(Cursor cursor) {
         Cliente cliente = new Cliente();
         cliente.setcId(cursor.getLong(0));
-        cliente.setnNombre(cursor.getString(1));
+        cliente.setCodigo(cursor.getString(1));
+        cliente.setnNombre(cursor.getString(2));
         return cliente;
     }
     public int updateCliente(Cliente c) {
 
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_CLIENTE_NOMBRE, c.getnNombre());
-
+        values.put(DBHelper.COLUMN_CLIENTE_CODIGO, c.getCodigo());
         return mDatabase.update(DBHelper.TABLE_CLIENTE, values, DBHelper.COLUMN_CLIENTE_ID + " = ?",
                 new String[] { String.valueOf(c.getcId()) });
     }

@@ -81,10 +81,10 @@ public class AddClienteActivity  extends Activity implements View.OnClickListene
                 if (!TextUtils.isEmpty(clienteNombre) ) {
                     // add the car to database
                     if(add) {
-                        Cliente createdCliente = mClienteDao.createCliente(clienteNombre.toString());
-                        Log.d(TAG, "added coche : " + createdCliente.getnNombre());
+                        //Cliente createdCliente = mClienteDao.createCliente(clienteNombre.toString());
+                        //Log.d(TAG, "added coche : " + createdCliente.getnNombre());
                         Intent intent = new Intent();
-                        intent.putExtra(ListClientesActivity.EXTRA_ADDED_CLIENTE, createdCliente);
+                        //intent.putExtra(ListClientesActivity.EXTRA_ADDED_CLIENTE, createdCliente);
                         setResult(RESULT_OK, intent);
                         Toast.makeText(this, R.string.cliente_created_successfully, Toast.LENGTH_LONG).show();
                         finish();
