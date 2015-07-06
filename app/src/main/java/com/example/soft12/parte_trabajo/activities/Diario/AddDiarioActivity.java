@@ -19,15 +19,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.dao.CAUDAO;
 import com.example.soft12.parte_trabajo.dao.ClienteDAO;
 import com.example.soft12.parte_trabajo.dao.DBHelper;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
-import com.example.soft12.parte_trabajo.dao.SolucionDAO;
-import com.example.soft12.parte_trabajo.model.CAU;
 import com.example.soft12.parte_trabajo.model.Cliente;
 import com.example.soft12.parte_trabajo.model.Diario;
-import com.example.soft12.parte_trabajo.model.Solucion;
 
 import java.util.Calendar;
 
@@ -89,9 +85,9 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         }
     };
 
-    private CAUDAO mCAUDao;
+
     private ClienteDAO mClienteDAO;
-    private SolucionDAO mSolucionDAO;
+
     private DiarioDAO mDiarioDao;
 
     private Diario diarioEdit;
@@ -118,10 +114,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             diarioEdit.setBundle(extras);
         }
 
-
-        this.mCAUDao = new CAUDAO(this);
         this.mClienteDAO = new ClienteDAO(this);
-        this.mSolucionDAO = new SolucionDAO(this);
         this.mDiarioDao = new DiarioDAO(this);
 
         establecerValoresEditar();
@@ -223,14 +216,11 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                 String hora_final = mTxtHoraFin.getText().toString();
                 String [] h_fin = hora_final.split(":");
 
-                CAU mSelectedCAU = (CAU) spinnerCau.getSelectedItem();
                 Cliente mSelectedCliente = (Cliente) spinnerCliente.getSelectedItem();
-                Solucion mSelectedSolucion = (Solucion) spinnerSolucion.getSelectedItem();
                 if (!TextUtils.isEmpty(fecha) && !TextUtils.isEmpty(hora_ini)
                         && !TextUtils.isEmpty(hora_fin) && !TextUtils.isEmpty(viaje)
                         && !TextUtils.isEmpty(kmini) && !TextUtils.isEmpty(kmfin)
-                        && mSelectedCliente != null && mSelectedCAU != null
-                        && mSelectedSolucion != null){
+                        && mSelectedCliente != null) {
                     if(Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]) // si la hora inicial es menor que la final ó
                             || Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // son iguales
                         if(Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // si son iguales las horas
