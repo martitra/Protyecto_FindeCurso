@@ -338,7 +338,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                 break;
         }
     }
-
     //
     private void lanzarEmail(Diario diario) {
         // TODO Auto-generated method stub
@@ -355,12 +354,5 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mCAUDao.close();
-        mClienteDAO.close();
-        mSolucionDAO.close();
-    }
 
 }

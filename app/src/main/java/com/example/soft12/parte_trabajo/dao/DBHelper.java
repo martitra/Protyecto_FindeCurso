@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String TAG = "DBHelper";
 
 	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 15;
+	private static final int DATABASE_VERSION = 16;
 
 	//colums of the daiario table
 	public static final String TABLE_DIARIO = "diario";
@@ -27,17 +27,6 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_DIARIO_TECNICO = "tecnico_id";
 	public static final String COLUMN_DIARIO_COCHE_ID = "coche_id";
 
-
-	// columna of the CAU table
-	public static final String TABLE_CAU = "cau";
-	public static final String COLUMN_CAU_ID = "_id";
-	public static final String COLUMN_CAU_NOMBRE = "nombre";
-
-	//column of the Solucion table
-	public static final String TABLE_SOLUCION = "solucion";
-	public static final String COLUMN_SOLUCION_ID = "_id";
-	public static final String COLUMN_SOLUCION_NOMBRE = "nombre";
-
 	//column of the Cliente table
 	public static final String TABLE_CLIENTE = "cliente";
 	public static final String COLUMN_CLIENTE_ID = "_id";
@@ -52,6 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_REPOSTAJE_EUROS_LITRO = "euros_litro";
 	public static final String COLUMN_REPOSTAJE_LITROS = "litros";
 	public static final String COLUMN_REPOSTAJE_COCHE_ID = "coche_id";
+	public static final String COLUMN_REPOSTAJE_TECNICO_ID = "tecnico_id";
 
 	// columns of the coches table
 	public static final String TABLE_COCHE = "coche";
@@ -71,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String SQL_CREATE_TABLE_DIARIO = "CREATE TABLE " + TABLE_DIARIO + "("
 			+ COLUMN_DIARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ COLUMN_DIARIO_FECHA + " TEXT NOT NULL, "
-			+ COLUMN_DIARIO_CAU + " TEXT NOT NULL, "
+			+ COLUMN_DIARIO_CAU + " TEXT, "
 			+ COLUMN_DIARIO_SOLUCION + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_CLIENTE + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_HORA_INI + " TEXT NOT NULL, "
@@ -81,18 +71,6 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_DIARIO_KMS_FIN + " REAL NOT NULL, "
 			+ COLUMN_DIARIO_TECNICO + " LONG NOL NULL, "
 			+ COLUMN_DIARIO_COCHE_ID + " LONG NOT NULL"
-			+ ");";
-
-	// SQL statement of the cau table creation
-	public static final String SQL_CREATE_TABLE_CAU = "CREATE TABLE " + TABLE_CAU + "("
-			+ COLUMN_CAU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ COLUMN_CAU_NOMBRE + " TEXT "
-			+ ");";
-
-	// SQL statement of the solucion table creation
-	public static final String SQL_CREATE_TABLE_SOLUCION = "CREATE TABLE " + TABLE_SOLUCION + "("
-			+ COLUMN_SOLUCION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ COLUMN_SOLUCION_NOMBRE + " TEXT NOT NULL "
 			+ ");";
 
 	// SQL statement of the cliente table creation
@@ -109,7 +87,8 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_REPOSTAJE_EUROS + " REAL NOT NULL, "
 			+ COLUMN_REPOSTAJE_EUROS_LITRO + " REAL NOT NULL, "
 			+ COLUMN_REPOSTAJE_LITROS + " REAL NOT NULL, "
-			+ COLUMN_REPOSTAJE_COCHE_ID + " INTEGER NOT NULL "
+			+ COLUMN_REPOSTAJE_COCHE_ID + " INTEGER NOT NULL, "
+			+ COLUMN_REPOSTAJE_TECNICO_ID + " INTEGER NOT NULL "
 			+");";
 
 	// SQL statement of the coches table creation
@@ -136,8 +115,6 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL(SQL_CREATE_TABLE_COCHE);
 		database.execSQL(SQL_CREATE_TABLE_REPOSTAJE);
-		database.execSQL(SQL_CREATE_TABLE_CAU);
-		database.execSQL(SQL_CREATE_TABLE_SOLUCION);
 		database.execSQL(SQL_CREATE_TABLE_CLIENTE);
 		database.execSQL(SQL_CREATE_TABLE_DIARIO);
 		database.execSQL(SQL_CREATE_TABLE_USUARIO);
@@ -156,8 +133,6 @@ public class DBHelper extends SQLiteOpenHelper {
 		// clear all data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPOSTAJE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_COCHE);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAU);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLUCION);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DIARIO);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARIO);
