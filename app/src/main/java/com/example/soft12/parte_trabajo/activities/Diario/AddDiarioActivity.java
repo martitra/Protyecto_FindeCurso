@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,12 +19,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.CAU.AddCAUActivity;
-import com.example.soft12.parte_trabajo.activities.Cliente.AddClienteActivity;
-import com.example.soft12.parte_trabajo.activities.Solucion.AddSolucionActivity;
-import com.example.soft12.parte_trabajo.adapter.CAU.SpinnerCAUAdapter;
-import com.example.soft12.parte_trabajo.adapter.Cliente.SpinnerClientesAdapter;
-import com.example.soft12.parte_trabajo.adapter.Solucion.SpinnerSolucionesAdapter;
 import com.example.soft12.parte_trabajo.dao.CAUDAO;
 import com.example.soft12.parte_trabajo.dao.ClienteDAO;
 import com.example.soft12.parte_trabajo.dao.DBHelper;
@@ -37,7 +30,6 @@ import com.example.soft12.parte_trabajo.model.Diario;
 import com.example.soft12.parte_trabajo.model.Solucion;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by soft12 on 04/06/2015.
@@ -102,9 +94,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
     private SolucionDAO mSolucionDAO;
     private DiarioDAO mDiarioDao;
 
-    private SpinnerCAUAdapter mCAUAdapter;
-    private SpinnerClientesAdapter mClienteAdapter;
-    private SpinnerSolucionesAdapter mSolucionAdapter;
     private Diario diarioEdit;
 
     private boolean add;
@@ -134,27 +123,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         this.mClienteDAO = new ClienteDAO(this);
         this.mSolucionDAO = new SolucionDAO(this);
         this.mDiarioDao = new DiarioDAO(this);
-
-        //fill the spinner with cau
-        List<CAU> listCAU = mCAUDao.getAllCAU();
-        if(listCAU != null) {
-            mCAUAdapter = new SpinnerCAUAdapter(this, listCAU);
-            spinnerCau.setAdapter(mCAUAdapter);
-        }
-
-        //fill the spinner with cliente
-        List<Cliente> listCliente = mClienteDAO.getAllClientes();
-        if(listCliente != null) {
-            mClienteAdapter = new SpinnerClientesAdapter(this, listCliente);
-            spinnerCliente.setAdapter(mClienteAdapter);
-        }
-
-        //fill the spinner with solucion
-        List<Solucion> listSolucion = mSolucionDAO.getAllSoluciones();
-        if(listSolucion != null) {
-            mSolucionAdapter = new SpinnerSolucionesAdapter(this, listSolucion);
-            spinnerSolucion.setAdapter(mSolucionAdapter);
-        }
 
         establecerValoresEditar();
     }
@@ -236,60 +204,6 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.edit_diario, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        switch (id) {
-
-            case R.id.add_cau:
-                lanzarNuevoCAU();
-                break;
-            case R.id.add_cliente:
-                lanzarNuevoCliente();
-                break;
-            case R.id.add_solucion:
-                lanzarNuevaSolucion();
-                break;
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void lanzarNuevoCAU() {
-        Bundle extras = new Bundle();
-        // TODO Auto-generated method stub
-        extras.clear();
-        extras.putBoolean("add", true);
-        Intent i = new Intent(this, AddCAUActivity.class);
-        i.putExtras(extras);// pasar add
-        startActivity(i);
-    }
-
-    private void lanzarNuevoCliente() {
-        Bundle extras = new Bundle();
-        // TODO Auto-generated method stub
-        extras.clear();
-        extras.putBoolean("add", true);
-        Intent i = new Intent(this, AddClienteActivity.class);
-        i.putExtras(extras);// pasar add
-        startActivity(i);
-    }
-
-    private void lanzarNuevaSolucion() {
-        Bundle extras = new Bundle();
-        // TODO Auto-generated method stub
-        extras.clear();
-        extras.putBoolean("add", true);
-        Intent i = new Intent(this, AddSolucionActivity.class);
-        i.putExtras(extras);// pasar add
-        startActivity(i);
     }
 
     @Override
@@ -449,28 +363,4 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         mSolucionDAO.close();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        List<CAU> listCAU = mCAUDao.getAllCAU();
-        if(listCAU != null) {
-            mCAUAdapter = new SpinnerCAUAdapter(this, listCAU);
-            spinnerCau.setAdapter(mCAUAdapter);
-        }
-
-        //fill the spinner with cliente
-        List<Cliente> listCliente = mClienteDAO.getAllClientes();
-        if(listCliente != null) {
-            mClienteAdapter = new SpinnerClientesAdapter(this, listCliente);
-            spinnerCliente.setAdapter(mClienteAdapter);
-        }
-
-        //fill the spinner with solucion
-        List<Solucion> listSolucion = mSolucionDAO.getAllSoluciones();
-        if(listSolucion != null) {
-            mSolucionAdapter = new SpinnerSolucionesAdapter(this, listSolucion);
-            spinnerSolucion.setAdapter(mSolucionAdapter);
-        }
-    }
 }

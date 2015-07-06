@@ -126,4 +126,7 @@
     <string name="txt_km_actuales">Kilómetros ahora:</string>
     <string name="txt_coche">Coche:</string>
     <string name="km_ini_mayor">Kilómetros iniciales mayores que actuales</string>
+    <string name="Text_Excel">Enviar Excel</string>
+    <string name="fecha_excel">Fecha de Cierre:</string>
+    <string name="enviar">Enviar</string>
 </resources>

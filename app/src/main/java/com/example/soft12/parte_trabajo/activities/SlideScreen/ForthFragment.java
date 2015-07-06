@@ -146,6 +146,7 @@ public class ForthFragment  extends Fragment {
                 int km_fin = prefs.getInt("km_fin", 0);
                 String cochematricula = prefs.getString("coche", " ");
                 String tecnico = prefs.getString("trabajador", " ");
+                Long tecnicoid = prefs.getLong("trabajadorid", 0);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String fecha = sdf.format(new Date());
@@ -208,7 +209,7 @@ public class ForthFragment  extends Fragment {
                 if (mCheck_FinalDia.isChecked()) {
                     // es final de día para mandar excel
                     // coller os datos do día de hoxe
-                    List<Diario> diarioArrayList = diarioDAO.getDateDiario(fecha);
+                    List<Diario> diarioArrayList = diarioDAO.getDateDiario(fecha, tecnicoid);
                     CreateExcel test = new CreateExcel();
                     try {
                         test.write(diarioArrayList);

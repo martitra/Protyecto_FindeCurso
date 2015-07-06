@@ -26,51 +26,22 @@
         android:nestedScrollingEnabled="false"
         android:layout_marginTop="15dp"
         android:layout_below="@+id/txt_header"
-        android:layout_alignStart="@+id/CAU"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Text_Excel"
+        android:id="@+id/Excel"
+        android:onClick="EnviarExcel"
+        android:nestedScrollingEnabled="false"
+        android:layout_below="@+id/Diario"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="26dp"
         android:layout_alignParentEnd="true" />
 
-   <!-- <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Button_Historico"
-        android:id="@+id/Historico"
-        android:layout_below="@+id/Diario"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/Diario"
-        android:layout_alignEnd="@+id/Diario" />
-        -->
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextCAU"
-        android:id="@+id/CAU"
-        android:layout_alignParentStart="true"
-        android:onClick="HacerCAU"
-        android:layout_below="@+id/Diario"
-        android:layout_alignParentRight="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextCliente"
-        android:id="@+id/Cliente"
-        android:layout_alignParentStart="true"
-        android:onClick="HacerCliente"
-        android:layout_below="@+id/CAU"
-        android:layout_alignParentRight="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/TextSolucion"
-        android:id="@+id/Solucion"
-        android:layout_alignParentStart="true"
-        android:onClick="HacerSolucion"
-        android:layout_below="@+id/Cliente"
-        android:layout_alignParentRight="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -78,21 +49,10 @@
         android:text="@string/Button_Repostaje"
         android:id="@+id/Gasolinera"
         android:onClick="HecharGasoil"
-        android:layout_below="@+id/Solucion"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="39dp"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="VerCoches"
-        android:text="@string/btnCoche"
-        android:id="@+id/Coche"
-        android:layout_alignParentEnd="false"
-        android:layout_below="@+id/Gasolinera"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

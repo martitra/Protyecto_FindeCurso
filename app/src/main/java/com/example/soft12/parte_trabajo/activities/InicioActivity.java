@@ -11,12 +11,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.CAU.ListCAUActivity;
-import com.example.soft12.parte_trabajo.activities.Cliente.ListClientesActivity;
-import com.example.soft12.parte_trabajo.activities.Coche.ListCochesActivity;
+import com.example.soft12.parte_trabajo.activities.Excel.EnviarExcel;
 import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
 import com.example.soft12.parte_trabajo.activities.SlideScreen.IniciarFragmentActivity;
-import com.example.soft12.parte_trabajo.activities.Solucion.ListSolucionesActivity;
 import com.example.soft12.parte_trabajo.model.Login;
 
 
@@ -95,38 +92,12 @@ public class InicioActivity extends Activity {
         }
     }
 
-    public void VerCoches(View v){
+    public void EnviarExcel(View v){
         try{
-            Intent i = new Intent(this, ListCochesActivity.class);
+            Intent i = new Intent(this, EnviarExcel.class);
             startActivity(i);
-        }catch (Exception e){
-            Log.e(LOGTAG, e.getMessage());
         }
-    }
-
-    public void HacerSolucion(View v){
-        try{
-            Intent i = new Intent(this, ListSolucionesActivity.class);
-            startActivity(i);
-        }catch (Exception e){
-            Log.e(LOGTAG, e.getMessage());
-        }
-    }
-
-    public void HacerCliente(View v){
-        try{
-            Intent i = new Intent(this, ListClientesActivity.class);
-            startActivity(i);
-        }catch (Exception e){
-            Log.e(LOGTAG, e.getMessage());
-        }
-    }
-
-    public void HacerCAU(View v){
-        try{
-            Intent i = new Intent(this, ListCAUActivity.class);
-            startActivity(i);
-        }catch (Exception e){
+        catch (Exception e){
             Log.e(LOGTAG, e.getMessage());
         }
     }
