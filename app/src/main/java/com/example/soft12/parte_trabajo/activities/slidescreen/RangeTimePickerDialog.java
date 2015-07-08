@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.slidescreen;
 
 import android.app.TimePickerDialog;
 import android.content.Context;

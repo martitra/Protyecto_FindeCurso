@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.diario;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

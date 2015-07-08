@@ -11,7 +11,8 @@
         android:icon="@drawable/wrench_screwdriver"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.InicioSesion"
+        <activity
+            android:name=".activities.inicio.InicioSesion"
             android:label="Login"
             android:theme="@style/CustomActionBarTheme">
 
@@ -21,50 +22,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.InicioActivity"
+            android:name=".activities.inicio.InicioActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.AddCocheActivity"
+            android:name=".activities.coche.AddCocheActivity"
             android:label="@string/coche"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
-            android:name=".activities.AddRepostajeActivity"
+            android:name=".activities.repostaje.AddRepostajeActivity"
             android:label="@string/repostaje"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
 
         <activity
-            android:name=".activities.AddDiarioActivity"
+            android:name=".activities.diario.AddDiarioActivity"
             android:label="@string/diario"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme"/>
         <activity
-            android:name=".activities.ListRepostajeActivity"
+            android:name=".activities.repostaje.ListRepostajeActivity"
             android:label="@string/all_repostaje"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.ListCochesActivity"
+            android:name=".activities.coche.ListCochesActivity"
             android:label="@string/all_coches"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.ListDiarioActivity"
+            android:name=".activities.diario.ListDiarioActivity"
             android:label="@string/all_diario"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.IniciarFragmentActivity"
+            android:name=".activities.slidescreen.IniciarFragmentActivity"
             android:label="Diario"
-            android:parentActivityName=".activities.InicioActivity"
+            android:parentActivityName=".activities.inicio.InicioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
-            android:name=".activities.EnviarExcel"
+            android:name=".activities.excel.EnviarExcel"
             android:label="Excel"
-            android:parentActivityName=".activities.InicioActivity"
+            android:parentActivityName=".activities.inicio.InicioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
     </application>

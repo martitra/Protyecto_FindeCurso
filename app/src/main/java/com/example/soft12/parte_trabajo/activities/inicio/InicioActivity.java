@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.inicio;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.excel.EnviarExcel;
+import com.example.soft12.parte_trabajo.activities.repostaje.ListRepostajeActivity;
+import com.example.soft12.parte_trabajo.activities.slidescreen.IniciarFragmentActivity;
 import com.example.soft12.parte_trabajo.model.Login;
 
 

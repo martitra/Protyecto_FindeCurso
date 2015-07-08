@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities;
+package com.example.soft12.parte_trabajo.activities.slidescreen;
 
 /**
  * Created by soft12 on 30/06/2015.
@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.inicio.InicioActivity;
 import com.example.soft12.parte_trabajo.model.Login;
 
 public class IniciarFragmentActivity extends FragmentActivity{
