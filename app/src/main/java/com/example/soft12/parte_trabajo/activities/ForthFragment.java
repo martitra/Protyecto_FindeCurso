@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities.SlideScreen;
+package com.example.soft12.parte_trabajo.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.Excel.EnviarExcel;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
 import com.example.soft12.parte_trabajo.dao.LoginDAO;

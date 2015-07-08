@@ -11,9 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.Excel.EnviarExcel;
-import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
-import com.example.soft12.parte_trabajo.activities.SlideScreen.IniciarFragmentActivity;
 import com.example.soft12.parte_trabajo.model.Login;
 
 

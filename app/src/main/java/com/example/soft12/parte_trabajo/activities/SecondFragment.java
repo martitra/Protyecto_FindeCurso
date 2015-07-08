@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities.SlideScreen;
+package com.example.soft12.parte_trabajo.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

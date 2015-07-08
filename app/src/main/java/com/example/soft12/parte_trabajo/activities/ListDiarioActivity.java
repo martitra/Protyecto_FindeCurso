@@ -1,4 +1,4 @@
-package com.example.soft12.parte_trabajo.activities.Diario;
+package com.example.soft12.parte_trabajo.activities;
 
 import android.app.Activity;
 import android.content.Intent;

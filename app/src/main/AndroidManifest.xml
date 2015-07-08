@@ -25,44 +25,44 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.Coche.AddCocheActivity"
+            android:name=".activities.AddCocheActivity"
             android:label="@string/coche"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
-            android:name=".activities.Repostaje.AddRepostajeActivity"
+            android:name=".activities.AddRepostajeActivity"
             android:label="@string/repostaje"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
 
         <activity
-            android:name=".activities.Diario.AddDiarioActivity"
+            android:name=".activities.AddDiarioActivity"
             android:label="@string/diario"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme"/>
         <activity
-            android:name=".activities.Repostaje.ListRepostajeActivity"
+            android:name=".activities.ListRepostajeActivity"
             android:label="@string/all_repostaje"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.Coche.ListCochesActivity"
+            android:name=".activities.ListCochesActivity"
             android:label="@string/all_coches"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.Diario.ListDiarioActivity"
+            android:name=".activities.ListDiarioActivity"
             android:label="@string/all_diario"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
-            android:name=".activities.SlideScreen.IniciarFragmentActivity"
+            android:name=".activities.IniciarFragmentActivity"
             android:label="Diario"
             android:parentActivityName=".activities.InicioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
-            android:name=".activities.Excel.EnviarExcel"
+            android:name=".activities.EnviarExcel"
             android:label="Excel"
             android:parentActivityName=".activities.InicioActivity"
             android:screenOrientation="portrait"
