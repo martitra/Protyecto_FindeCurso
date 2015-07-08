@@ -111,9 +111,9 @@ public class DiarioDAO {
         List<Diario> diarioList = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_DIARIO,
-                mAllColumns, DBHelper.COLUMN_DIARIO_FECHA + " = ?  and " +
-                DBHelper.COLUMN_DIARIO_TECNICO + " = ? ",
-                new String[]{date, String.valueOf(tecnico)},null,null, null);
+                mAllColumns, DBHelper.COLUMN_DIARIO_FECHA + " =  '" + date +
+                        "' AND " + DBHelper.COLUMN_DIARIO_TECNICO + " = " + tecnico,
+                null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

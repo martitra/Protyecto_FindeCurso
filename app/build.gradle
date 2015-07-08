@@ -25,4 +25,5 @@ android {
 dependencies {
     compile files('libs/android-support-v13.jar')
     compile files('libs/jxl.jar')
+    compile files('libs/poi-3.7.jar')
 }

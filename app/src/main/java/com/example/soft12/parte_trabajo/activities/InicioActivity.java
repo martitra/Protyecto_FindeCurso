@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.Excel.EnviarExcel;
-import com.example.soft12.parte_trabajo.activities.Repostaje.ListRepostajeActivity;
-import com.example.soft12.parte_trabajo.activities.SlideScreen.IniciarFragmentActivity;
+import com.example.soft12.parte_trabajo.activities.excel.EnviarExcel;
+import com.example.soft12.parte_trabajo.activities.repostaje.ListRepostajeActivity;
+import com.example.soft12.parte_trabajo.activities.slidescreen.IniciarFragmentActivity;
 import com.example.soft12.parte_trabajo.model.Login;
 
 
@@ -22,13 +22,15 @@ public class InicioActivity extends Activity {
     private static final String LOGTAG = "InicioActivity";
     public String trabajador;
 
+    Login loguearse = new Login();
+    Bundle extras;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
 
-        Login loguearse = new Login();
-        Bundle extras;
         extras = getIntent().getExtras();
         boolean login = extras.getBoolean("login");
 
@@ -110,7 +112,10 @@ public class InicioActivity extends Activity {
             Log.e(LOGTAG, e.getMessage());
         }*/
        try{
+           Bundle extras = loguearse.getBundle();
            Intent i = new Intent(this, IniciarFragmentActivity.class);
+           extras.putBoolean("login", true);
+           i.putExtras(extras);
            startActivity(i);
        }catch (Exception e){
            Log.e(LOGTAG, e.getMessage());

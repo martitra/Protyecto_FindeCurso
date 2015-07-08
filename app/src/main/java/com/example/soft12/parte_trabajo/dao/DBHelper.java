@@ -8,10 +8,6 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
 	public static final String TAG = "DBHelper";
-
-	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 16;
-
 	//colums of the daiario table
 	public static final String TABLE_DIARIO = "diario";
 	public static final String COLUMN_DIARIO_ID = "_id";
@@ -26,13 +22,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_DIARIO_KMS_FIN = "kms_fin";
 	public static final String COLUMN_DIARIO_TECNICO = "tecnico_id";
 	public static final String COLUMN_DIARIO_COCHE_ID = "coche_id";
-
 	//column of the Cliente table
 	public static final String TABLE_CLIENTE = "cliente";
 	public static final String COLUMN_CLIENTE_ID = "_id";
 	public static final String COLUMN_CLIENTE_CODIGO = "codigo";
 	public static final String COLUMN_CLIENTE_NOMBRE = "nombre";
-
 	// columns of the repostaje table
 	public static final String TABLE_REPOSTAJE = "repostaje";
 	public static final String COLUMN_REPOSTAJE_ID = "_id";
@@ -42,21 +36,17 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_REPOSTAJE_LITROS = "litros";
 	public static final String COLUMN_REPOSTAJE_COCHE_ID = "coche_id";
 	public static final String COLUMN_REPOSTAJE_TECNICO_ID = "tecnico_id";
-
 	// columns of the coches table
 	public static final String TABLE_COCHE = "coche";
 	public static final String COLUMN_COCHE_ID = "_id";
 	public static final String COLUMN_COCHE_MATRICULA = "matricula";
 	public static final String COLUMN_COCHE_KMS = "kms";
-
 	// columns of the usuario table
 	public static final String TABLE_USUARIO = "usuario";
 	public static final String COLUMN_USUARIO_ID = "_id";
 	public static final String COLUMN_USUARIO_NOMBRE = "usuario";
 	public static final String COLUMN_USUARIO_PASS = "pass";
 	public static final String COLUMN_USUARIO_EMAIL = "mail";
-	// correo
-
 	// SQL statement of the cau table creation
 	public static final String SQL_CREATE_TABLE_DIARIO = "CREATE TABLE " + TABLE_DIARIO + "("
 			+ COLUMN_DIARIO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -69,17 +59,18 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ COLUMN_DIARIO_DESPLAZAMIENTO + " TEXT NOT NULL, "
 			+ COLUMN_DIARIO_KMS_INI + " REAL NOT NULL, "
 			+ COLUMN_DIARIO_KMS_FIN + " REAL NOT NULL, "
-			+ COLUMN_DIARIO_TECNICO + " LONG NOL NULL, "
-			+ COLUMN_DIARIO_COCHE_ID + " LONG NOT NULL"
+			+ COLUMN_DIARIO_TECNICO + " LONG NOT NULL, "
+			+ COLUMN_DIARIO_COCHE_ID + " LONG NOT NULL "
 			+ ");";
-
 	// SQL statement of the cliente table creation
 	public static final String SQL_CREATE_TABLE_CLIENTE = "CREATE TABLE " + TABLE_CLIENTE + "("
 			+ COLUMN_CLIENTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ COLUMN_CLIENTE_CODIGO + " TEXT NOT NULL, "
 			+ COLUMN_CLIENTE_NOMBRE + " TEXT NOT NULL "
 			+ ");";
-
+	// correo
+	private static final String DATABASE_NAME = "parte.db";
+	private static final int DATABASE_VERSION = 18;
 	// SQL statement of the repostaje table creation
 	private static final String SQL_CREATE_TABLE_REPOSTAJE = "CREATE TABLE " + TABLE_REPOSTAJE + "("
 			+ COLUMN_REPOSTAJE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -124,6 +115,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
 		database.execSQL("INSERT INTO cliente (nombre,codigo) VALUES('Eroski','9654-8')");
 		database.execSQL("INSERT INTO cliente (nombre,codigo) VALUES('Vegalsa','12-UI')");
+
+		database.execSQL("INSERT INTO coche (matricula,kms) VALUES('8020 BJY',60)");
 	}
 
 	@Override
