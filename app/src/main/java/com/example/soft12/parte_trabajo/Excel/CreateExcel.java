@@ -4,6 +4,8 @@ package com.example.soft12.parte_trabajo.Excel;
  * Created by soft12 on 29/06/2015.
  */
 
+import android.content.Context;
+
 import com.example.soft12.parte_trabajo.model.Diario;
 
 import java.io.File;
@@ -31,13 +33,21 @@ public class CreateExcel {
     public CreateExcel() {
     }
 
+    public static void main(String[] args) throws WriteException, IOException {
+        CreateExcel test = new CreateExcel();
+        test.setOutputFile("lars.xls");
+        //test.write();
+        System.out.println("Please check the result file under lars.xls ");
+    }
+
     public void setOutputFile(String inputFile) {
         this.inputFile = inputFile;
     }
 
-    public void write(List<Diario> diarioList) throws IOException, WriteException {
-        this.setOutputFile("lars.xlx");
-        File file = new File(inputFile);
+    public void write(Context context, List<Diario> diarioList) throws IOException, WriteException {
+        this.setOutputFile("lars.xls");
+        //File file = new File(inputFile);
+        File file = new File(context.getExternalFilesDir(null), inputFile);
         WorkbookSettings wbSettings = new WorkbookSettings();
         wbSettings.setLocale(new Locale("en", "EN"));
         WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
@@ -47,6 +57,7 @@ public class CreateExcel {
         this.createContent(excelSheet, diarioList);
         workbook.write();
         workbook.close();
+
     }
 
     private void createLabel(WritableSheet sheet) throws WriteException {
@@ -82,6 +93,13 @@ public class CreateExcel {
         cv.setAutosize(true);
     }
 
+    /*
+    private void addCaption(WritableSheet sheet, int column, int row, String s) throws WriteException {
+        Label label = new Label(column, row, s, this.timesBold);
+        sheet.addCell(label);
+    }
+    */
+
     private void createContent(WritableSheet sheet, List<Diario> diarios) throws WriteException {
 
         // aquí se llamaría a los datos para poner
@@ -91,7 +109,7 @@ public class CreateExcel {
         cellFormat.setAlignment(Alignment.CENTRE);
 
         for (int i=0;i<diarios.size();i++){
-            for (int y=0;y<9;i++){
+            for (int y = 0; y < 9; y++) {
                 sheet.addCell(new Label(y+1,i+1, diarios.get(y + 1).toString(),cellFormat));
             }
         }
@@ -116,13 +134,6 @@ public class CreateExcel {
         }*/
     }
 
-    /*
-    private void addCaption(WritableSheet sheet, int column, int row, String s) throws WriteException {
-        Label label = new Label(column, row, s, this.timesBold);
-        sheet.addCell(label);
-    }
-    */
-
     private void addNumber(WritableSheet sheet, int column, int row, Integer integer) throws WriteException {
         jxl.write.Number number = new Number(column, row, (double) integer, this.times);
         sheet.addCell(number);
@@ -131,12 +142,5 @@ public class CreateExcel {
     private void addLabel(WritableSheet sheet, int column, int row, String s) throws WriteException {
         Label label = new Label(column, row, s, this.times);
         sheet.addCell(label);
-    }
-
-    public static void main(String[] args) throws WriteException, IOException {
-        CreateExcel test = new CreateExcel();
-        test.setOutputFile("lars.xls");
-        //test.write();
-        System.out.println("Please check the result file under lars.xls ");
     }
 }

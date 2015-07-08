@@ -6,6 +6,7 @@ package com.example.soft12.parte_trabajo.Excel;
 
 import java.io.File;
 import java.io.IOException;
+
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
@@ -16,6 +17,12 @@ public class ReadExcel {
     private String inputFile;
 
     public ReadExcel() {
+    }
+
+    public static void main(String[] args) throws IOException {
+        ReadExcel test = new ReadExcel();
+        test.setInputFile("lars.xls");
+        test.read();
     }
 
     public void setInputFile(String inputFile) {
@@ -46,12 +53,6 @@ public class ReadExcel {
             var8.printStackTrace();
         }
 
-    }
-
-    public static void main(String[] args) throws IOException {
-        ReadExcel test = new ReadExcel();
-        test.setInputFile("lars.xls");
-        test.read();
     }
 }
 

@@ -33,15 +33,8 @@ import java.util.List;
 public class AddRepostajeActivity extends Activity implements OnClickListener {
 
 	public static final String TAG = "AddRepostajeActivity";
-
-	private EditText mTxtFecha;
-	private EditText mTxtEuros;
-	private EditText mTxtEuros_Litro;
-	private EditText mTxtLitros;
-	private Spinner mSpinnerCoche;
-
     Calendar myCalendar = Calendar.getInstance();
-
+    private EditText mTxtFecha;
     /* DATE */
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -57,9 +50,12 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
         }
 
     };
-
-	private CocheDAO mCocheDao;
-	private RepostajeDAO mRepostajeDao;
+    private EditText mTxtEuros;
+    private EditText mTxtEuros_Litro;
+    private EditText mTxtLitros;
+    private Spinner mSpinnerCoche;
+    private CocheDAO mCocheDao;
+    private RepostajeDAO mRepostajeDao;
 
     private SpinnerCochesAdapter mAdapter;
     private Repostaje repostajeEdit;

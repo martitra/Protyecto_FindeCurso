@@ -23,8 +23,8 @@ import com.example.soft12.parte_trabajo.model.Login;
 
 public class IniciarFragmentActivity extends FragmentActivity{
 
-    ViewPager pager;
     public String trabajador;
+    ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,33 +61,6 @@ public class IniciarFragmentActivity extends FragmentActivity{
                 invalidateOptionsMenu();
             }
         });
-    }
-
-
-
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int pos) {
-            switch(pos) {
-
-                case 0: return FirstFragment.newInstance(pos);
-                case 1: return SecondFragment.newInstance(pos);
-                case 2: return ThirdFragment.newInstance(pos);
-                case 3: return ForthFragment.newInstance(pos);
-                default: return ThirdFragment.newInstance(pos);
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 4;
-        }
     }
 
     @Override
@@ -130,5 +103,35 @@ public class IniciarFragmentActivity extends FragmentActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            switch (pos) {
+
+                case 0:
+                    return FirstFragment.newInstance(pos);
+                case 1:
+                    return SecondFragment.newInstance(pos);
+                case 2:
+                    return ThirdFragment.newInstance(pos);
+                case 3:
+                    return ForthFragment.newInstance(pos);
+                default:
+                    return ThirdFragment.newInstance(pos);
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 4;
+        }
     }
 }

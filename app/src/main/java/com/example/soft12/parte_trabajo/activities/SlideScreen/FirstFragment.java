@@ -35,8 +35,6 @@ public class FirstFragment extends Fragment {
     Diario diario;
     Calendar myCalendar = Calendar.getInstance();
     ClienteDAO clienteDAO;
-    private AutoCompleteTextView autoCliente;
-
     /* TIME */
     TimePickerDialog.OnTimeSetListener timeIni = new TimePickerDialog.OnTimeSetListener() {
 
@@ -57,6 +55,18 @@ public class FirstFragment extends Fragment {
             mTxtHoraFin.setText(String.format("%02d:%02d", hourOfDay, minute));
         }
     };
+    private AutoCompleteTextView autoCliente;
+
+    public static FirstFragment newInstance(int pos) {
+
+        FirstFragment f = new FirstFragment();
+        Bundle b = new Bundle();
+        b.putInt("msg", pos);
+
+        f.setArguments(b);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +85,89 @@ public class FirstFragment extends Fragment {
 
         return v;
     }
+
+    private void establecerValores() {
+        // mTxtCAU.setText(diario.getCau().getcNombre());
+        // mTxtCliente.setText(diario.getCliente().getnNombre());
+        //mTxtHoraIni.setText(diario.getHoraIni());
+        //mTxtHoraFin.setText(diario.getHoraFin());
+
+        Editable cau = mTxtCAU.getText();
+        Editable hora_ini = mTxtHoraIni.getText();
+        Editable hora_fin = mTxtHoraFin.getText();
+        Editable cliente = autoCliente.getText();
+        String cli = cliente.toString();
+
+        String[] clien = cli.split(" -");
+
+        SharedPreferences.Editor editor = this.getActivity().
+                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
+        editor.putString("cau", cau.toString());
+        editor.putString("hora_ini", hora_ini.toString());
+        editor.putString("hora_fin", hora_fin.toString());
+        editor.putString("cliente", clien[0]);
+        editor.apply();
+    }
+
+    private void initViews(View v) {
+
+        this.mTxtHoraIni = (EditText) v.findViewById(R.id.txt_hora_ini);
+        this.mTxtHoraFin = (EditText) v.findViewById(R.id.txt_hora_fin);
+        //this.mTxtCliente = (EditText) v.findViewById(R.id.editText_cliente);
+        this.autoCliente = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_cliente);
+        //this.itemcod = (TextView) v.findViewById(R.id.itemDesc);
+        //itemView = (EditText) v.findViewById(R.id.item);
+        this.mTxtCAU = (EditText) v.findViewById(R.id.editText_cau);
+
+        /* HORA INICIO */
+        this.mTxtHoraIni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(v.getContext(), timeIni, myCalendar.get(Calendar.HOUR),
+                        myCalendar.get(Calendar.MINUTE), true).show();
+            }
+        });
+
+        mTxtHoraIni.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE)));
+
+        /* HORA FIN */
+        this.mTxtHoraFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(v.getContext(), timeFin, myCalendar.get(Calendar.HOUR),
+                        myCalendar.get(Calendar.MINUTE), true).show();
+            }
+        });
+        mTxtHoraFin.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE)));
+        mTxtHoraFin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    establecerValores();
+                }
+            }
+        });
+        mTxtHoraIni.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    establecerValores();
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(getActivity());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     class ItemAutoTextAdapter extends CursorAdapter
             implements android.widget.AdapterView.OnItemClickListener {
 
@@ -92,7 +185,7 @@ public class FirstFragment extends Fragment {
          */
         public ItemAutoTextAdapter(ClienteDAO dbHelper) {
             // Call the CursorAdapter constructor with a null Cursor.
-            super(getActivity(), null);
+            super(getActivity(), null, false);
             mDbHelper = dbHelper;
         }
 
@@ -213,98 +306,5 @@ public class FirstFragment extends Fragment {
             //autoCliente.setText("");
         }
 
-    }
-
-    private void establecerValores() {
-       // mTxtCAU.setText(diario.getCau().getcNombre());
-       // mTxtCliente.setText(diario.getCliente().getnNombre());
-        //mTxtHoraIni.setText(diario.getHoraIni());
-        //mTxtHoraFin.setText(diario.getHoraFin());
-
-        Editable cau = mTxtCAU.getText();
-        Editable hora_ini = mTxtHoraIni.getText();
-        Editable hora_fin = mTxtHoraFin.getText();
-        Editable cliente = autoCliente.getText();
-        String cli = cliente.toString();
-
-        String[] clien = cli.split(" -");
-
-        SharedPreferences.Editor editor = this.getActivity().
-                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
-        editor.putString("cau", cau.toString());
-        editor.putString("hora_ini", hora_ini.toString());
-        editor.putString("hora_fin", hora_fin.toString());
-        editor.putString("cliente", clien[0]);
-        editor.apply();
-    }
-
-    private void initViews(View v) {
-
-        this.mTxtHoraIni = (EditText) v.findViewById(R.id.txt_hora_ini);
-        this.mTxtHoraFin = (EditText) v.findViewById(R.id.txt_hora_fin);
-        //this.mTxtCliente = (EditText) v.findViewById(R.id.editText_cliente);
-        this.autoCliente = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_cliente);
-        //this.itemcod = (TextView) v.findViewById(R.id.itemDesc);
-        //itemView = (EditText) v.findViewById(R.id.item);
-        this.mTxtCAU = (EditText) v.findViewById(R.id.editText_cau);
-
-        /* HORA INICIO */
-        this.mTxtHoraIni.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new TimePickerDialog(v.getContext(), timeIni, myCalendar.get(Calendar.HOUR),
-                        myCalendar.get(Calendar.MINUTE), true).show();
-            }
-        });
-
-        mTxtHoraIni.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE)));
-
-        /* HORA FIN */
-        this.mTxtHoraFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new TimePickerDialog(v.getContext(), timeFin, myCalendar.get(Calendar.HOUR),
-                        myCalendar.get(Calendar.MINUTE), true).show();
-            }
-        });
-        mTxtHoraFin.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE)));
-        mTxtHoraFin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    establecerValores();
-                }
-            }
-        });
-        mTxtHoraIni.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    establecerValores();
-                }
-            }
-        });
-    }
-
-    public static FirstFragment newInstance(int pos) {
-
-        FirstFragment f = new FirstFragment();
-        Bundle b = new Bundle();
-        b.putInt("msg", pos);
-
-        f.setArguments(b);
-
-        return f;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(getActivity());
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

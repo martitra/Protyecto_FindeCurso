@@ -23,6 +23,17 @@ public class SecondFragment extends Fragment {
     EditText mTxtSolucion;
     Diario diario;
 
+    public static SecondFragment newInstance(int text) {
+
+        SecondFragment f = new SecondFragment();
+        Bundle b = new Bundle();
+        b.putInt("msg", text);
+
+        f.setArguments(b);
+
+        return f;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.second_frag, container, false);
@@ -51,17 +62,6 @@ public class SecondFragment extends Fragment {
             }
         });
 
-    }
-
-    public static SecondFragment newInstance(int text) {
-
-        SecondFragment f = new SecondFragment();
-        Bundle b = new Bundle();
-        b.putInt("msg", text);
-
-        f.setArguments(b);
-
-        return f;
     }
 
     @Override

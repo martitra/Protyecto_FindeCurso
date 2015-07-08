@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,23 @@ public class ThirdFragment extends Fragment {
     Spinner mSpinnerCoche;
 
     Diario diario;
+    private CustomTimePickerDialog.OnTimeSetListener timeSetListener = new CustomTimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            mTxtDesplazamiento.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
+        }
+    };
+
+    public static ThirdFragment newInstance(int text) {
+
+        ThirdFragment f = new ThirdFragment();
+        Bundle b = new Bundle();
+        b.putInt("msg", text);
+
+        f.setArguments(b);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -63,43 +81,6 @@ public class ThirdFragment extends Fragment {
 
         return v;
     }
-    public static class CustomTimePickerDialog extends TimePickerDialog {
-
-        public static final int TIME_PICKER_INTERVAL=5;
-        private boolean mIgnoreEvent=false;
-
-        public CustomTimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView) {
-            super(context, callBack, hourOfDay, minute, is24HourView);
-        }
-
-        @Override
-        public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
-            super.onTimeChanged(timePicker, hourOfDay, minute);
-            if (!mIgnoreEvent){
-                minute = getRoundedMinute(minute);
-                mIgnoreEvent=true;
-                timePicker.setCurrentMinute(minute);
-                mIgnoreEvent=false;
-            }
-        }
-
-        public static  int getRoundedMinute(int minute){
-            if(minute % TIME_PICKER_INTERVAL != 0){
-                int minuteFloor = minute - (minute % TIME_PICKER_INTERVAL);
-                minute = minuteFloor + (minute == minuteFloor + 1 ? TIME_PICKER_INTERVAL : 0);
-                if (minute == 60)  minute=0;
-            }
-
-            return minute;
-        }
-    }
-
-    private CustomTimePickerDialog.OnTimeSetListener timeSetListener = new CustomTimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            mTxtDesplazamiento.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
-        }
-    };
 
     private void initViews(View v) {
         this.mTxtDesplazamiento = (EditText) v.findViewById(R.id.editText_desplazamiento);
@@ -155,24 +136,17 @@ public class ThirdFragment extends Fragment {
 
         SharedPreferences.Editor editor = this.getActivity().
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
-        editor.putString("desplazamiento", desplazamiento.toString());
-        editor.putInt("km_ini", Integer.parseInt(String.valueOf(kmini)));
-        editor.putInt("km_fin", Integer.parseInt(kmfin.toString()));
-        if(mSelectedCoche != null) {
-            editor.putString("coche", mSelectedCoche.getMatricula());
+        if (!TextUtils.isEmpty(desplazamiento) && !TextUtils.isEmpty(kmini)
+                && !TextUtils.isEmpty(kmfin)) {
+            editor.putString("desplazamiento", desplazamiento.toString());
+            editor.putInt("km_ini", Integer.parseInt(String.valueOf(kmini)));
+            editor.putInt("km_fin", Integer.parseInt(kmfin.toString()));
+            if (mSelectedCoche != null) {
+                editor.putString("coche", mSelectedCoche.getMatricula());
+            }
+            editor.apply();
         }
-        editor.apply();
-    }
 
-    public static ThirdFragment newInstance(int text) {
-
-        ThirdFragment f = new ThirdFragment();
-        Bundle b = new Bundle();
-        b.putInt("msg", text);
-
-        f.setArguments(b);
-
-        return f;
     }
 
     @Override
@@ -184,6 +158,37 @@ public class ThirdFragment extends Fragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class CustomTimePickerDialog extends TimePickerDialog {
+
+        public static final int TIME_PICKER_INTERVAL = 5;
+        private boolean mIgnoreEvent = false;
+
+        public CustomTimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView) {
+            super(context, callBack, hourOfDay, minute, is24HourView);
+        }
+
+        public static int getRoundedMinute(int minute) {
+            if (minute % TIME_PICKER_INTERVAL != 0) {
+                int minuteFloor = minute - (minute % TIME_PICKER_INTERVAL);
+                minute = minuteFloor + (minute == minuteFloor + 1 ? TIME_PICKER_INTERVAL : 0);
+                if (minute == 60) minute = 0;
+            }
+
+            return minute;
+        }
+
+        @Override
+        public void onTimeChanged(TimePicker timePicker, int hourOfDay, int minute) {
+            super.onTimeChanged(timePicker, hourOfDay, minute);
+            if (!mIgnoreEvent) {
+                minute = getRoundedMinute(minute);
+                mIgnoreEvent = true;
+                timePicker.setCurrentMinute(minute);
+                mIgnoreEvent = false;
+            }
+        }
     }
 
 }

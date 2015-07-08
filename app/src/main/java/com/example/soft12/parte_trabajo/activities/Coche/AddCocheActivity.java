@@ -22,9 +22,6 @@ import java.util.regex.Pattern;
 public class AddCocheActivity extends Activity implements OnClickListener {
 
     public static final String TAG = "AddCocheActivity";
-
-    private EditText mTxtCocheMatricula, mTxtCocheKilometros;
-
     public static final Pattern MATRICULA_COCHE = Pattern.compile (
         "^[A-Z]{0,2}"+
         "\\s?"+
@@ -32,7 +29,7 @@ public class AddCocheActivity extends Activity implements OnClickListener {
         "\\s" +
         "([B-D]|[F-H]|[J-N]|[P-T]|[V-Z]){2,3}$"
     );
-
+    private EditText mTxtCocheMatricula, mTxtCocheKilometros;
     private CocheDAO mCocheDao;
     private Coche cocheEdit;
 

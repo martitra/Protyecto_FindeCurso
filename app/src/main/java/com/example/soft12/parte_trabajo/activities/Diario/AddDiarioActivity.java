@@ -3,9 +3,7 @@ package com.example.soft12.parte_trabajo.activities.Diario;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -33,19 +31,8 @@ import java.util.Calendar;
 public class AddDiarioActivity extends Activity implements View.OnClickListener {
 
     public static final String TAG = "AddDiarioActivity";
-
-    private EditText mTxtFecha;
-    private Spinner spinnerCau;
-    private Spinner spinnerCliente;
-    private Spinner spinnerSolucion;
-    private EditText mTxtHoraIni;
-    private EditText mTxtHoraFin;
-    private EditText mTxtDesplazamiento;
-    private EditText mTxtKmini;
-    private EditText mTxtKmFin;
-
     Calendar myCalendar = Calendar.getInstance();
-
+    private EditText mTxtFecha;
     /* DATE */
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -61,7 +48,10 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         }
 
     };
-
+    private Spinner spinnerCau;
+    private Spinner spinnerCliente;
+    private Spinner spinnerSolucion;
+    private EditText mTxtHoraIni;
     /* TIME */
     TimePickerDialog.OnTimeSetListener timeIni = new TimePickerDialog.OnTimeSetListener() {
 
@@ -73,6 +63,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             mTxtHoraIni.setText(hourOfDay + ":" + minute);
         }
     };
+    private EditText mTxtHoraFin;
     /* TIME */
     TimePickerDialog.OnTimeSetListener timeFin = new TimePickerDialog.OnTimeSetListener() {
 
@@ -84,9 +75,9 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             mTxtHoraFin.setText(hourOfDay + ":" + minute);
         }
     };
-
-
-    private ClienteDAO mClienteDAO;
+    private EditText mTxtDesplazamiento;
+    private EditText mTxtKmini;
+    private EditText mTxtKmFin;
 
     private DiarioDAO mDiarioDao;
 
@@ -114,7 +105,7 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
             diarioEdit.setBundle(extras);
         }
 
-        this.mClienteDAO = new ClienteDAO(this);
+        new ClienteDAO(this);
         this.mDiarioDao = new DiarioDAO(this);
 
         establecerValoresEditar();
@@ -132,14 +123,14 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
         int posCAU = 0;
         int posCliente = 0;
         int posSolucion = 0;
-        if (!add) {
-            /*posCAU = mCAUAdapter.getPositionById(diarioEdit.getCau().getCauId());
+       /* if (!add) {
+            posCAU = mCAUAdapter.getPositionById(diarioEdit.getCau().getCauId());
             Log.i("INFO", "Position CAU = " + posCAU);
             posCliente = mClienteAdapter.getPositionById(diarioEdit.getCliente().getcId());
             Log.i("INFO", "Position Cliente = " + posCliente);
             posSolucion = mSolucionAdapter.getPositionById(diarioEdit.getSolucion().getcId());
-            Log.i("INFO", "Position Soluión = " + posSolucion);*/
-        }
+            Log.i("INFO", "Position Soluión = " + posSolucion);
+        }*/
         spinnerCau.setSelection(posCAU);
         spinnerCliente.setSelection(posCliente);
         spinnerSolucion.setSelection(posSolucion);
@@ -226,8 +217,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                         if(Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0])) { // si son iguales las horas
                             if (Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1])) { // los minutos ini tienen que ser menores que fin
                                 if (add) {
-                                    SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                                    Long trabajador = prefs.getLong("trabajadorid", 0);
+                                    //SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                                    //Long trabajador = prefs.getLong("trabajadorid", 0);
                                     // add the diario to database
                                     /*Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
                                             mSelectedCAU.getcNombre(),
@@ -273,8 +264,8 @@ public class AddDiarioActivity extends Activity implements View.OnClickListener 
                         }
                         else { // si no son iguales pero la fecha ini es menor que la fecha fin entra
                             if (add) {
-                                SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                                Long trabajador = prefs.getLong("trabajadorid", 0);
+                                //SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                                //Long trabajador = prefs.getLong("trabajadorid", 0);
                                 // add the diario to database
                                 /*Diario createdDiario = mDiarioDao.createDiario(fecha.toString(),
                                         mSelectedCAU.getcNombre(),

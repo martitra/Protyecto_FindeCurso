@@ -17,21 +17,16 @@ import java.util.List;
  */
 public class RangeTimePickerDialog extends TimePickerDialog {
 
+    private final static int TIME_PICKER_INTERVAL = 5;
+    private final TimePickerDialog.OnTimeSetListener callback;
     private int minHour = -1;
     private int minMinute = -1;
-
     private int maxHour = 25;
     private int maxMinute = 25;
-
     private int currentHour = 0;
     private int currentMinute = 0;
-
     private Calendar calendar = Calendar.getInstance();
-
-    private final TimePickerDialog.OnTimeSetListener callback;
     private TimePicker timePicker;
-
-    private final static int TIME_PICKER_INTERVAL = 5;
 
 
     public RangeTimePickerDialog(Context context, TimePickerDialog.OnTimeSetListener callBack,

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +18,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.soft12.parte_trabajo.Excel.CreateExcel;
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.activities.Excel.EnviarExcel;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
 import com.example.soft12.parte_trabajo.dao.LoginDAO;
@@ -26,13 +27,10 @@ import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
 import com.example.soft12.parte_trabajo.model.Login;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-import jxl.write.WriteException;
 
 /**
  * Created by soft12 on 30/06/2015.
@@ -41,10 +39,22 @@ public class ForthFragment  extends Fragment {
 
     // TODO COMPROBAR SI FIN DE DIA PARA MANDAR EXCEL
 
+    public static final String TAG = "FortFragment";
     CheckBox mCheck_FinalDia;
     EditText mTtxt_Trabajadores;
     Button mButtonEnviar;
     Diario diario;
+
+    public static ForthFragment newInstance(int text) {
+
+        ForthFragment f = new ForthFragment();
+        Bundle b = new Bundle();
+        b.putInt("msg", text);
+
+        f.setArguments(b);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +66,7 @@ public class ForthFragment  extends Fragment {
 
         return v;
     }
+
     private void lanzarEmail(Diario diario) {
 
         Intent i = new Intent(Intent.ACTION_SEND);
@@ -166,9 +177,9 @@ public class ForthFragment  extends Fragment {
                     // si la hora inicial es menor que la final ó
                     { // son iguales
                         if ((Integer.parseInt(h_ini[0]) == Integer.parseInt(h_fin[0]) &&
-                                Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1]) )
+                                Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1]))
                                 || (Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]))) {
-                                 // si son iguales las horas e os minutos_ini < que minutos_fin
+                            // si son iguales las horas e os minutos_ini < que minutos_fin
                             if (km_ini < km_fin) { // si km iniciales mayoures que acutales
 
                                 Login login = loginDAO.getSinlgeLoginIdEntry(tecnico);
@@ -188,8 +199,8 @@ public class ForthFragment  extends Fragment {
                                         coche.getId()
                                 );
                                 lanzarEmail(createdDiario);
-                            }
-                            else {
+                                Log.e(TAG, createdDiario.toString());
+                            } else {
                                 Toast.makeText(getActivity(),
                                         R.string.km_ini_mayor, Toast.LENGTH_LONG).show();
                             }
@@ -210,27 +221,12 @@ public class ForthFragment  extends Fragment {
                     // es final de día para mandar excel
                     // coller os datos do día de hoxe
                     List<Diario> diarioArrayList = diarioDAO.getDateDiario(fecha, tecnicoid);
-                    CreateExcel test = new CreateExcel();
-                    try {
-                        test.write(diarioArrayList);
-                    } catch (IOException | WriteException e) {
-                        e.printStackTrace();
-                    }
+                    new EnviarExcel();
+                    EnviarExcel.saveExcelFile("lars.xls", diarioArrayList);
                     System.out.println("Please check the result file under lars.xls ");
                 }
             }
         });
-    }
-
-    public static ForthFragment newInstance(int text) {
-
-        ForthFragment f = new ForthFragment();
-        Bundle b = new Bundle();
-        b.putInt("msg", text);
-
-        f.setArguments(b);
-
-        return f;
     }
 
     @Override
