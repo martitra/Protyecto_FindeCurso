@@ -51,7 +51,7 @@ public class RangeTimePickerDialog extends TimePickerDialog {
     public void onClick(DialogInterface dialog, int which) {
         if(callback != null && timePicker != null){
             timePicker.clearFocus();
-            callback.onTimeSet(timePicker,timePicker.getCurrentHour(),
+            callback.onTimeSet(timePicker, 0,
                     timePicker.getCurrentMinute() * TIME_PICKER_INTERVAL);
         }
     }

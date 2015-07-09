@@ -40,8 +40,6 @@ import java.util.Objects;
  */
 public class ForthFragment  extends Fragment {
 
-    // TODO COMPROBAR SI FIN DE DIA PARA MANDAR EXCEL
-
     public static final String TAG = "FortFragment";
     CheckBox mCheck_FinalDia;
     EditText mTtxt_Trabajadores;
@@ -258,5 +256,4 @@ public class ForthFragment  extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -31,8 +31,6 @@ import java.util.List;
  */
 public class ThirdFragment extends Fragment {
 
-    //TODO mirar esto bien del timepicker porque uso dos clases y debería ser solo la de range
-
     EditText mTxtDesplazamiento, mTxtKmIni, mTxtKmFin;
     Spinner mSpinnerCoche;
 
@@ -40,7 +38,7 @@ public class ThirdFragment extends Fragment {
     private CustomTimePickerDialog.OnTimeSetListener timeSetListener = new CustomTimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            mTxtDesplazamiento.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
+            mTxtDesplazamiento.setText(0 + ":" + String.format("%02d", minute));
         }
     };
 
@@ -72,7 +70,7 @@ public class ThirdFragment extends Fragment {
                         CustomTimePickerDialog.getRoundedMinute(
                                 Calendar.getInstance().get(Calendar.MINUTE) +
                                         CustomTimePickerDialog.TIME_PICKER_INTERVAL),  true);
-                timePickerDialog.setTitle("Set hours and minutes");
+                timePickerDialog.setTitle("Duración Desplazamiento");
                 timePickerDialog.setMin(0, 0);
                 timePickerDialog.setMax(15,55);
                 timePickerDialog.show();
@@ -124,10 +122,6 @@ public class ThirdFragment extends Fragment {
     }
 
     private void establecerValores() {
-       // mTxtDesplazamiento.setText(diario.getViaje());
-       // mTxtKmIni.setText(String.valueOf(diario.getKmIni()));
-       // mTxtKmFin.setText(String.valueOf(diario.getKmFin()));
-       // mSpinnerCoche.setSelection(0);
 
         Editable desplazamiento = mTxtDesplazamiento.getText();
         Editable kmini = mTxtKmIni.getText();
@@ -146,7 +140,6 @@ public class ThirdFragment extends Fragment {
             }
             editor.apply();
         }
-
     }
 
     @Override
@@ -190,5 +183,4 @@ public class ThirdFragment extends Fragment {
             }
         }
     }
-
 }
