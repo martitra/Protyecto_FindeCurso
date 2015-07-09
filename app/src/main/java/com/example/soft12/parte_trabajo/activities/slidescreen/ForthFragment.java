@@ -238,7 +238,7 @@ public class ForthFragment  extends Fragment {
         //TODO cambiar mail por el de Isa
         String[] to = {"martagalmangarcia@gmail.com", diarioArrayList.get(0).getTecnico().getMail()};
         String subject = "Informe";
-        String body = "Informe de " + diarioArrayList.get(0).getTecnico().getNombre() + ".";
+        String body = diarioArrayList.get(0).getFecha() + " - Informe de " + diarioArrayList.get(0).getTecnico().getNombre() + ".";
         i.putExtra(Intent.EXTRA_EMAIL, to);
         i.putExtra(Intent.EXTRA_SUBJECT, subject);
         i.putExtra(Intent.EXTRA_TEXT, body);

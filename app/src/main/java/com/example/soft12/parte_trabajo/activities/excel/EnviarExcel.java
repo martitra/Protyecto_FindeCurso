@@ -362,7 +362,7 @@ public class EnviarExcel extends Activity {
         //TODO cambiar mail por el de Isa
         String[] to = {"martagalmangarcia@gmail.com", diarioList.get(0).getTecnico().getMail()};
         String subject = "Informe";
-        String body = "Informe de " + diarioList.get(0).getTecnico().getNombre() + ".";
+        String body = diarioList.get(0).getFecha() + " - Informe de " + diarioList.get(0).getTecnico().getNombre() + ".";
         i.putExtra(Intent.EXTRA_EMAIL, to);
         i.putExtra(Intent.EXTRA_SUBJECT, subject);
         i.putExtra(Intent.EXTRA_TEXT, body);
