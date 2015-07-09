@@ -3,7 +3,9 @@ package com.example.soft12.parte_trabajo.activities.excel;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -16,9 +18,11 @@ import com.example.soft12.parte_trabajo.dao.DiarioDAO;
 import com.example.soft12.parte_trabajo.model.Diario;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -40,6 +44,7 @@ import java.util.List;
 public class EnviarExcel extends Activity {
 
     public static final String TAG = "Enviar Excel";
+    private static File file;
 
     EditText fecha;
     Calendar calendar = Calendar.getInstance();
@@ -56,6 +61,7 @@ public class EnviarExcel extends Activity {
 
         }
     };
+
 
     public static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();
@@ -76,6 +82,7 @@ public class EnviarExcel extends Activity {
 
         //New Workbook
         Workbook wb = new HSSFWorkbook();
+        CreationHelper createHelper = wb.getCreationHelper();
 
         Cell c;
 
@@ -83,11 +90,29 @@ public class EnviarExcel extends Activity {
         CellStyle cs = wb.createCellStyle();
         Font font = wb.createFont();//Create font
         font.setBoldweight(Font.BOLDWEIGHT_BOLD);//Make font bold
+        //cs.setWrapText(true);
+        cs.setVerticalAlignment(CellStyle.ALIGN_FILL);
         cs.setFont(font);
         cs.setAlignment(CellStyle.ALIGN_CENTER);
 
         CellStyle cs2 = wb.createCellStyle();
         cs2.setAlignment(CellStyle.ALIGN_CENTER);
+        cs2.setVerticalAlignment(CellStyle.ALIGN_FILL);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat(
+                createHelper.createDataFormat().getFormat("hh:mm"));
+        cellStyle.setVerticalAlignment(CellStyle.ALIGN_FILL);
+        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+
+        CellStyle cellStyle2 = wb.createCellStyle();
+        cellStyle2.setDataFormat(
+                createHelper.createDataFormat().getFormat("hh:mm"));
+        cellStyle2.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyle2.setVerticalAlignment(CellStyle.ALIGN_FILL);
+        cellStyle2.setFont(font);
 
         //new sheet
         Sheet sheet1;
@@ -121,31 +146,30 @@ public class EnviarExcel extends Activity {
         c.setCellStyle(cs);
 
         c = row.createCell(6);
-        c.setCellValue("FURGONETA");
-        c.setCellStyle(cs);
-
-        c = row.createCell(7);
         c.setCellValue("KMs INICIO");
         c.setCellStyle(cs);
 
-        c = row.createCell(8);
+        c = row.createCell(7);
         c.setCellValue("KMs FIN");
         c.setCellStyle(cs);
 
-        sheet1.setColumnWidth(0, 1600 * 3);
-        sheet1.setColumnWidth(1, 2000 * 3);
-        sheet1.setColumnWidth(2, 1000 * 3);
-        sheet1.setColumnWidth(3, 1000 * 3);
-        sheet1.setColumnWidth(4, 7000 * 3);
+        c = row.createCell(8);
+        c.setCellValue("FURGONETA");
+        c.setCellStyle(cs);
+
+        sheet1.setColumnWidth(0, 1300 * 3);
+        sheet1.setColumnWidth(1, 1300 * 3);
+        sheet1.setColumnWidth(2, 600 * 3);
+        sheet1.setColumnWidth(3, 600 * 3);
+        sheet1.setColumnWidth(4, 6800 * 3);
         sheet1.setColumnWidth(5, 2000 * 3);
-        sheet1.setColumnWidth(6, 1300 * 3);
-        sheet1.setColumnWidth(7, 1300 * 3);
-        sheet1.setColumnWidth(8, 1300 * 3);
+        sheet1.setColumnWidth(6, 1000 * 3);
+        sheet1.setColumnWidth(7, 1000 * 3);
+        sheet1.setColumnWidth(8, 1200 * 3);
 
         for (int i = 0; i < diarioList.size(); i++) {
             Row row2 = sheet1.createRow(i + 1);
 
-            //sheet.addCell(new Label(y+1,i+1, diarios.get(y + 1).toString(),cellFormat));
             c = row2.createCell(0);
             c.setCellValue(diarioList.get(i).getCau());
             c.setCellStyle(cs2);
@@ -156,14 +180,13 @@ public class EnviarExcel extends Activity {
 
             c = row2.createCell(2);
             Date dateini = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
             try {
                 dateini = dateFormat.parse(diarioList.get(i).getHoraIni());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             c.setCellValue(dateini);
-            c.setCellStyle(cs2);
+            c.setCellStyle(cellStyle);
 
             c = row2.createCell(3);
             Date datefin = new Date();
@@ -173,15 +196,21 @@ public class EnviarExcel extends Activity {
                 e.printStackTrace();
             }
             c.setCellValue(datefin);
-            c.setCellStyle(cs2);
+            c.setCellStyle(cellStyle);
 
             c = row2.createCell(4);
             c.setCellValue(diarioList.get(i).getSolucion());
             c.setCellStyle(cs2);
 
             c = row2.createCell(5);
-            c.setCellValue(diarioList.get(i).getDesplazamiento());
-            c.setCellStyle(cs2);
+            Date datedes = new Date();
+            try {
+                datedes = dateFormat.parse(diarioList.get(i).getDesplazamiento());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            c.setCellValue(datedes);
+            c.setCellStyle(cellStyle);
 
             c = row2.createCell(6);
             c.setCellValue(diarioList.get(i).getKmIni());
@@ -196,15 +225,65 @@ public class EnviarExcel extends Activity {
             c.setCellStyle(cs2);
         }
 
-        Row row3 = sheet1.createRow(9);
-        c = row3.createCell(3);
-        String strFormula = "D2-C2";
+        int max = diarioList.size();
+
+        Row row3 = sheet1.createRow(16);
+        c = row3.createCell(0);
+        c.setCellValue("Horas reparación:");
+        c.setCellStyle(cs2);
+        c = row3.createCell(1);
+
+        String strFormula = "";
+        String strDespla = "";
+        for (int e = 1; e <= max; e++) {
+            if (max == 1) {
+                strFormula = "D" + (e + 1) + "-C" + (e + 1);
+                strDespla = "F2";
+            } else {
+                if (e == max) {
+                    strFormula = strFormula + "(D" + (e + 1) + "-C" + (e + 1) + ")";
+                    strDespla = "SUM(F2:F" + (e + 1) + ")";
+                } else {
+                    strFormula = strFormula + "(D" + (e + 1) + "-C" + (e + 1) + ")+";
+                }
+            }
+        }
+
         c.setCellType(HSSFCell.CELL_TYPE_FORMULA);
         c.setCellFormula(strFormula);
+        c.setCellStyle(cellStyle);
+
+        Row row4 = sheet1.createRow(17);
+        c = row4.createCell(0);
+        c.setCellValue("Horas Desplazamiento:");
         c.setCellStyle(cs2);
+
+        c = row4.createCell(1);
+        c.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+        c.setCellFormula(strDespla);
+        c.setCellStyle(cellStyle);
+
+        Row row5 = sheet1.createRow(20);
+        c = row5.createCell(0);
+        c.setCellValue("Total Horas:");
+        c.setCellStyle(cs);
+
+        c = row5.createCell(1);
+        c.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+        c.setCellFormula("B17+B18");
+        c.setCellStyle(cellStyle2);
+
+        HSSFPrintSetup printSetup = (HSSFPrintSetup) sheet1.getPrintSetup();
+        sheet1.getPrintSetup().setFitWidth((short) 1);
+        sheet1.getPrintSetup().setFitHeight((short) 0);
+        sheet1.setAutobreaks(true);
+        printSetup.setLandscape(true);
+
+        //sheet1.autoSizeColumn(8);
 
         //Create a path where we will place our list of objects on external sotrage
         File file = new File(Environment.getExternalStorageDirectory(), filename);
+        setFile(file);
         FileOutputStream os = null;
 
         try {
@@ -224,6 +303,14 @@ public class EnviarExcel extends Activity {
             }
         }
         return success;
+    }
+
+    public static File getFile() {
+        return file;
+    }
+
+    public static void setFile(File file) {
+        EnviarExcel.file = file;
     }
 
     @Override
@@ -264,20 +351,24 @@ public class EnviarExcel extends Activity {
                 String.valueOf(fecha.getText().toString()), tecnicoid);
 
         saveExcelFile("lars.xls", diarioArrayList);
-
-        /*CreateExcel test = new CreateExcel();
-        try {
-            if (!diarioArrayList.isEmpty()) {
-                test.write(this, diarioArrayList);
-                System.out.println("Please check the result file under lars.xls ");
-            }
-            else {
-                System.out.println("No hay registros para la fecha "+String.valueOf(fecha.getText()));
-            }
-        } catch (IOException | WriteException e) {
-            e.printStackTrace();
-        }
-        */
+        lanzarEmail(diarioArrayList);
     }
 
+    public void lanzarEmail(List<Diario> diarioList) {
+        // TODO Auto-generated method stub
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        //TODO cambiar mail por el de Isa
+        String[] to = {"martagalmangarcia@gmail.com", diarioList.get(0).getTecnico().getMail()};
+        String subject = "Informe";
+        String body = "Informe de " + diarioList.get(0).getTecnico().getNombre() + ".";
+        i.putExtra(Intent.EXTRA_EMAIL, to);
+        i.putExtra(Intent.EXTRA_SUBJECT, subject);
+        i.putExtra(Intent.EXTRA_TEXT, body);
+        File file = getFile();
+        i.putExtra(Intent.EXTRA_STREAM,
+                Uri.parse("file://" + file));
+        startActivity(i);
+    }
 }

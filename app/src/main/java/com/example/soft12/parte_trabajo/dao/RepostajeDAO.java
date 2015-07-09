@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.soft12.parte_trabajo.model.Coche;
+import com.example.soft12.parte_trabajo.model.Login;
 import com.example.soft12.parte_trabajo.model.Repostaje;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class RepostajeDAO {
                                     DBHelper.COLUMN_REPOSTAJE_EUROS,
                                     DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO,
                                     DBHelper.COLUMN_REPOSTAJE_LITROS,
-                                    DBHelper.COLUMN_REPOSTAJE_COCHE_ID};
+            DBHelper.COLUMN_REPOSTAJE_COCHE_ID,
+            DBHelper.COLUMN_REPOSTAJE_TECNICO_ID};
 
     public RepostajeDAO(Context context) {
         mDbHelper = new DBHelper(context);
@@ -50,16 +52,19 @@ public class RepostajeDAO {
         mDbHelper.close();
     }
 
-    public Repostaje createRepostaje(String fecha, double euros, double euros_litro, double litros, long cocheId) {
+    public Repostaje createRepostaje(String fecha, double euros, double euros_litro,
+                                     double litros, long cocheId, long tecnicoid) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_REPOSTAJE_FECHA, fecha);
         values.put(DBHelper.COLUMN_REPOSTAJE_EUROS, euros);
         values.put(DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO, euros_litro);
         values.put(DBHelper.COLUMN_REPOSTAJE_LITROS, litros);
         values.put(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, cocheId);
+        values.put(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, tecnicoid);
         long insertId = mDatabase.insert(DBHelper.TABLE_REPOSTAJE, null, values);
         Cursor cursor = mDatabase.query(DBHelper.TABLE_REPOSTAJE,
-                mAllColumns, DBHelper.COLUMN_REPOSTAJE_ID + " = " + insertId, null, null, null, null);
+                mAllColumns, DBHelper.COLUMN_REPOSTAJE_ID + " = "
+                        + insertId, null, null, null, null);
         cursor.moveToFirst();
         Repostaje newRepostaje = cursorToRepostaje(cursor);
         cursor.close();
@@ -103,6 +108,12 @@ public class RepostajeDAO {
         Coche coche = dao.getCocheById(cocheId);
         if(coche != null)
             repostaje.setCoche(coche);
+        //get the usuario by id
+        long tecnicoId = cursor.getLong(6);
+        LoginDAO loginDAO = new LoginDAO(mContext);
+        Login login = loginDAO.getLoginById(tecnicoId);
+        if (login != null)
+            repostaje.setLogin(login);
         return repostaje;
     }
 
@@ -114,6 +125,7 @@ public class RepostajeDAO {
         values.put(DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO, r.getEuros_litro());
         values.put(DBHelper.COLUMN_REPOSTAJE_LITROS, r.getLitros());
         values.put(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, r.getCoche().getId());
+        values.put(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, r.getLogin().getcId());
 
         return mDatabase.update(DBHelper.TABLE_REPOSTAJE, values, DBHelper.COLUMN_REPOSTAJE_ID + " = ?",
                 new String[] { String.valueOf(r.getId()) });

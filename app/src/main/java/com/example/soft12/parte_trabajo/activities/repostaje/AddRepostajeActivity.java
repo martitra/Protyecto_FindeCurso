@@ -2,7 +2,9 @@ package com.example.soft12.parte_trabajo.activities.repostaje;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -77,17 +79,17 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
         repostajeEdit = new Repostaje();
         Bundle extras;
         extras = getIntent().getExtras();
-        add = extras.getBoolean("add");
-        if (add) {
-            Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getBaseContext(),
-                    extras.getString(DBHelper.COLUMN_REPOSTAJE_FECHA),
-                    Toast.LENGTH_LONG).show();
-            repostajeEdit.setBundle(extras);
+        if (extras != null) {
+            add = extras.getBoolean("add");
+            if (add) {
+                Toast.makeText(getBaseContext(), "ADD", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getBaseContext(),
+                        extras.getString(DBHelper.COLUMN_REPOSTAJE_FECHA),
+                        Toast.LENGTH_LONG).show();
+                repostajeEdit.setBundle(extras);
+            }
         }
-
-
 		this.mCocheDao = new CocheDAO(this);
 		this.mRepostajeDao = new RepostajeDAO(this);
 		
@@ -98,10 +100,10 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
 			mSpinnerCoche.setAdapter(mAdapter);
 			//mSpinnerCoche.setOnItemSelectedListener(this);
 		}
-        establecerValoresEditar();
-	}
+        establecerValoresEditar(extras);
+    }
 
-    private void establecerValoresEditar() {
+    private void establecerValoresEditar(Bundle extras) {
         mTxtFecha.setText(repostajeEdit.getFecha());
         mTxtEuros.setText(String.valueOf(repostajeEdit.getEuros()));
         mTxtEuros_Litro.setText(String.valueOf(repostajeEdit.getEuros_litro()));
@@ -109,7 +111,7 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
 
         //int position = 0;
         int  pos = 0;
-        if (!add) {
+        if (!add && extras != null) {
             pos = mAdapter.getPositionById(repostajeEdit.getCoche().getId());
             Log.i("INFO", "Position=" + pos);
         }
@@ -243,7 +245,10 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
 			Editable euros_litro = mTxtEuros_Litro.getText();
 			Editable litros = mTxtLitros.getText();
             Coche mSelectedCoche = (Coche) mSpinnerCoche.getSelectedItem();
-			if (!TextUtils.isEmpty(fecha) && !TextUtils.isEmpty(euros)
+            SharedPreferences prefs = this.
+                    getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            long tecnicoid = prefs.getLong("trabajadorid", 0);
+            if (!TextUtils.isEmpty(fecha) && !TextUtils.isEmpty(euros)
 					&& !TextUtils.isEmpty(euros_litro) && !TextUtils.isEmpty(litros)
 					&& mSelectedCoche != null) {
                 if(add) {
@@ -252,7 +257,9 @@ public class AddRepostajeActivity extends Activity implements OnClickListener {
                             Double.parseDouble(euros.toString()),
                             Double.parseDouble(euros_litro.toString()),
                             Double.parseDouble(litros.toString()),
-                            mSelectedCoche.getId());
+                            mSelectedCoche.getId(),
+                            tecnicoid
+                    );
                     Toast.makeText(this, R.string.repostaje_created_successfully, Toast.LENGTH_LONG).show();
                     Log.d(TAG, "added repostaje : " + createdRepostaje.getFecha() + " "
                             + createdRepostaje.getEuros() + ", repostaje.cocheId : " + createdRepostaje.getCoche().getId());

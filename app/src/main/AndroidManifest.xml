@@ -28,11 +28,13 @@
         <activity
             android:name=".activities.coche.AddCocheActivity"
             android:label="@string/coche"
+            android:parentActivityName=".activities.repostaje.AddRepostajeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name=".activities.repostaje.AddRepostajeActivity"
             android:label="@string/repostaje"
+            android:parentActivityName=".activities.repostaje.ListRepostajeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
 
@@ -44,8 +46,9 @@
         <activity
             android:name=".activities.repostaje.ListRepostajeActivity"
             android:label="@string/all_repostaje"
+            android:parentActivityName=".activities.inicio.InicioActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name=".activities.coche.ListCochesActivity"
             android:label="@string/all_coches"

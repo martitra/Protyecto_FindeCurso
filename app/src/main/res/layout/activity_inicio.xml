@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-    tools:context=".MainActivity"
-    android:id="@+id/RelativeLayout1">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/txt_header"
@@ -18,32 +18,31 @@
         android:textColor="@android:color/white" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Text_Diaro"
         android:id="@+id/Diario"
-        android:onClick="HacerDiario"
-        android:nestedScrollingEnabled="false"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/txt_header"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Text_Excel"
-        android:id="@+id/Excel"
-        android:onClick="EnviarExcel"
-        android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/Diario"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="26dp"
-        android:layout_alignParentEnd="true" />
-
-
+        android:layout_below="@+id/txt_header"
+        android:layout_marginTop="46dp"
+        android:nestedScrollingEnabled="false"
+        android:onClick="HacerDiario"
+        android:text="@string/Text_Diaro" />
 
     <Button
+        android:id="@+id/Excel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Diario"
+        android:nestedScrollingEnabled="false"
+        android:onClick="EnviarExcel"
+        android:text="@string/Text_Excel" />
+
+
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Button_Repostaje"
@@ -51,18 +50,17 @@
         android:onClick="HecharGasoil"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true" />-->
 
 
     <Button
+        android:id="@+id/Salir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Button_Salir"
-        android:id="@+id/Salir"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="Salir" />
+        android:layout_centerVertical="true"
+        android:onClick="Salir"
+        android:text="@string/Button_Salir" />
+
 </RelativeLayout>

@@ -16,6 +16,7 @@ public class Repostaje implements Serializable {
 	private double euros_litro;
 	private double litros;
 	private Coche mCoche;
+	private Login login;
 
 	public Repostaje() {
 
@@ -69,6 +70,14 @@ public class Repostaje implements Serializable {
 		this.mCoche = mCoche;
 	}
 
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
 	public Bundle getBundle() {
 		Bundle bundle = new Bundle();
 		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_ID, rId);
@@ -78,6 +87,9 @@ public class Repostaje implements Serializable {
 		bundle.putDouble(DBHelper.COLUMN_REPOSTAJE_LITROS, litros);
 		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, mCoche.getId());
 		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, mCoche.getMatricula());
+		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, login.getcId());
+		bundle.putString(DBHelper.COLUMN_USUARIO_NOMBRE, login.getNombre());
+		bundle.putString(DBHelper.COLUMN_USUARIO_EMAIL, login.getMail());
 		return bundle;
 	}
 
@@ -90,5 +102,9 @@ public class Repostaje implements Serializable {
 		mCoche = new Coche();
 		mCoche.setId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID));
 		mCoche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
+		login = new Login();
+		login.setcId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID));
+		login.setNombre(bundle.getString(DBHelper.COLUMN_USUARIO_NOMBRE));
+		login.setMail(bundle.getString(DBHelper.COLUMN_USUARIO_EMAIL));
 	}
 }

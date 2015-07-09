@@ -32,9 +32,8 @@ public class InicioActivity extends Activity {
         setContentView(R.layout.activity_inicio);
 
         extras = getIntent().getExtras();
-        boolean login = extras.getBoolean("login");
-
-        if(login) {
+        if (extras != null) {
+            extras.getBoolean("login");
             loguearse.setBundle(extras);
             this.trabajador = loguearse.getNombre();
             SharedPreferences.Editor editor = getSharedPreferences("MisPreferencias", MODE_PRIVATE).edit();
@@ -44,14 +43,8 @@ public class InicioActivity extends Activity {
             Toast.makeText(getBaseContext(),
                     trabajador, Toast.LENGTH_SHORT)
                     .show();
-
-        }else {
-            Toast.makeText(getBaseContext(),
-                    "No puedes acceder sin estar logueado.", Toast.LENGTH_SHORT)
-                    .show();
-            Intent i = new Intent(this, InicioSesion.class);
-            startActivity(i);
         }
+
 
     }
 

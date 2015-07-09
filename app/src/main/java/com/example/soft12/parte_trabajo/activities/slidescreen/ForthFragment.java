@@ -3,7 +3,9 @@ package com.example.soft12.parte_trabajo.activities.slidescreen;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
@@ -27,6 +29,7 @@ import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
 import com.example.soft12.parte_trabajo.model.Login;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -157,7 +160,7 @@ public class ForthFragment  extends Fragment {
                 int km_fin = prefs.getInt("km_fin", 0);
                 String cochematricula = prefs.getString("coche", " ");
                 String tecnico = prefs.getString("trabajador", " ");
-                Long tecnicoid = prefs.getLong("trabajadorid", 0);
+                long tecnicoid = prefs.getLong("trabajadorid", 0);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String fecha = sdf.format(new Date());
@@ -223,10 +226,26 @@ public class ForthFragment  extends Fragment {
                     List<Diario> diarioArrayList = diarioDAO.getDateDiario(fecha, tecnicoid);
                     new EnviarExcel();
                     EnviarExcel.saveExcelFile("lars.xls", diarioArrayList);
-                    System.out.println("Please check the result file under lars.xls ");
+                    lanzarMailExcel(diarioArrayList);
                 }
             }
         });
+    }
+
+    private void lanzarMailExcel(List<Diario> diarioArrayList) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        //TODO cambiar mail por el de Isa
+        String[] to = {"martagalmangarcia@gmail.com", diarioArrayList.get(0).getTecnico().getMail()};
+        String subject = "Informe";
+        String body = "Informe de " + diarioArrayList.get(0).getTecnico().getNombre() + ".";
+        i.putExtra(Intent.EXTRA_EMAIL, to);
+        i.putExtra(Intent.EXTRA_SUBJECT, subject);
+        i.putExtra(Intent.EXTRA_TEXT, body);
+        File file = new File(Environment.getExternalStorageDirectory(), "lars.xls");
+        i.putExtra(Intent.EXTRA_STREAM,
+                Uri.parse("file://" + file));
+        startActivity(i);
     }
 
     @Override
