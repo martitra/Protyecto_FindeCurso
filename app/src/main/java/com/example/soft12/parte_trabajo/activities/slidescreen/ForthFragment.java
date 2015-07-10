@@ -3,9 +3,7 @@ package com.example.soft12.parte_trabajo.activities.slidescreen;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
@@ -16,12 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.activities.excel.EnviarExcel;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
 import com.example.soft12.parte_trabajo.dao.LoginDAO;
@@ -29,10 +25,8 @@ import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
 import com.example.soft12.parte_trabajo.model.Login;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -40,10 +34,11 @@ import java.util.Objects;
  */
 public class ForthFragment  extends Fragment {
 
-    public static final String TAG = "FortFragment";
-    CheckBox mCheck_FinalDia;
+    //TODO mirar para más de un trajador, mirar como hacer
+
+    public static final String TAG = "ForthFragment";
     EditText mTtxt_Trabajadores;
-    Button mButtonEnviar;
+    Button mButtonEnviar, mButtonSalir;
     Diario diario;
 
     public static ForthFragment newInstance(int text) {
@@ -95,15 +90,15 @@ public class ForthFragment  extends Fragment {
 
     private void initViews(View v) {
         this.mTtxt_Trabajadores = (EditText) v.findViewById(R.id.editText_trabajadores);
-        this.mCheck_FinalDia = (CheckBox) v.findViewById(R.id.checkBox_FinalDia);
         this.mButtonEnviar = (Button) v.findViewById(R.id.ButtonEnviarDatos);
+        this.mButtonSalir = (Button) v.findViewById(R.id.SalirFF);
 
         SharedPreferences prefs = this.getActivity().
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         String trabajador = prefs.getString("trabajador", " ");
         mTtxt_Trabajadores.setText(trabajador);
 
-        mCheck_FinalDia.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mTtxt_Trabajadores.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -113,13 +108,10 @@ public class ForthFragment  extends Fragment {
             }
         });
 
-        mTtxt_Trabajadores.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mButtonSalir.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    establecerValores();
-                }
-
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
 
@@ -133,7 +125,8 @@ public class ForthFragment  extends Fragment {
                 // aunque se cree el excel hay que mandar el correo
                 LoginDAO loginDAO;
                 CocheDAO cocheDAO;
-                DiarioDAO diarioDAO = new DiarioDAO(getActivity());
+                DiarioDAO diarioDAO;
+                new DiarioDAO(getActivity());
 
                 loginDAO = new LoginDAO(getActivity());
                 cocheDAO = new CocheDAO(getActivity());
@@ -158,7 +151,7 @@ public class ForthFragment  extends Fragment {
                 int km_fin = prefs.getInt("km_fin", 0);
                 String cochematricula = prefs.getString("coche", " ");
                 String tecnico = prefs.getString("trabajador", " ");
-                long tecnicoid = prefs.getLong("trabajadorid", 0);
+                //long tecnicoid = prefs.getLong("trabajadorid", 0);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String fecha = sdf.format(new Date());
@@ -181,7 +174,7 @@ public class ForthFragment  extends Fragment {
                                 Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1]))
                                 || (Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]))) {
                             // si son iguales las horas e os minutos_ini < que minutos_fin
-                            if (km_ini < km_fin) { // si km iniciales mayoures que acutales
+                            if (km_ini <= km_fin) { // si km iniciales mayoures que acutales
 
                                 Login login = loginDAO.getSinlgeLoginIdEntry(tecnico);
                                 Coche coche = cocheDAO.
@@ -218,32 +211,8 @@ public class ForthFragment  extends Fragment {
                     Toast.makeText(getActivity(), R.string.empty_fields_message,
                             Toast.LENGTH_LONG).show();
                 }
-                if (mCheck_FinalDia.isChecked()) {
-                    // es final de día para mandar excel
-                    // coller os datos do día de hoxe
-                    List<Diario> diarioArrayList = diarioDAO.getDateDiario(fecha, tecnicoid);
-                    new EnviarExcel();
-                    EnviarExcel.saveExcelFile("lars.xls", diarioArrayList);
-                    lanzarMailExcel(diarioArrayList);
-                }
             }
         });
-    }
-
-    private void lanzarMailExcel(List<Diario> diarioArrayList) {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("text/plain");
-        //TODO cambiar mail por el de Isa
-        String[] to = {"martagalmangarcia@gmail.com", diarioArrayList.get(0).getTecnico().getMail()};
-        String subject = "Informe";
-        String body = diarioArrayList.get(0).getFecha() + " - Informe de " + diarioArrayList.get(0).getTecnico().getNombre() + ".";
-        i.putExtra(Intent.EXTRA_EMAIL, to);
-        i.putExtra(Intent.EXTRA_SUBJECT, subject);
-        i.putExtra(Intent.EXTRA_TEXT, body);
-        File file = new File(Environment.getExternalStorageDirectory(), "lars.xls");
-        i.putExtra(Intent.EXTRA_STREAM,
-                Uri.parse("file://" + file));
-        startActivity(i);
     }
 
     @Override

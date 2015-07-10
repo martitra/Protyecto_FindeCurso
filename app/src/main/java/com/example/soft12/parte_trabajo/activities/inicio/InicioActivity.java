@@ -1,6 +1,7 @@
 package com.example.soft12.parte_trabajo.activities.inicio;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,8 +44,11 @@ public class InicioActivity extends Activity {
             Toast.makeText(getBaseContext(),
                     trabajador, Toast.LENGTH_SHORT)
                     .show();
+        } else {
+            SharedPreferences prefs = this.
+                    getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            this.trabajador = prefs.getString("trabajador", "");
         }
-
 
     }
 

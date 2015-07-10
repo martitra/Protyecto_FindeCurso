@@ -104,7 +104,7 @@
     <string name="textview_euros_litro">Euros / Litro:</string>
     <string name="textview_litros">Litros:</string>
     <string name="textview_coche">Coche:</string>
-    <string name="textview_desplazamiento">Desplazamiento:</string>
+    <string name="textview_desplazamiento">Duración Desplazamiento:</string>
     <string name="textview_kms">Kilómetros:</string>
     <string name="hora_ini_mayor">La hora inicial o final errónea</string>
     <string name="minutos_ini_mayor">La hora inicial es mayor que la final.</string>
@@ -123,7 +123,7 @@
     <string name="codigo_cliente">Cód. Cliente</string>
     <string name="nombre_cliente">Nombre Cliente</string>
     <string name="text_km_ini">Kilómetros iniciales:</string>
-    <string name="txt_km_actuales">Kilómetros ahora:</string>
+    <string name="txt_km_actuales">Kilómetros finales:</string>
     <string name="txt_coche">Coche:</string>
     <string name="km_ini_mayor">Kilómetros iniciales mayores que actuales</string>
     <string name="Text_Excel">Enviar Excel</string>

@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -79,6 +80,8 @@ public class EnviarExcel extends Activity {
             return false;
         }
         boolean success = false;
+
+        List<Integer> listofi = null;
 
         //New Workbook
         Workbook wb = new HSSFWorkbook();
@@ -223,6 +226,10 @@ public class EnviarExcel extends Activity {
             c = row2.createCell(8);
             c.setCellValue(diarioList.get(i).getCoche().getMatricula());
             c.setCellStyle(cs2);
+
+            if (Objects.equals(diarioList.get(i).getCliente(), "OFICINA")) {
+                listofi.add(i);
+            }
         }
 
         int max = diarioList.size();
@@ -263,12 +270,23 @@ public class EnviarExcel extends Activity {
         c.setCellFormula(strDespla);
         c.setCellStyle(cellStyle);
 
-        Row row5 = sheet1.createRow(20);
+        Row row5 = sheet1.createRow(17);
         c = row5.createCell(0);
+        c.setCellValue("Horas Oficina:");
+        c.setCellStyle(cs2);
+        //TODO hacer horas oficina, esta lista tiene la posicion donde se encuentras las ofinicas
+        c = row5.createCell(1);
+        if (!listofi.isEmpty()) {
+
+            //c.setCellValue();
+        }
+
+        Row row6 = sheet1.createRow(20);
+        c = row6.createCell(0);
         c.setCellValue("Total Horas:");
         c.setCellStyle(cs);
 
-        c = row5.createCell(1);
+        c = row6.createCell(1);
         c.setCellType(HSSFCell.CELL_TYPE_FORMULA);
         c.setCellFormula("B17+B18");
         c.setCellStyle(cellStyle2);
@@ -360,7 +378,7 @@ public class EnviarExcel extends Activity {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
         //TODO cambiar mail por el de Isa
-        String[] to = {"martagalmangarcia@gmail.com", diarioList.get(0).getTecnico().getMail()};
+        String[] to = {"rruiz@satplus.es", diarioList.get(0).getTecnico().getMail()};
         String subject = "Informe";
         String body = diarioList.get(0).getFecha() + " - Informe de " + diarioList.get(0).getTecnico().getNombre() + ".";
         i.putExtra(Intent.EXTRA_EMAIL, to);

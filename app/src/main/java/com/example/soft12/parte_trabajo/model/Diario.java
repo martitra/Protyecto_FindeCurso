@@ -189,7 +189,7 @@ public class Diario implements Serializable {
                 "\nHora de Finalización = '" + horaFin + '\'' +
                 "\nDesplazamiento = '" + desplazamiento + '\'' +
                 "\nKilómetros Iniciales = " + kmIni +
-                "\nKilómetros Actuales =" + kmFin +
+                "\nKilómetros Finales =" + kmFin +
                 "\nTécnico = " + tecnico.getNombre() +
                 "\nCoche = " + coche.getMatricula();
     }
