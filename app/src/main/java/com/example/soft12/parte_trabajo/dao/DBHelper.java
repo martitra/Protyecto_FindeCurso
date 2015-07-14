@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ ");";
 	// correo
 	private static final String DATABASE_NAME = "parte.db";
-	private static final int DATABASE_VERSION = 18;
+	private static final int DATABASE_VERSION = 19;
 	// SQL statement of the repostaje table creation
 	private static final String SQL_CREATE_TABLE_REPOSTAJE = "CREATE TABLE " + TABLE_REPOSTAJE + "("
 			+ COLUMN_REPOSTAJE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -116,6 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		database.execSQL("INSERT INTO cliente (nombre,codigo) VALUES('Eroski','9654-8')");
 		database.execSQL("INSERT INTO cliente (nombre,codigo) VALUES('Vegalsa','12-UI')");
 
+		database.execSQL("INSERT INTO coche (matricula,kms) VALUES('Ninguno',0)");
 		database.execSQL("INSERT INTO coche (matricula,kms) VALUES('8020 BJY',60)");
 	}
 

@@ -104,7 +104,6 @@ public class ForthFragment  extends Fragment {
                 if (!hasFocus) {
                     establecerValores();
                 }
-
             }
         });
 
@@ -194,6 +193,7 @@ public class ForthFragment  extends Fragment {
                                 );
                                 lanzarEmail(createdDiario);
                                 Log.e(TAG, createdDiario.toString());
+                                getActivity().finish();
                             } else {
                                 Toast.makeText(getActivity(),
                                         R.string.km_ini_mayor, Toast.LENGTH_LONG).show();

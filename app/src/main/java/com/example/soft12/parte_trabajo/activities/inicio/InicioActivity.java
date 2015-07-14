@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.activities.excel.EnviarExcel;
-import com.example.soft12.parte_trabajo.activities.repostaje.ListRepostajeActivity;
 import com.example.soft12.parte_trabajo.activities.slidescreen.IniciarFragmentActivity;
 import com.example.soft12.parte_trabajo.model.Login;
 
@@ -82,14 +81,14 @@ public class InicioActivity extends Activity {
     // Al hacer click en Historico
 
     // Al hacer click en Gasolinera
-    public void HecharGasoil(View v){
+   /* public void HecharGasoil(View v){
         try{
             Intent i = new Intent(this, ListRepostajeActivity.class);
             startActivity(i);
         } catch (Exception e){
             Log.e(LOGTAG, e.getMessage());
         }
-    }
+    }*/
 
     public void EnviarExcel(View v){
         try{

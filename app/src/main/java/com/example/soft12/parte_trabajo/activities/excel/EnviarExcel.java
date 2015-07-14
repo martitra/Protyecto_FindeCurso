@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
@@ -24,15 +25,18 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +67,6 @@ public class EnviarExcel extends Activity {
         }
     };
 
-
     public static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState);
@@ -81,7 +84,7 @@ public class EnviarExcel extends Activity {
         }
         boolean success = false;
 
-        List<Integer> listofi = null;
+        List<Integer> listofi = new ArrayList<>();
 
         //New Workbook
         Workbook wb = new HSSFWorkbook();
@@ -97,32 +100,106 @@ public class EnviarExcel extends Activity {
         cs.setVerticalAlignment(CellStyle.ALIGN_FILL);
         cs.setFont(font);
         cs.setAlignment(CellStyle.ALIGN_CENTER);
+        cs.setBorderBottom(CellStyle.BORDER_THIN);
+        cs.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        cs.setBorderLeft(CellStyle.BORDER_THIN);
+        cs.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        cs.setBorderTop(CellStyle.BORDER_THIN);
+        cs.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        cs.setBorderRight(CellStyle.BORDER_THIN);
+        cs.setRightBorderColor(IndexedColors.BLACK.getIndex());
 
         CellStyle cs2 = wb.createCellStyle();
         cs2.setAlignment(CellStyle.ALIGN_CENTER);
         cs2.setVerticalAlignment(CellStyle.ALIGN_FILL);
+        cs2.setBorderBottom(CellStyle.BORDER_THIN);
+        cs2.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        cs2.setBorderLeft(CellStyle.BORDER_THIN);
+        cs2.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        cs2.setBorderTop(CellStyle.BORDER_THIN);
+        cs2.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        cs2.setBorderRight(CellStyle.BORDER_THIN);
+        cs2.setRightBorderColor(IndexedColors.BLACK.getIndex());
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        CellStyle cs3 = wb.createCellStyle();
+        cs3.setAlignment(CellStyle.ALIGN_LEFT);
+        cs3.setVerticalAlignment(CellStyle.ALIGN_FILL);
+        cs3.setBorderBottom(CellStyle.BORDER_THIN);
+        cs3.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        cs3.setBorderLeft(CellStyle.BORDER_THIN);
+        cs3.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        cs3.setBorderTop(CellStyle.BORDER_THIN);
+        cs3.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        cs3.setBorderRight(CellStyle.BORDER_THIN);
+        cs3.setRightBorderColor(IndexedColors.BLACK.getIndex());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat(
-                createHelper.createDataFormat().getFormat("hh:mm"));
+                createHelper.createDataFormat().getFormat("HH:mm"));
         cellStyle.setVerticalAlignment(CellStyle.ALIGN_FILL);
         cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
+        cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
+        cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        cellStyle.setBorderTop(CellStyle.BORDER_THIN);
+        cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
+        cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
 
         CellStyle cellStyle2 = wb.createCellStyle();
         cellStyle2.setDataFormat(
-                createHelper.createDataFormat().getFormat("hh:mm"));
+                createHelper.createDataFormat().getFormat("HH:mm"));
         cellStyle2.setAlignment(CellStyle.ALIGN_CENTER);
         cellStyle2.setVerticalAlignment(CellStyle.ALIGN_FILL);
         cellStyle2.setFont(font);
+        cellStyle2.setBorderBottom(CellStyle.BORDER_THIN);
+        cellStyle2.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        cellStyle2.setBorderLeft(CellStyle.BORDER_THIN);
+        cellStyle2.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        cellStyle2.setBorderTop(CellStyle.BORDER_THIN);
+        cellStyle2.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        cellStyle2.setBorderRight(CellStyle.BORDER_THIN);
+        cellStyle2.setRightBorderColor(IndexedColors.BLACK.getIndex());
 
         //new sheet
         Sheet sheet1;
         sheet1 = wb.createSheet("Informe");
 
+        Row rowtitulo = sheet1.createRow(0);
+        Cell cell = rowtitulo.createCell(0);
+        cell.setCellValue(diarioList.get(0).getFecha() + " - " +
+                diarioList.get(0).getTecnico().getNombre());
+        cell.setCellStyle(cs);
+
+        sheet1.addMergedRegion(new CellRangeAddress(
+                0, //first row (0-based)
+                0, //last row  (0-based)
+                0, //first column (0-based)
+                8  //last column  (0-based)
+        ));
+
+        cell = rowtitulo.createCell(1);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(2);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(3);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(4);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(5);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(6);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(7);
+        cell.setCellStyle(cs);
+        cell = rowtitulo.createCell(8);
+        cell.setCellStyle(cs);
+
         // Generate dcolumn heading
-        Row row = sheet1.createRow(0);
+        Row row = sheet1.createRow(1);
 
         c = row.createCell(0);
         c.setCellValue("CAU");
@@ -171,15 +248,15 @@ public class EnviarExcel extends Activity {
         sheet1.setColumnWidth(8, 1200 * 3);
 
         for (int i = 0; i < diarioList.size(); i++) {
-            Row row2 = sheet1.createRow(i + 1);
 
+            Row row2 = sheet1.createRow(i + 2);
             c = row2.createCell(0);
             c.setCellValue(diarioList.get(i).getCau());
             c.setCellStyle(cs2);
 
             c = row2.createCell(1);
             c.setCellValue(diarioList.get(i).getCliente());
-            c.setCellStyle(cs2);
+            c.setCellStyle(cs3);
 
             c = row2.createCell(2);
             Date dateini = new Date();
@@ -203,7 +280,7 @@ public class EnviarExcel extends Activity {
 
             c = row2.createCell(4);
             c.setCellValue(diarioList.get(i).getSolucion());
-            c.setCellStyle(cs2);
+            c.setCellStyle(cs3);
 
             c = row2.createCell(5);
             Date datedes = new Date();
@@ -228,15 +305,15 @@ public class EnviarExcel extends Activity {
             c.setCellStyle(cs2);
 
             if (Objects.equals(diarioList.get(i).getCliente(), "OFICINA")) {
-                listofi.add(i);
+                listofi.add(i + 1);
             }
         }
 
         int max = diarioList.size();
 
-        Row row3 = sheet1.createRow(16);
+        Row row3 = sheet1.createRow(24);
         c = row3.createCell(0);
-        c.setCellValue("Horas reparación:");
+        c.setCellValue("Horas reparación y Oficina:");
         c.setCellStyle(cs2);
         c = row3.createCell(1);
 
@@ -244,14 +321,14 @@ public class EnviarExcel extends Activity {
         String strDespla = "";
         for (int e = 1; e <= max; e++) {
             if (max == 1) {
-                strFormula = "D" + (e + 1) + "-C" + (e + 1);
-                strDespla = "F2";
+                strFormula = "D" + (e + 2) + "-C" + (e + 2);
+                strDespla = "F3";
             } else {
                 if (e == max) {
-                    strFormula = strFormula + "(D" + (e + 1) + "-C" + (e + 1) + ")";
-                    strDespla = "SUM(F2:F" + (e + 1) + ")";
+                    strFormula = strFormula + "(D" + (e + 2) + "-C" + (e + 2) + ")";
+                    strDespla = "SUM(F3:F" + (e + 2) + ")";
                 } else {
-                    strFormula = strFormula + "(D" + (e + 1) + "-C" + (e + 1) + ")+";
+                    strFormula = strFormula + "(D" + (e + 2) + "-C" + (e + 2) + ")+";
                 }
             }
         }
@@ -260,7 +337,7 @@ public class EnviarExcel extends Activity {
         c.setCellFormula(strFormula);
         c.setCellStyle(cellStyle);
 
-        Row row4 = sheet1.createRow(17);
+        Row row4 = sheet1.createRow(25);
         c = row4.createCell(0);
         c.setCellValue("Horas Desplazamiento:");
         c.setCellStyle(cs2);
@@ -270,25 +347,45 @@ public class EnviarExcel extends Activity {
         c.setCellFormula(strDespla);
         c.setCellStyle(cellStyle);
 
-        Row row5 = sheet1.createRow(17);
+        Row row5 = sheet1.createRow(28);
         c = row5.createCell(0);
         c.setCellValue("Horas Oficina:");
         c.setCellStyle(cs2);
-        //TODO hacer horas oficina, esta lista tiene la posicion donde se encuentras las ofinicas
-        c = row5.createCell(1);
+        String formula = "";
         if (!listofi.isEmpty()) {
+            for (int e = 1; e <= listofi.size(); e++) {
+                if (listofi.size() == 1) {
+                    formula = "D" + (listofi.get(e - 1) + 2) + "-C" + (listofi.get(e - 1) + 2);
+                } else {
+                    if (e == listofi.size()) {
+                        formula = formula + "(D" + (listofi.get(e - 1) + 2) + "-C" + (listofi.get(e - 1) + 2) + ")";
+                    } else {
+                        formula = formula + "(D" + (listofi.get(e - 1) + 2) + "-C" + (listofi.get(e - 1) + 2) + ")+";
+                    }
 
-            //c.setCellValue();
+                }
+            }
         }
 
-        Row row6 = sheet1.createRow(20);
+        c = row5.createCell(1);
+        if (Objects.equals(formula, "")) {
+            formula = "00:00";
+            c.setCellValue(formula);
+            c.setCellStyle(cellStyle);
+        } else {
+            c.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+            c.setCellFormula(formula);
+            c.setCellStyle(cellStyle);
+        }
+
+        Row row6 = sheet1.createRow(26);
         c = row6.createCell(0);
         c.setCellValue("Total Horas:");
         c.setCellStyle(cs);
 
         c = row6.createCell(1);
         c.setCellType(HSSFCell.CELL_TYPE_FORMULA);
-        c.setCellFormula("B17+B18");
+        c.setCellFormula("B25+B26");
         c.setCellStyle(cellStyle2);
 
         HSSFPrintSetup printSetup = (HSSFPrintSetup) sheet1.getPrintSetup();
@@ -368,8 +465,17 @@ public class EnviarExcel extends Activity {
         List<Diario> diarioArrayList = diarioDAO.getDateDiario(
                 String.valueOf(fecha.getText().toString()), tecnicoid);
 
-        saveExcelFile("lars.xls", diarioArrayList);
-        lanzarEmail(diarioArrayList);
+        if (!diarioArrayList.isEmpty()) {
+            saveExcelFile("lars.xls", diarioArrayList);
+            lanzarEmail(diarioArrayList);
+        } else {
+            Toast.makeText(getBaseContext(), "No hay incidendias del día " +
+                    fecha.getText().toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void Salir(View v) {
+        finish();
     }
 
     public void lanzarEmail(List<Diario> diarioList) {

@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/TextView_horaini"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/fecha_excel"
-        android:textAppearance="?android:attr/textAppearance"
-        android:layout_marginTop="71dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="71dp"
+        android:text="@string/fecha_excel"
+        android:textAppearance="?android:attr/textAppearance" />
     <EditText
         android:id="@+id/txt_fecha_excel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/TextView_horaini"
+        android:layout_marginTop="24dp"
         android:inputType="text"
         android:textAppearance="?android:attr/textAppearance"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/TextView_horaini"
-        android:layout_alignParentStart="true" />
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/enviarexcel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_fecha_excel"
+        android:layout_marginTop="36dp"
+        android:onClick="Enviar"
+        android:text="@string/enviar"
+        android:textAppearance="?android:attr/textAppearance"
+        android:textColor="@android:color/black"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_fecha_excel"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="36dp"
-        android:text="@string/enviar"
+        android:layout_below="@+id/enviarexcel"
+        android:onClick="Salir"
+        android:text="@string/Button_Salir"
         android:textAppearance="?android:attr/textAppearance"
-        android:textColor="@android:color/black"
-        android:onClick="Enviar"/>
+        android:textColor="@android:color/black"/>
 
 </RelativeLayout>
