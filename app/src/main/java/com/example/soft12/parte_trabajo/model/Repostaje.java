@@ -88,8 +88,8 @@ public class Repostaje implements Serializable {
 		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, mCoche.getId());
 		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, mCoche.getMatricula());
 		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, login.getcId());
-		bundle.putString(DBHelper.COLUMN_USUARIO_NOMBRE, login.getNombre());
-		bundle.putString(DBHelper.COLUMN_USUARIO_EMAIL, login.getMail());
+		bundle.putString(DBHelper.COLUMN_TECNICO_NOMBRE, login.getNombre());
+		bundle.putString(DBHelper.COLUMN_TECNICO_EMAIL, login.getMail());
 		return bundle;
 	}
 
@@ -104,7 +104,7 @@ public class Repostaje implements Serializable {
 		mCoche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
 		login = new Login();
 		login.setcId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID));
-		login.setNombre(bundle.getString(DBHelper.COLUMN_USUARIO_NOMBRE));
-		login.setMail(bundle.getString(DBHelper.COLUMN_USUARIO_EMAIL));
+		login.setNombre(bundle.getString(DBHelper.COLUMN_TECNICO_NOMBRE));
+		login.setMail(bundle.getString(DBHelper.COLUMN_TECNICO_EMAIL));
 	}
 }

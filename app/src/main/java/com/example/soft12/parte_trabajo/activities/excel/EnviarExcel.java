@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.dao.DiarioDAO;
-import com.example.soft12.parte_trabajo.model.Diario;
+import com.example.soft12.parte_trabajo.dao.Tecnico_DiarioDAO;
+import com.example.soft12.parte_trabajo.model.Tecnico_Diario;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
@@ -77,7 +77,7 @@ public class EnviarExcel extends Activity {
         return Environment.MEDIA_MOUNTED.equals(extSorageState);
     }
 
-    public static boolean saveExcelFile(String filename, List<Diario> diarioList) {
+    public static boolean saveExcelFile(String filename, List<Tecnico_Diario> tecnicoDiarioList) {
         if (!isExternalSortageAvaliable() || isExternalStorageReadOnly()) {
             Log.e(TAG, "Storage not available or read only");
             return false;
@@ -170,8 +170,8 @@ public class EnviarExcel extends Activity {
 
         Row rowtitulo = sheet1.createRow(0);
         Cell cell = rowtitulo.createCell(0);
-        cell.setCellValue(diarioList.get(0).getFecha() + " - " +
-                diarioList.get(0).getTecnico().getNombre());
+        cell.setCellValue(tecnicoDiarioList.get(0).getFecha() + " - " +
+                tecnicoDiarioList.get(0).getTecnico().getNombre());
         cell.setCellStyle(cs);
 
         sheet1.addMergedRegion(new CellRangeAddress(
@@ -247,21 +247,21 @@ public class EnviarExcel extends Activity {
         sheet1.setColumnWidth(7, 1000 * 3);
         sheet1.setColumnWidth(8, 1200 * 3);
 
-        for (int i = 0; i < diarioList.size(); i++) {
+        for (int i = 0; i < tecnicoDiarioList.size(); i++) {
 
             Row row2 = sheet1.createRow(i + 2);
             c = row2.createCell(0);
-            c.setCellValue(diarioList.get(i).getCau());
+            c.setCellValue(tecnicoDiarioList.get(i).getDiario().getCau());
             c.setCellStyle(cs2);
 
             c = row2.createCell(1);
-            c.setCellValue(diarioList.get(i).getCliente());
+            c.setCellValue(tecnicoDiarioList.get(i).getDiario().getCliente().getnNombre());
             c.setCellStyle(cs3);
 
             c = row2.createCell(2);
             Date dateini = new Date();
             try {
-                dateini = dateFormat.parse(diarioList.get(i).getHoraIni());
+                dateini = dateFormat.parse(tecnicoDiarioList.get(i).getDiario().getHoraIni());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -271,7 +271,7 @@ public class EnviarExcel extends Activity {
             c = row2.createCell(3);
             Date datefin = new Date();
             try {
-                datefin = dateFormat.parse(diarioList.get(i).getHoraFin());
+                datefin = dateFormat.parse(tecnicoDiarioList.get(i).getDiario().getHoraFin());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -279,13 +279,13 @@ public class EnviarExcel extends Activity {
             c.setCellStyle(cellStyle);
 
             c = row2.createCell(4);
-            c.setCellValue(diarioList.get(i).getSolucion());
+            c.setCellValue(tecnicoDiarioList.get(i).getDiario().getSolucion());
             c.setCellStyle(cs3);
 
             c = row2.createCell(5);
             Date datedes = new Date();
             try {
-                datedes = dateFormat.parse(diarioList.get(i).getDesplazamiento());
+                datedes = dateFormat.parse(tecnicoDiarioList.get(i).getDiario().getDesplazamiento());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -293,23 +293,23 @@ public class EnviarExcel extends Activity {
             c.setCellStyle(cellStyle);
 
             c = row2.createCell(6);
-            c.setCellValue(diarioList.get(i).getKmIni());
+            c.setCellValue(tecnicoDiarioList.get(i).getDiario().getKmIni());
             c.setCellStyle(cs2);
 
             c = row2.createCell(7);
-            c.setCellValue(diarioList.get(i).getKmFin());
+            c.setCellValue(tecnicoDiarioList.get(i).getDiario().getKmFin());
             c.setCellStyle(cs2);
 
             c = row2.createCell(8);
-            c.setCellValue(diarioList.get(i).getCoche().getMatricula());
+            c.setCellValue(tecnicoDiarioList.get(i).getDiario().getCoche().getMatricula());
             c.setCellStyle(cs2);
 
-            if (Objects.equals(diarioList.get(i).getCliente(), "OFICINA")) {
+            if (Objects.equals(tecnicoDiarioList.get(i).getDiario().getCliente().getnNombre(), "OFICINA")) {
                 listofi.add(i + 1);
             }
         }
 
-        int max = diarioList.size();
+        int max = tecnicoDiarioList.size();
 
         Row row3 = sheet1.createRow(24);
         c = row3.createCell(0);
@@ -458,16 +458,17 @@ public class EnviarExcel extends Activity {
         SharedPreferences prefs = this.
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
 
+        //usuario actual de la sesión
         long tecnicoid = prefs.getLong("trabajadorid", 0);
 
         // Buscar resultado por fecha y por técnico logueado.
-        DiarioDAO diarioDAO = new DiarioDAO(this);
-        List<Diario> diarioArrayList = diarioDAO.getDateDiario(
+        Tecnico_DiarioDAO tecnico_diarioDAO = new Tecnico_DiarioDAO(this);
+        List<Tecnico_Diario> tecnicoDiarioArrayList = tecnico_diarioDAO.getDateTecnicoDiario(
                 String.valueOf(fecha.getText().toString()), tecnicoid);
 
-        if (!diarioArrayList.isEmpty()) {
-            saveExcelFile("lars.xls", diarioArrayList);
-            lanzarEmail(diarioArrayList);
+        if (!tecnicoDiarioArrayList.isEmpty()) {
+            saveExcelFile("lars.xls", tecnicoDiarioArrayList);
+            lanzarEmail(tecnicoDiarioArrayList);
         } else {
             Toast.makeText(getBaseContext(), "No hay incidendias del día " +
                     fecha.getText().toString(), Toast.LENGTH_LONG).show();
@@ -478,15 +479,16 @@ public class EnviarExcel extends Activity {
         finish();
     }
 
-    public void lanzarEmail(List<Diario> diarioList) {
+    public void lanzarEmail(List<Tecnico_Diario> tecnicoDiarioList) {
         // TODO Auto-generated method stub
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
         //TODO cambiar mail por el de Isa
-        String[] to = {"rruiz@satplus.es", diarioList.get(0).getTecnico().getMail()};
+        String[] to = {"rruiz@satplus.es", tecnicoDiarioList.get(0).getTecnico().getMail()};
         String subject = "Informe";
-        String body = diarioList.get(0).getFecha() + " - Informe de " + diarioList.get(0).getTecnico().getNombre() + ".";
+        String body = tecnicoDiarioList.get(0).getFecha() + " - Informe de "
+                + tecnicoDiarioList.get(0).getTecnico().getNombre() + ".";
         i.putExtra(Intent.EXTRA_EMAIL, to);
         i.putExtra(Intent.EXTRA_SUBJECT, subject);
         i.putExtra(Intent.EXTRA_TEXT, body);

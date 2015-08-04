@@ -21,7 +21,6 @@ import android.widget.TimePicker;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.dao.ClienteDAO;
-import com.example.soft12.parte_trabajo.model.Diario;
 
 import java.util.Calendar;
 
@@ -32,7 +31,6 @@ public class FirstFragment extends Fragment {
 
     public EditText mTxtHoraIni, mTxtHoraFin, mTxtCAU;
     //public TextView itemcod;
-    Diario diario;
     Calendar myCalendar = Calendar.getInstance();
     ClienteDAO clienteDAO;
     /* TIME */
@@ -74,9 +72,7 @@ public class FirstFragment extends Fragment {
         View v = inflater.inflate(R.layout.first_frag, container, false);
 
         clienteDAO = new ClienteDAO(getActivity());
-        clienteDAO.open();
 
-        diario = new Diario();
         initViews(v);
 
         ItemAutoTextAdapter adapter = this.new ItemAutoTextAdapter(clienteDAO);
@@ -87,10 +83,6 @@ public class FirstFragment extends Fragment {
     }
 
     private void establecerValores() {
-        // mTxtCAU.setText(diario.getCau().getcNombre());
-        // mTxtCliente.setText(diario.getCliente().getnNombre());
-        //mTxtHoraIni.setText(diario.getHoraIni());
-        //mTxtHoraFin.setText(diario.getHoraFin());
 
         Editable cau = mTxtCAU.getText();
         Editable hora_ini = mTxtHoraIni.getText();
@@ -99,7 +91,6 @@ public class FirstFragment extends Fragment {
         String cli = cliente.toString();
 
         String[] clien = cli.split(" -");
-
         SharedPreferences.Editor editor = this.getActivity().
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
         editor.putString("cau", cau.toString());
@@ -113,10 +104,7 @@ public class FirstFragment extends Fragment {
 
         this.mTxtHoraIni = (EditText) v.findViewById(R.id.txt_hora_ini);
         this.mTxtHoraFin = (EditText) v.findViewById(R.id.txt_hora_fin);
-        //this.mTxtCliente = (EditText) v.findViewById(R.id.editText_cliente);
         this.autoCliente = (AutoCompleteTextView) v.findViewById(R.id.autocomplete_cliente);
-        //this.itemcod = (TextView) v.findViewById(R.id.itemDesc);
-        //itemView = (EditText) v.findViewById(R.id.item);
         this.mTxtCAU = (EditText) v.findViewById(R.id.editText_cau);
 
         /* HORA INICIO */
@@ -128,7 +116,8 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        mTxtHoraIni.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE)));
+        mTxtHoraIni.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY),
+                myCalendar.get(Calendar.MINUTE)));
 
         /* HORA FIN */
         this.mTxtHoraFin.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +127,9 @@ public class FirstFragment extends Fragment {
                         myCalendar.get(Calendar.MINUTE), true).show();
             }
         });
-        mTxtHoraFin.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE)));
+        mTxtHoraFin.setText(String.format("%02d:%02d", myCalendar.get(Calendar.HOUR_OF_DAY),
+                myCalendar.get(Calendar.MINUTE)));
+
         mTxtHoraFin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

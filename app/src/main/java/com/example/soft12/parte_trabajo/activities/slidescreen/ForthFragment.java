@@ -18,15 +18,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
+import com.example.soft12.parte_trabajo.dao.ClienteDAO;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
 import com.example.soft12.parte_trabajo.dao.LoginDAO;
+import com.example.soft12.parte_trabajo.dao.Tecnico_DiarioDAO;
+import com.example.soft12.parte_trabajo.model.Cliente;
 import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
 import com.example.soft12.parte_trabajo.model.Login;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -40,6 +45,7 @@ public class ForthFragment  extends Fragment {
     EditText mTtxt_Trabajadores;
     Button mButtonEnviar, mButtonSalir;
     Diario diario;
+    String[] tec;
 
     public static ForthFragment newInstance(int text) {
 
@@ -63,28 +69,16 @@ public class ForthFragment  extends Fragment {
         return v;
     }
 
-    private void lanzarEmail(Diario diario) {
-
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("text/plain");
-        String[] to = { "rruiz@satplus.es" };
-        String subject = "" + diario.getCau() + " - " + diario.getTecnico().getNombre();
-        String body = diario.toString();
-        i.putExtra(Intent.EXTRA_EMAIL, to);
-        i.putExtra(Intent.EXTRA_SUBJECT, subject);
-        i.putExtra(Intent.EXTRA_TEXT, body);
-        startActivity(i);
-    }
-
     private void establecerValores() {
         //vai fallar o tecnico porque eu poño o nombre e no diairo ten que ser o id
         //mTtxt_Trabajadores.setText(diario.getTecnico().getNombre());
 
-        Editable tecnico = mTtxt_Trabajadores.getText();
-        SharedPreferences.Editor editor = this.getActivity().
-                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE).edit();
-        editor.putString("tecnico", tecnico.toString());
-        editor.apply();
+        // Aunque yop le ponga un técnico más no me lo hace porque no cojo el tecinco
+        // pero después le pongo que sea trabajador en vez de asignarlo y después coger el valor
+
+
+        //Editable tecnico = mTtxt_Trabajadores.getText();
+        //String tecnicoeditador = prefs.getString("trabajador", " ");
 
     }
 
@@ -92,11 +86,6 @@ public class ForthFragment  extends Fragment {
         this.mTtxt_Trabajadores = (EditText) v.findViewById(R.id.editText_trabajadores);
         this.mButtonEnviar = (Button) v.findViewById(R.id.ButtonEnviarDatos);
         this.mButtonSalir = (Button) v.findViewById(R.id.SalirFF);
-
-        SharedPreferences prefs = this.getActivity().
-                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        String trabajador = prefs.getString("trabajador", " ");
-        mTtxt_Trabajadores.setText(trabajador);
 
         mTtxt_Trabajadores.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -106,6 +95,10 @@ public class ForthFragment  extends Fragment {
                 }
             }
         });
+        SharedPreferences prefs = this.getActivity().
+                getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        final String trabajador = prefs.getString("trabajador", " ");
+        mTtxt_Trabajadores.setText(trabajador);
 
         mButtonSalir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,11 +117,13 @@ public class ForthFragment  extends Fragment {
                 // aunque se cree el excel hay que mandar el correo
                 LoginDAO loginDAO;
                 CocheDAO cocheDAO;
+                ClienteDAO clienteDAO;
                 DiarioDAO diarioDAO;
                 new DiarioDAO(getActivity());
 
                 loginDAO = new LoginDAO(getActivity());
                 cocheDAO = new CocheDAO(getActivity());
+                clienteDAO = new ClienteDAO(getActivity());
                 //diarioDAO = new DiarioDAO(getActivity());
 
                 // cambiar lo de diario de todos los fragmentos para aquí, pasar los datos
@@ -150,7 +145,12 @@ public class ForthFragment  extends Fragment {
                 int km_fin = prefs.getInt("km_fin", 0);
                 String cochematricula = prefs.getString("coche", " ");
                 String tecnico = prefs.getString("trabajador", " ");
-                //long tecnicoid = prefs.getLong("trabajadorid", 0);
+
+                Editable t = mTtxt_Trabajadores.getText();
+                if (t.toString().contains(",")) {
+                    Toast.makeText(getActivity(), "Hay comas", Toast.LENGTH_LONG).show();
+                    tec = t.toString().split(",");
+                }
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String fecha = sdf.format(new Date());
@@ -163,8 +163,8 @@ public class ForthFragment  extends Fragment {
 
                 if (!TextUtils.isEmpty(clientenombre) && !TextUtils.isEmpty(hora_ini)
                         && !TextUtils.isEmpty(hora_fin) && !TextUtils.isEmpty(solucionnombre)
-                        && !TextUtils.isEmpty(desplazamiento) && km_ini != 0
-                        && km_fin != 0 && !TextUtils.isEmpty(cochematricula)
+                        && !TextUtils.isEmpty(desplazamiento) && km_ini >= 0
+                        && km_fin >= 0 && !TextUtils.isEmpty(cochematricula)
                         && !TextUtils.isEmpty(tecnico)) {
                     if (Integer.parseInt(h_ini[0]) <= Integer.parseInt(h_fin[0]))
                     // si la hora inicial es menor que la final ó
@@ -173,25 +173,38 @@ public class ForthFragment  extends Fragment {
                                 Integer.parseInt(h_ini[1]) < Integer.parseInt(h_fin[1]))
                                 || (Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]))) {
                             // si son iguales las horas e os minutos_ini < que minutos_fin
-                            if (km_ini <= km_fin) { // si km iniciales mayoures que acutales
-
-                                Login login = loginDAO.getSinlgeLoginIdEntry(tecnico);
+                            if (km_ini <= km_fin) { // si km iniciales mayores que acutales
+                                Login login;
+                                List<Login> tecnicos = new ArrayList<>();
+                                if (tec == null) {
+                                    login = loginDAO.getSinlgeLoginIdEntry(tecnico);
+                                    tecnicos.add(login);
+                                } else {
+                                    for (String aTec : tec) {
+                                        login = loginDAO.getSinlgeLoginIdEntry(aTec);
+                                        tecnicos.add(login);
+                                    }
+                                }
                                 Coche coche = cocheDAO.
                                         getSingleCocheMatriculaEntry(cochematricula);
+                                Cliente cliente = clienteDAO.getSinlgeClienteEntry(clientenombre);
                                 diarioDAO = new DiarioDAO(getActivity());
                                 Diario createdDiario = diarioDAO.createDiario(fecha,
                                         caunombre,
-                                        clientenombre,
+                                        cliente.getcId(),
                                         solucionnombre,
                                         hora_ini,
                                         hora_fin,
                                         desplazamiento,
                                         Double.parseDouble(String.valueOf(km_ini)),
                                         Double.parseDouble(String.valueOf(km_fin)),
-                                        login.getcId(),
                                         coche.getId()
                                 );
-                                lanzarEmail(createdDiario);
+                                Tecnico_DiarioDAO tecnico_diarioDAO = new Tecnico_DiarioDAO(
+                                        getActivity());
+                                tecnico_diarioDAO.createTecnico_Diario(tecnicos,
+                                        createdDiario.getId(), createdDiario.getFecha());
+                                lanzarEmail(createdDiario, prefs);
                                 Log.e(TAG, createdDiario.toString());
                                 getActivity().finish();
                             } else {
@@ -213,6 +226,19 @@ public class ForthFragment  extends Fragment {
                 }
             }
         });
+    }
+
+    private void lanzarEmail(Diario diario, SharedPreferences prefs) {
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        String[] to = {"rruiz@satplus.es"};
+        String subject = "" + diario.getCau() + " - " + prefs.getString("trabajador", " ");
+        String body = diario.toString() + "\n Técnico = " + prefs.getString("trabajador", " ");
+        i.putExtra(Intent.EXTRA_EMAIL, to);
+        i.putExtra(Intent.EXTRA_SUBJECT, subject);
+        i.putExtra(Intent.EXTRA_TEXT, body);
+        startActivity(i);
     }
 
     @Override

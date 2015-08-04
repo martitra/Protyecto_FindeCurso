@@ -54,18 +54,18 @@ public class Login implements Serializable {
 
     public Bundle getBundle() {
         Bundle bundle = new Bundle();
-        bundle.putLong(DBHelper.COLUMN_USUARIO_ID, cId);
-        bundle.putString(DBHelper.COLUMN_USUARIO_NOMBRE, nombre);
-        bundle.putString(DBHelper.COLUMN_USUARIO_PASS, pass);
-        bundle.putString(DBHelper.COLUMN_USUARIO_EMAIL, mail);
+        bundle.putLong(DBHelper.COLUMN_TECNICO_ID, cId);
+        bundle.putString(DBHelper.COLUMN_TECNICO_NOMBRE, nombre);
+        bundle.putString(DBHelper.COLUMN_TECNICO_PASS, pass);
+        bundle.putString(DBHelper.COLUMN_TECNICO_EMAIL, mail);
         return bundle;
     }
 
     public void setBundle(Bundle bundle) {
-        cId = bundle.getLong(DBHelper.COLUMN_USUARIO_ID);
-        nombre = bundle.getString(DBHelper.COLUMN_USUARIO_NOMBRE);
-        pass = bundle.getString(DBHelper.COLUMN_USUARIO_PASS);
-        mail = bundle.getString(DBHelper.COLUMN_USUARIO_EMAIL);
+        cId = bundle.getLong(DBHelper.COLUMN_TECNICO_ID);
+        nombre = bundle.getString(DBHelper.COLUMN_TECNICO_NOMBRE);
+        pass = bundle.getString(DBHelper.COLUMN_TECNICO_PASS);
+        mail = bundle.getString(DBHelper.COLUMN_TECNICO_EMAIL);
     }
 
 }

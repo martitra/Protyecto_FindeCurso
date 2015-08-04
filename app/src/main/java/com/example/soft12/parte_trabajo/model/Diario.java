@@ -18,13 +18,12 @@ public class Diario implements Serializable {
 
     private String cau;
     private String solucion;
-    private String cliente;
+    private Cliente cliente;
     private String horaIni;
     private String horaFin;
     private String desplazamiento;
     private Double kmIni;
     private Double kmFin;
-    private Login tecnico;
     private Coche coche;
 
     public Diario() {
@@ -62,11 +61,11 @@ public class Diario implements Serializable {
         this.solucion = solucion;
     }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
@@ -110,14 +109,6 @@ public class Diario implements Serializable {
         this.kmFin = kmFin;
     }
 
-    public Login getTecnico() {
-        return tecnico;
-    }
-
-    public void setTecnico(Login tecnico) {
-        this.tecnico = tecnico;
-    }
-
     public Coche getCoche() {
         return coche;
     }
@@ -131,12 +122,12 @@ public class Diario implements Serializable {
         bundle.putLong(DBHelper.COLUMN_DIARIO_ID, id);
         bundle.putString(DBHelper.COLUMN_DIARIO_FECHA, fecha);
         bundle.putString(DBHelper.COLUMN_DIARIO_CAU, cau);
-        bundle.putString(DBHelper.COLUMN_DIARIO_CLIENTE, cliente);
-        bundle.putString(DBHelper.COLUMN_DIARIO_SOLUCION, solucion);
 
-        bundle.putLong(DBHelper.COLUMN_DIARIO_TECNICO, tecnico.getcId());
-        bundle.putString(DBHelper.COLUMN_USUARIO_NOMBRE, tecnico.getNombre());
-        bundle.putString(DBHelper.COLUMN_USUARIO_EMAIL, tecnico.getMail());
+        bundle.putLong(DBHelper.COLUMN_CLIENTE_ID, cliente.getcId());
+        bundle.putString(DBHelper.COLUMN_CLIENTE_NOMBRE, cliente.getnNombre());
+        bundle.putString(DBHelper.COLUMN_CLIENTE_CODIGO, cliente.getCodigo());
+
+        bundle.putString(DBHelper.COLUMN_DIARIO_SOLUCION, solucion);
 
         bundle.putLong(DBHelper.COLUMN_DIARIO_COCHE_ID, coche.getId());
         bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, coche.getMatricula());
@@ -152,19 +143,17 @@ public class Diario implements Serializable {
     }
 
     public void setBundle(Bundle bundle) {
-        id = bundle.getLong(DBHelper.COLUMN_REPOSTAJE_ID);
+        id = bundle.getLong(DBHelper.COLUMN_DIARIO_ID);
         fecha = bundle.getString(DBHelper.COLUMN_DIARIO_FECHA);
 
         cau = bundle.getString(DBHelper.COLUMN_DIARIO_CAU);
 
-        cliente = bundle.getString(DBHelper.COLUMN_DIARIO_CLIENTE);
+        cliente = new Cliente();
+        cliente.setcId(bundle.getLong(DBHelper.COLUMN_CLIENTE_ID));
+        cliente.setnNombre(bundle.getString(DBHelper.COLUMN_CLIENTE_NOMBRE));
+        cliente.setCodigo(bundle.getString(DBHelper.COLUMN_CLIENTE_CODIGO));
 
         solucion = bundle.getString(DBHelper.COLUMN_DIARIO_SOLUCION);
-
-        tecnico = new Login();
-        tecnico.setcId(bundle.getLong(DBHelper.COLUMN_USUARIO_ID));
-        tecnico.setNombre(bundle.getString(DBHelper.COLUMN_USUARIO_NOMBRE));
-        tecnico.setMail(bundle.getString(DBHelper.COLUMN_USUARIO_EMAIL));
 
         coche = new Coche();
         coche.setId(bundle.getLong(DBHelper.COLUMN_COCHE_ID));
@@ -184,13 +173,12 @@ public class Diario implements Serializable {
         return "Fecha = '" + fecha + '\'' +
                 "\nCau =" + cau +
                 "\nSolucion =" + solucion +
-                "\nCliente = " + cliente +
+                "\nCliente = " + cliente.getnNombre() +
                 "\nHora de Inicio = '" + horaIni + '\'' +
                 "\nHora de Finalización = '" + horaFin + '\'' +
                 "\nDesplazamiento = '" + desplazamiento + '\'' +
                 "\nKilómetros Iniciales = " + kmIni +
                 "\nKilómetros Finales =" + kmFin +
-                "\nTécnico = " + tecnico.getNombre() +
                 "\nCoche = " + coche.getMatricula();
     }
 }

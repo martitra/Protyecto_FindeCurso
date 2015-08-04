@@ -17,8 +17,8 @@ public class LoginDAO {
 
     public static final String TAG = "LoginDAO";
     public SQLiteDatabase mDatabase;
-    private String[] mAllColumns = { DBHelper.COLUMN_USUARIO_ID, DBHelper.COLUMN_USUARIO_NOMBRE,
-            DBHelper.COLUMN_USUARIO_PASS, DBHelper.COLUMN_USUARIO_EMAIL };
+    private String[] mAllColumns = {DBHelper.COLUMN_TECNICO_ID, DBHelper.COLUMN_TECNICO_NOMBRE,
+            DBHelper.COLUMN_TECNICO_PASS, DBHelper.COLUMN_TECNICO_EMAIL};
     // Context of the application using the database.
     private Context mContext;
     // Database open/upgrade helper
@@ -56,22 +56,22 @@ public class LoginDAO {
     {
         ContentValues values = new ContentValues();
         // Assign values for each row.
-        values.put(DBHelper.COLUMN_USUARIO_NOMBRE, userName);
-        values.put(DBHelper.COLUMN_USUARIO_PASS, password);
-        values.put(DBHelper.COLUMN_USUARIO_EMAIL, mail);
+        values.put(DBHelper.COLUMN_TECNICO_NOMBRE, userName);
+        values.put(DBHelper.COLUMN_TECNICO_PASS, password);
+        values.put(DBHelper.COLUMN_TECNICO_EMAIL, mail);
 
-        long insertId = mDatabase.insert(DBHelper.TABLE_USUARIO, null, values);
+        long insertId = mDatabase.insert(DBHelper.TABLE_TECNICO, null, values);
 
-        Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO,
-                mAllColumns, DBHelper.COLUMN_USUARIO_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO,
+                mAllColumns, DBHelper.COLUMN_TECNICO_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         Login login = cursorToLogin(cursor);
         cursor.close();
         return login;
     }
     public Login getLoginById(long id) {
-        Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
-                DBHelper.COLUMN_USUARIO_ID + " = ?",
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO, mAllColumns,
+                DBHelper.COLUMN_TECNICO_ID + " = ?",
                 new String[] { String.valueOf(id) }, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -82,8 +82,8 @@ public class LoginDAO {
 
     public Login getSinlgeLoginMailEntry(String mail)
     {
-        Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
-                DBHelper.COLUMN_USUARIO_EMAIL + " = ? ",
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO, mAllColumns,
+                DBHelper.COLUMN_TECNICO_EMAIL + " = ? ",
                 new String[]{mail}, null, null, null);
         if(cursor.getCount() == 0) // UserName Not Exist
         {
@@ -96,8 +96,8 @@ public class LoginDAO {
 
     public Login getSinlgeLoginIdEntry(String userName)
     {
-        Cursor cursor = mDatabase.query(DBHelper.TABLE_USUARIO, mAllColumns,
-                DBHelper.COLUMN_USUARIO_NOMBRE + " = ? ",
+        Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO, mAllColumns,
+                DBHelper.COLUMN_TECNICO_NOMBRE + " = ? ",
                 new String[]{userName}, null, null, null);
         if(cursor.getCount() == 0) // UserName Not Exist
         {
@@ -123,11 +123,11 @@ public class LoginDAO {
     public int updateLogin(Login l) {
 
         ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_USUARIO_NOMBRE, l.getNombre());
-        values.put(DBHelper.COLUMN_USUARIO_PASS, l.getPass());
-        values.put(DBHelper.COLUMN_USUARIO_EMAIL, l.getMail());
+        values.put(DBHelper.COLUMN_TECNICO_NOMBRE, l.getNombre());
+        values.put(DBHelper.COLUMN_TECNICO_PASS, l.getPass());
+        values.put(DBHelper.COLUMN_TECNICO_EMAIL, l.getMail());
 
-        return mDatabase.update(DBHelper.TABLE_USUARIO, values, DBHelper.COLUMN_USUARIO_ID + " = ?",
+        return mDatabase.update(DBHelper.TABLE_TECNICO, values, DBHelper.COLUMN_TECNICO_ID + " = ?",
                 new String[] { String.valueOf(l.getcId()) });
     }
 }
