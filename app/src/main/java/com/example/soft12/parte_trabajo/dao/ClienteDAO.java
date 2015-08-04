@@ -1,6 +1,5 @@
 package com.example.soft12.parte_trabajo.dao;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -8,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.soft12.parte_trabajo.model.Cliente;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by soft12 on 03/06/2015.
@@ -45,7 +41,7 @@ public class ClienteDAO {
         mDbHelper.close();
     }
 
-    public Cliente createCliente(String nombre, String codigo) {
+   /* public Cliente createCliente(String nombre, String codigo) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_CLIENTE_NOMBRE, nombre);
         values.put(DBHelper.COLUMN_CLIENTE_CODIGO, codigo);
@@ -58,17 +54,17 @@ public class ClienteDAO {
         Cliente newCliente = cursorToCliente(cursor);
         cursor.close();
         return newCliente;
-    }
+    }*/
 
-    public void deleteCliente(Cliente cliente) {
+    /*public void deleteCliente(Cliente cliente) {
         long id = cliente.getcId();
 
         System.out.println("the deleted cliente has the id: " + id);
         mDatabase.delete(DBHelper.TABLE_CLIENTE, DBHelper.COLUMN_CLIENTE_ID
                 + " = " + id, null);
-    }
+    }*/
 
-    public List<Cliente> getAllClientes() {
+    /*public List<Cliente> getAllClientes() {
         List<Cliente> listClientes = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_CLIENTE,
@@ -85,12 +81,12 @@ public class ClienteDAO {
             cursor.close();
         }
         return listClientes;
-    }
+    }*/
 
     public Cursor fetchItemsByDesc(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = mDatabase.query(true, DBHelper.TABLE_CLIENTE,
-                new String[] {DBHelper.COLUMN_CLIENTE_ID, DBHelper.COLUMN_CLIENTE_CODIGO,
+                new String[]{DBHelper.COLUMN_CLIENTE_ID, DBHelper.COLUMN_CLIENTE_CODIGO,
                         DBHelper.COLUMN_CLIENTE_NOMBRE},
                 DBHelper.COLUMN_CLIENTE_NOMBRE + " like '%" + inputText + "%'", null,
                 null, null, null, null);
@@ -98,7 +94,6 @@ public class ClienteDAO {
             mCursor.moveToFirst();
         }
         return mCursor;
-
     }
 
     public Cliente getClienteById(long id) {
@@ -108,7 +103,6 @@ public class ClienteDAO {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-
         return cursorToCliente(cursor);
     }
 
@@ -123,7 +117,6 @@ public class ClienteDAO {
         }
         cursor.moveToFirst();
         return cursorToCliente(cursor);
-
     }
 
     protected Cliente cursorToCliente(Cursor cursor) {
@@ -133,13 +126,14 @@ public class ClienteDAO {
         cliente.setnNombre(cursor.getString(2));
         return cliente;
     }
-    public int updateCliente(Cliente c) {
+
+    /*public int updateCliente(Cliente c) {
 
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_CLIENTE_NOMBRE, c.getnNombre());
         values.put(DBHelper.COLUMN_CLIENTE_CODIGO, c.getCodigo());
         return mDatabase.update(DBHelper.TABLE_CLIENTE, values, DBHelper.COLUMN_CLIENTE_ID + " = ?",
                 new String[] { String.valueOf(c.getcId()) });
-    }
+    }*/
 
 }

@@ -16,7 +16,7 @@ public class Repostaje implements Serializable {
 	private double euros_litro;
 	private double litros;
 	private Coche mCoche;
-	private Login login;
+	private Tecnico tecnico;
 
 	public Repostaje() {
 
@@ -70,12 +70,12 @@ public class Repostaje implements Serializable {
 		this.mCoche = mCoche;
 	}
 
-	public Login getLogin() {
-		return login;
+	public Tecnico getTecnico() {
+		return tecnico;
 	}
 
-	public void setLogin(Login login) {
-		this.login = login;
+	public void setTecnico(Tecnico tecnico) {
+		this.tecnico = tecnico;
 	}
 
 	public Bundle getBundle() {
@@ -87,9 +87,9 @@ public class Repostaje implements Serializable {
 		bundle.putDouble(DBHelper.COLUMN_REPOSTAJE_LITROS, litros);
 		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, mCoche.getId());
 		bundle.putString(DBHelper.COLUMN_COCHE_MATRICULA, mCoche.getMatricula());
-		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, login.getcId());
-		bundle.putString(DBHelper.COLUMN_TECNICO_NOMBRE, login.getNombre());
-		bundle.putString(DBHelper.COLUMN_TECNICO_EMAIL, login.getMail());
+		bundle.putLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, tecnico.getcId());
+		bundle.putString(DBHelper.COLUMN_TECNICO_NOMBRE, tecnico.getNombre());
+		bundle.putString(DBHelper.COLUMN_TECNICO_EMAIL, tecnico.getMail());
 		return bundle;
 	}
 
@@ -102,9 +102,9 @@ public class Repostaje implements Serializable {
 		mCoche = new Coche();
 		mCoche.setId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_COCHE_ID));
 		mCoche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
-		login = new Login();
-		login.setcId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID));
-		login.setNombre(bundle.getString(DBHelper.COLUMN_TECNICO_NOMBRE));
-		login.setMail(bundle.getString(DBHelper.COLUMN_TECNICO_EMAIL));
+		tecnico = new Tecnico();
+		tecnico.setcId(bundle.getLong(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID));
+		tecnico.setNombre(bundle.getString(DBHelper.COLUMN_TECNICO_NOMBRE));
+		tecnico.setMail(bundle.getString(DBHelper.COLUMN_TECNICO_EMAIL));
 	}
 }

@@ -76,7 +76,6 @@ public class CocheDAO {
                 listCoches.add(coche);
                 cursor.moveToNext();
             }
-
             // make sure to close the cursor
             cursor.close();
         }
@@ -120,6 +119,4 @@ public class CocheDAO {
         return mDatabase.update(DBHelper.TABLE_COCHE, values, DBHelper.COLUMN_COCHE_ID + " = ?",
         new String[] { String.valueOf(c.getId()) });
     }
-
-
 }

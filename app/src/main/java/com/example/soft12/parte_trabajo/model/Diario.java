@@ -149,14 +149,14 @@ public class Diario implements Serializable {
         cau = bundle.getString(DBHelper.COLUMN_DIARIO_CAU);
 
         cliente = new Cliente();
-        cliente.setcId(bundle.getLong(DBHelper.COLUMN_CLIENTE_ID));
+        cliente.setcId(bundle.getLong(DBHelper.COLUMN_DIARIO_CLIENTE_ID));
         cliente.setnNombre(bundle.getString(DBHelper.COLUMN_CLIENTE_NOMBRE));
         cliente.setCodigo(bundle.getString(DBHelper.COLUMN_CLIENTE_CODIGO));
 
         solucion = bundle.getString(DBHelper.COLUMN_DIARIO_SOLUCION);
 
         coche = new Coche();
-        coche.setId(bundle.getLong(DBHelper.COLUMN_COCHE_ID));
+        coche.setId(bundle.getLong(DBHelper.COLUMN_DIARIO_COCHE_ID));
         coche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
         coche.setcKilometros(bundle.getInt(DBHelper.COLUMN_COCHE_KMS));
 

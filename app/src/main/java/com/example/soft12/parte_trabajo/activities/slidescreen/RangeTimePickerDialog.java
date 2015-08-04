@@ -62,8 +62,7 @@ public class RangeTimePickerDialog extends TimePickerDialog {
         try {
             Class<?> classForid = Class.forName("com.android.internal.R$id");
             Field timePickerField = classForid.getField("timePicker");
-            this.timePicker = (TimePicker) findViewById(timePickerField
-                    .getInt(null));
+            this.timePicker = (TimePicker) findViewById(timePickerField.getInt(null));
             Field field = classForid.getField("minute");
 
             NumberPicker mMinuteSpinner = (NumberPicker) timePicker

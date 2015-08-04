@@ -21,7 +21,6 @@ import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.adapter.Coche.SpinnerCochesAdapter;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.model.Coche;
-import com.example.soft12.parte_trabajo.model.Diario;
 
 import java.util.Calendar;
 import java.util.List;
@@ -34,11 +33,11 @@ public class ThirdFragment extends Fragment {
     EditText mTxtDesplazamiento, mTxtKmIni, mTxtKmFin;
     Spinner mSpinnerCoche;
 
-    Diario diario;
     private CustomTimePickerDialog.OnTimeSetListener timeSetListener = new CustomTimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            mTxtDesplazamiento.setText(0 + ":" + String.format("%02d", minute));
+            mTxtDesplazamiento.setText(String.format("%02d", hourOfDay) +
+                    ":" + String.format("%02d", minute));
         }
     };
 
@@ -57,8 +56,6 @@ public class ThirdFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.third_frag, container, false);
-
-        diario = new Diario();
 
         initViews(v);
         mTxtDesplazamiento.setOnClickListener(new View.OnClickListener() {
@@ -86,8 +83,6 @@ public class ThirdFragment extends Fragment {
         this.mTxtKmFin = (EditText) v.findViewById(R.id.editText_km_fin);
         this.mSpinnerCoche = (Spinner) v.findViewById(R.id.spinner_coches);
 
-
-
         CocheDAO mCocheDao = new CocheDAO(getActivity());
 
         //fill the spinner with companies
@@ -95,7 +90,6 @@ public class ThirdFragment extends Fragment {
         if(listCoches != null) {
             SpinnerCochesAdapter mAdapter = new SpinnerCochesAdapter(getActivity(), listCoches);
             mSpinnerCoche.setAdapter(mAdapter);
-            //mSpinnerCoche.setOnItemSelectedListener(this);
         }
 
         mTxtKmFin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -104,7 +98,6 @@ public class ThirdFragment extends Fragment {
                 if (!hasFocus) {
                     establecerValores();
                 }
-
             }
         });
 
@@ -158,7 +151,8 @@ public class ThirdFragment extends Fragment {
         public static final int TIME_PICKER_INTERVAL = 5;
         private boolean mIgnoreEvent = false;
 
-        public CustomTimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView) {
+        public CustomTimePickerDialog(Context context, OnTimeSetListener callBack,
+                                      int hourOfDay, int minute, boolean is24HourView) {
             super(context, callBack, hourOfDay, minute, is24HourView);
         }
 

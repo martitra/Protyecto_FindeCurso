@@ -7,18 +7,19 @@ import com.example.soft12.parte_trabajo.dao.DBHelper;
 import java.io.Serializable;
 
 /**
- * Created by soft12 on 30/06/2015.
+ * Created by soft12 on 04/08/2015.
  */
-public class Login implements Serializable {
+public class Tecnico implements Serializable {
 
-    public static final String TAG = "Login";
+    public static final String TAG = "Tecnico";
 
     private long cId;
     private String nombre;
     private String pass;
     private String mail;
 
-    public Login() {}
+    public Tecnico() {
+    }
 
     public long getcId() {
         return cId;

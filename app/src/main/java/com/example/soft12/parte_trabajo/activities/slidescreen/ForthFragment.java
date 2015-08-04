@@ -21,12 +21,12 @@ import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.dao.ClienteDAO;
 import com.example.soft12.parte_trabajo.dao.CocheDAO;
 import com.example.soft12.parte_trabajo.dao.DiarioDAO;
-import com.example.soft12.parte_trabajo.dao.LoginDAO;
+import com.example.soft12.parte_trabajo.dao.TecnicoDAO;
 import com.example.soft12.parte_trabajo.dao.Tecnico_DiarioDAO;
 import com.example.soft12.parte_trabajo.model.Cliente;
 import com.example.soft12.parte_trabajo.model.Coche;
 import com.example.soft12.parte_trabajo.model.Diario;
-import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,33 +68,11 @@ public class ForthFragment  extends Fragment {
 
         return v;
     }
-
-    private void establecerValores() {
-        //vai fallar o tecnico porque eu poño o nombre e no diairo ten que ser o id
-        //mTtxt_Trabajadores.setText(diario.getTecnico().getNombre());
-
-        // Aunque yop le ponga un técnico más no me lo hace porque no cojo el tecinco
-        // pero después le pongo que sea trabajador en vez de asignarlo y después coger el valor
-
-
-        //Editable tecnico = mTtxt_Trabajadores.getText();
-        //String tecnicoeditador = prefs.getString("trabajador", " ");
-
-    }
-
     private void initViews(View v) {
         this.mTtxt_Trabajadores = (EditText) v.findViewById(R.id.editText_trabajadores);
         this.mButtonEnviar = (Button) v.findViewById(R.id.ButtonEnviarDatos);
         this.mButtonSalir = (Button) v.findViewById(R.id.SalirFF);
 
-        mTtxt_Trabajadores.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    establecerValores();
-                }
-            }
-        });
         SharedPreferences prefs = this.getActivity().
                 getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         final String trabajador = prefs.getString("trabajador", " ");
@@ -115,21 +93,15 @@ public class ForthFragment  extends Fragment {
                 // crear excel  a partir de los datos
 
                 // aunque se cree el excel hay que mandar el correo
-                LoginDAO loginDAO;
+                TecnicoDAO tecnicoDAO;
                 CocheDAO cocheDAO;
                 ClienteDAO clienteDAO;
                 DiarioDAO diarioDAO;
-                new DiarioDAO(getActivity());
 
-                loginDAO = new LoginDAO(getActivity());
+                tecnicoDAO = new TecnicoDAO(getActivity());
                 cocheDAO = new CocheDAO(getActivity());
                 clienteDAO = new ClienteDAO(getActivity());
-                //diarioDAO = new DiarioDAO(getActivity());
-
-                // cambiar lo de diario de todos los fragmentos para aquí, pasar los datos
-                // con el shared preferences y poner aquí para crear un nuevo diario
-                // pero aquí y no en cada fragment
-                diario = new Diario();
+                diarioDAO = new DiarioDAO(getActivity());
 
                 SharedPreferences prefs = getActivity().
                         getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
@@ -147,9 +119,9 @@ public class ForthFragment  extends Fragment {
                 String tecnico = prefs.getString("trabajador", " ");
 
                 Editable t = mTtxt_Trabajadores.getText();
-                if (t.toString().contains(",")) {
-                    Toast.makeText(getActivity(), "Hay comas", Toast.LENGTH_LONG).show();
-                    tec = t.toString().split(",");
+                String tecnicoFormateado = t.toString().replace(" ", "");
+                if (tecnicoFormateado.contains(",")) {
+                    tec = tecnicoFormateado.split(",");
                 }
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -174,21 +146,20 @@ public class ForthFragment  extends Fragment {
                                 || (Integer.parseInt(h_ini[0]) < Integer.parseInt(h_fin[0]))) {
                             // si son iguales las horas e os minutos_ini < que minutos_fin
                             if (km_ini <= km_fin) { // si km iniciales mayores que acutales
-                                Login login;
-                                List<Login> tecnicos = new ArrayList<>();
+                                Tecnico tecnico1;
+                                List<Tecnico> tecnicos = new ArrayList<>();
                                 if (tec == null) {
-                                    login = loginDAO.getSinlgeLoginIdEntry(tecnico);
-                                    tecnicos.add(login);
+                                    tecnico1 = tecnicoDAO.getSinlgeTecnicoIdEntry(tecnico);
+                                    tecnicos.add(tecnico1);
                                 } else {
                                     for (String aTec : tec) {
-                                        login = loginDAO.getSinlgeLoginIdEntry(aTec);
-                                        tecnicos.add(login);
+                                        tecnico1 = tecnicoDAO.getSinlgeTecnicoIdEntry(aTec);
+                                        tecnicos.add(tecnico1);
                                     }
                                 }
                                 Coche coche = cocheDAO.
                                         getSingleCocheMatriculaEntry(cochematricula);
                                 Cliente cliente = clienteDAO.getSinlgeClienteEntry(clientenombre);
-                                diarioDAO = new DiarioDAO(getActivity());
                                 Diario createdDiario = diarioDAO.createDiario(fecha,
                                         caunombre,
                                         cliente.getcId(),

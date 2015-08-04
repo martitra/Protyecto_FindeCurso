@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.soft12.parte_trabajo.model.Coche;
-import com.example.soft12.parte_trabajo.model.Login;
 import com.example.soft12.parte_trabajo.model.Repostaje;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,10 +110,10 @@ public class RepostajeDAO {
             repostaje.setCoche(coche);
         //get the usuario by id
         long tecnicoId = cursor.getLong(6);
-        LoginDAO loginDAO = new LoginDAO(mContext);
-        Login login = loginDAO.getLoginById(tecnicoId);
-        if (login != null)
-            repostaje.setLogin(login);
+        TecnicoDAO tecnicoDAO = new TecnicoDAO(mContext);
+        Tecnico tecnico = tecnicoDAO.getTecnicoById(tecnicoId);
+        if (tecnico != null)
+            repostaje.setTecnico(tecnico);
         return repostaje;
     }
 
@@ -125,7 +125,7 @@ public class RepostajeDAO {
         values.put(DBHelper.COLUMN_REPOSTAJE_EUROS_LITRO, r.getEuros_litro());
         values.put(DBHelper.COLUMN_REPOSTAJE_LITROS, r.getLitros());
         values.put(DBHelper.COLUMN_REPOSTAJE_COCHE_ID, r.getCoche().getId());
-        values.put(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, r.getLogin().getcId());
+        values.put(DBHelper.COLUMN_REPOSTAJE_TECNICO_ID, r.getTecnico().getcId());
 
         return mDatabase.update(DBHelper.TABLE_REPOSTAJE, values, DBHelper.COLUMN_REPOSTAJE_ID + " = ?",
                 new String[] { String.valueOf(r.getId()) });

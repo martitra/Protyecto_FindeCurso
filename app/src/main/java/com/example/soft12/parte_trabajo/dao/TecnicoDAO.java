@@ -6,16 +6,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 
 import java.sql.SQLException;
 
 /**
- * Created by soft12 on 30/06/2015.
+ * Created by soft12 on 04/08/2015.
  */
-public class LoginDAO {
+public class TecnicoDAO {
 
-    public static final String TAG = "LoginDAO";
+    public static final String TAG = "TecnicoDAO";
     public SQLiteDatabase mDatabase;
     private String[] mAllColumns = {DBHelper.COLUMN_TECNICO_ID, DBHelper.COLUMN_TECNICO_NOMBRE,
             DBHelper.COLUMN_TECNICO_PASS, DBHelper.COLUMN_TECNICO_EMAIL};
@@ -24,36 +24,28 @@ public class LoginDAO {
     // Database open/upgrade helper
     private DBHelper mDbHelper;
 
-    public LoginDAO(Context context){
+    public TecnicoDAO(Context context) {
         mDbHelper = new DBHelper(context);
-        this.mContext =  context;
+        this.mContext = context;
         // open the database
         try {
             open();
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             Log.e(TAG, "SQLException on openning database " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public  LoginDAO open() throws SQLException
-    {
+    public TecnicoDAO open() throws SQLException {
         mDatabase = mDbHelper.getWritableDatabase();
         return this;
     }
-    public void close()
-    {
+
+    public void close() {
         mDatabase.close();
     }
 
-    public  SQLiteDatabase getDatabaseInstance()
-    {
-        return mDatabase;
-    }
-
-    public Login insertEntry(String userName,String password, String mail)
-    {
+    public Tecnico insertEntry(String userName, String password, String mail) {
         ContentValues values = new ContentValues();
         // Assign values for each row.
         values.put(DBHelper.COLUMN_TECNICO_NOMBRE, userName);
@@ -65,69 +57,68 @@ public class LoginDAO {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO,
                 mAllColumns, DBHelper.COLUMN_TECNICO_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
-        Login login = cursorToLogin(cursor);
+        Tecnico tecnico = cursorToTecnico(cursor);
         cursor.close();
-        return login;
+        return tecnico;
     }
-    public Login getLoginById(long id) {
+
+    public Tecnico getTecnicoById(long id) {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO, mAllColumns,
                 DBHelper.COLUMN_TECNICO_ID + " = ?",
-                new String[] { String.valueOf(id) }, null, null, null);
+                new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
 
-        return cursorToLogin(cursor);
+        return cursorToTecnico(cursor);
     }
 
-    public Login getSinlgeLoginMailEntry(String mail)
-    {
+    public Tecnico getSinlgeTecnicoMailEntry(String mail) {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO, mAllColumns,
                 DBHelper.COLUMN_TECNICO_EMAIL + " = ? ",
                 new String[]{mail}, null, null, null);
-        if(cursor.getCount() == 0) // UserName Not Exist
+        if (cursor.getCount() == 0) // UserName Not Exist
         {
             cursor.close();
         }
         cursor.moveToFirst();
-        return cursorToLogin(cursor);
-
+        return cursorToTecnico(cursor);
     }
 
-    public Login getSinlgeLoginIdEntry(String userName)
-    {
+    public Tecnico getSinlgeTecnicoIdEntry(String userName) {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO, mAllColumns,
                 DBHelper.COLUMN_TECNICO_NOMBRE + " = ? ",
                 new String[]{userName}, null, null, null);
-        if(cursor.getCount() == 0) // UserName Not Exist
+        if (cursor.getCount() == 0) // UserName Not Exist
         {
             cursor.close();
         }
         cursor.moveToFirst();
-        return cursorToLogin(cursor);
+        return cursorToTecnico(cursor);
 
     }
 
-    protected Login cursorToLogin(Cursor cursor) {
-        Login login = new Login();
+    protected Tecnico cursorToTecnico(Cursor cursor) {
+        Tecnico tecnico = new Tecnico();
 
-        if(cursor.getCount() != 0) {
-            login.setcId(cursor.getLong(0));
-            login.setNombre(cursor.getString(1));
-            login.setPass(cursor.getString(2));
-            login.setMail(cursor.getString(3));
+        if (cursor.getCount() != 0) {
+            tecnico.setcId(cursor.getLong(0));
+            tecnico.setNombre(cursor.getString(1));
+            tecnico.setPass(cursor.getString(2));
+            tecnico.setMail(cursor.getString(3));
         }
-        return login;
+        return tecnico;
     }
 
-    public int updateLogin(Login l) {
+    /*public int updateTecnico(Tecnico t) {
 
         ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_TECNICO_NOMBRE, l.getNombre());
-        values.put(DBHelper.COLUMN_TECNICO_PASS, l.getPass());
-        values.put(DBHelper.COLUMN_TECNICO_EMAIL, l.getMail());
+        values.put(DBHelper.COLUMN_TECNICO_NOMBRE, t.getNombre());
+        values.put(DBHelper.COLUMN_TECNICO_PASS, t.getPass());
+        values.put(DBHelper.COLUMN_TECNICO_EMAIL, t.getMail());
 
         return mDatabase.update(DBHelper.TABLE_TECNICO, values, DBHelper.COLUMN_TECNICO_ID + " = ?",
-                new String[] { String.valueOf(l.getcId()) });
-    }
+                new String[] { String.valueOf(t.getcId()) });
+    }*/
+
 }

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.model.Diario;
 
 /**
  * Created by soft12 on 30/06/2015.
@@ -21,7 +20,6 @@ import com.example.soft12.parte_trabajo.model.Diario;
 public class SecondFragment extends Fragment {
 
     EditText mTxtSolucion;
-    Diario diario;
 
     public static SecondFragment newInstance(int text) {
 
@@ -38,7 +36,6 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.second_frag, container, false);
 
-        diario = new Diario();
         initViews(v);
 
         return v;
@@ -58,10 +55,8 @@ public class SecondFragment extends Fragment {
                     editor.putString("solucion", solucion.toString());
                     editor.apply();
                 }
-
             }
         });
-
     }
 
     @Override

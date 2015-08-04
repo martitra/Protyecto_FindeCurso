@@ -95,7 +95,6 @@ public class DiarioDAO {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-
         return cursorToDiario(cursor);
     }
 
@@ -116,7 +115,7 @@ public class DiarioDAO {
         return listDiario;
     }
 
-    public List<Diario> getDateDiario(String date, long diarioId) {
+   /* public List<Diario> getDateDiario(String date, long diarioId) {
         List<Diario> diarioList = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_DIARIO,
@@ -133,8 +132,8 @@ public class DiarioDAO {
         // make sure to close the cursor
         cursor.close();
         return diarioList;
+    }*/
 
-    }
     private Diario cursorToDiario(Cursor cursor) {
         Diario diario = new Diario();
         // id,fecha cau, cliente, solucion, fechaini, fechafin, viaje, kms
@@ -151,7 +150,6 @@ public class DiarioDAO {
         }
 
         diario.setSolucion(cursor.getString(4));
-
         diario.setHoraIni(cursor.getString(5));
         diario.setHoraFin(cursor.getString(6));
         diario.setDesplazamiento(cursor.getString(7));
@@ -186,5 +184,4 @@ public class DiarioDAO {
         return mDatabase.update(DBHelper.TABLE_DIARIO, values, DBHelper.COLUMN_DIARIO_ID + " = ?",
                 new String[] { String.valueOf(diario.getId()) });
     }
-
 }

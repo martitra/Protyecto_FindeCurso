@@ -12,7 +12,7 @@ public class Tecnico_Diario {
     public static final String TAG = "Tecnico_Diario";
 
     private long id;
-    private Login tecnico;
+    private Tecnico tecnico;
     private Diario diario;
     private String fecha;
 
@@ -27,11 +27,11 @@ public class Tecnico_Diario {
         this.id = id;
     }
 
-    public Login getTecnico() {
+    public Tecnico getTecnico() {
         return tecnico;
     }
 
-    public void setTecnico(Login tecnico) {
+    public void setTecnico(Tecnico tecnico) {
         this.tecnico = tecnico;
     }
 
@@ -85,18 +85,19 @@ public class Tecnico_Diario {
         fecha = bundle.getString(DBHelper.COLUMN_TD_FECHA);
 
         diario = new Diario();
+        diario.setId(bundle.getLong(DBHelper.COLUMN_TD_DIARIO_ID));
         diario.setFecha(bundle.getString(DBHelper.COLUMN_DIARIO_FECHA));
         diario.setCau(bundle.getString(DBHelper.COLUMN_DIARIO_CAU));
 
         Cliente cliente = new Cliente();
-        cliente.setcId(bundle.getLong(DBHelper.COLUMN_CLIENTE_ID));
+        cliente.setcId(bundle.getLong(DBHelper.COLUMN_DIARIO_CLIENTE_ID));
         cliente.setnNombre(bundle.getString(DBHelper.COLUMN_CLIENTE_NOMBRE));
         cliente.setCodigo(bundle.getString(DBHelper.COLUMN_CLIENTE_CODIGO));
 
         diario.setSolucion(bundle.getString(DBHelper.COLUMN_DIARIO_SOLUCION));
 
         Coche coche = new Coche();
-        coche.setId(bundle.getLong(DBHelper.COLUMN_COCHE_ID));
+        coche.setId(bundle.getLong(DBHelper.COLUMN_DIARIO_COCHE_ID));
         coche.setMatricula(bundle.getString(DBHelper.COLUMN_COCHE_MATRICULA));
         coche.setcKilometros(bundle.getInt(DBHelper.COLUMN_COCHE_KMS));
 
@@ -106,8 +107,8 @@ public class Tecnico_Diario {
         diario.setKmIni(bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS_INI));
         diario.setKmFin(bundle.getDouble(DBHelper.COLUMN_DIARIO_KMS_FIN));
 
-        tecnico = new Login();
-        tecnico.setcId(bundle.getLong(DBHelper.COLUMN_TECNICO_ID));
+        tecnico = new Tecnico();
+        tecnico.setcId(bundle.getLong(DBHelper.COLUMN_TD_TECNICO_ID));
         tecnico.setNombre(bundle.getString(DBHelper.COLUMN_TECNICO_NOMBRE));
         tecnico.setPass(bundle.getString(DBHelper.COLUMN_TECNICO_PASS));
         tecnico.setMail(bundle.getString(DBHelper.COLUMN_TECNICO_EMAIL));

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.activities.inicio.InicioActivity;
-import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 
 public class IniciarFragmentActivity extends FragmentActivity{
 
@@ -32,7 +32,7 @@ public class IniciarFragmentActivity extends FragmentActivity{
         setContentView(R.layout.activity_main);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Login loguearse = new Login();
+        Tecnico loguearse = new Tecnico();
         Bundle extras;
         extras = getIntent().getExtras();
         boolean login = extras.getBoolean("login");

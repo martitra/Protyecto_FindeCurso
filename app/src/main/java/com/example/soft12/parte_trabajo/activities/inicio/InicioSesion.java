@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.soft12.parte_trabajo.R;
-import com.example.soft12.parte_trabajo.dao.LoginDAO;
-import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.dao.TecnicoDAO;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 
 import java.sql.SQLException;
 
@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class InicioSesion extends Activity{
 
     Button btnSignIn;
-    LoginDAO loginDAO;
+    TecnicoDAO tecnicoDAO;
     private EditText txtUsuario;
     private EditText txtPassword;
 
@@ -33,9 +33,9 @@ public class InicioSesion extends Activity{
         txtPassword = (EditText) findViewById(R.id.editTextPasswordToLogin);
 
         // create a instance of SQLite Database
-        loginDAO = new LoginDAO(this);
+        tecnicoDAO = new TecnicoDAO(this);
         try {
-            loginDAO = loginDAO.open();
+            tecnicoDAO = tecnicoDAO.open();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,12 +52,12 @@ public class InicioSesion extends Activity{
 
         if (!mail.isEmpty() && !password.isEmpty()) {// si no están vacíos
             // fetch the Password form database for respective user name
-            Login login = loginDAO.getSinlgeLoginMailEntry(mail);
+            Tecnico tecnico = tecnicoDAO.getSinlgeTecnicoMailEntry(mail);
 
             // check if the Stored password matches with  Password entered by user
-            if (password.equals(login.getPass())) {
+            if (password.equals(tecnico.getPass())) {
                 Toast.makeText(InicioSesion.this, "Congrats: Login Successfull", Toast.LENGTH_LONG).show();
-                Bundle extras = login.getBundle();
+                Bundle extras = tecnico.getBundle();
                 Intent i = new Intent(this, InicioActivity.class);
                 extras.putBoolean("login", true);
                 i.putExtras(extras);

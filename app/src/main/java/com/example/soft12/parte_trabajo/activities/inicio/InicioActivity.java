@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.soft12.parte_trabajo.R;
 import com.example.soft12.parte_trabajo.activities.excel.EnviarExcel;
 import com.example.soft12.parte_trabajo.activities.slidescreen.IniciarFragmentActivity;
-import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 
 
 public class InicioActivity extends Activity {
@@ -22,7 +22,7 @@ public class InicioActivity extends Activity {
     private static final String LOGTAG = "InicioActivity";
     public String trabajador;
 
-    Login loguearse = new Login();
+    Tecnico loguearse = new Tecnico();
     Bundle extras;
 
 

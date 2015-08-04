@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.soft12.parte_trabajo.model.Diario;
-import com.example.soft12.parte_trabajo.model.Login;
+import com.example.soft12.parte_trabajo.model.Tecnico;
 import com.example.soft12.parte_trabajo.model.Tecnico_Diario;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class Tecnico_DiarioDAO {
         mDbHelper.close();
     }
 
-    public Tecnico_Diario createTecnico_Diario(List<Login> tecnicos, long diarioId, String fecha) {
+    public Tecnico_Diario createTecnico_Diario(List<Tecnico> tecnicos, long diarioId, String fecha) {
 
         ContentValues values = new ContentValues();
         Tecnico_Diario newTecnico_Diario = null;
@@ -83,13 +83,13 @@ public class Tecnico_DiarioDAO {
         return newTecnico_Diario;
     }
 
-    public void deleteTecnicoDiario(Tecnico_Diario tecnico_diario) {
+    /*public void deleteTecnicoDiario(Tecnico_Diario tecnico_diario) {
         long id = tecnico_diario.getId();
         System.out.println("the deleted diario has the id: " + id);
         mDatabase.delete(DBHelper.TABLE_TECNICO_DIARIO, DBHelper.COLUMN_TD_ID + " = " + id, null);
-    }
+    }*/
 
-    public List<Tecnico_Diario> getAllTecnicoDiario() {
+   /* public List<Tecnico_Diario> getAllTecnicoDiario() {
         List<Tecnico_Diario> listTecnicoDiario = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DBHelper.TABLE_TECNICO_DIARIO,
@@ -104,7 +104,7 @@ public class Tecnico_DiarioDAO {
         // make sure to close the cursor
         cursor.close();
         return listTecnicoDiario;
-    }
+    }*/
 
     public List<Tecnico_Diario> getDateTecnicoDiario(String date, long tecnico) {
         List<Tecnico_Diario> tecnicoDiarioList = new ArrayList<>();
@@ -132,8 +132,8 @@ public class Tecnico_DiarioDAO {
 
         //get the cliente by id
         long tecnicoId = cursor.getLong(1);
-        LoginDAO tecnicoDao = new LoginDAO(mContext);
-        Login tecnico = tecnicoDao.getLoginById(tecnicoId);
+        TecnicoDAO tecnicoDao = new TecnicoDAO(mContext);
+        Tecnico tecnico = tecnicoDao.getTecnicoById(tecnicoId);
         if (tecnico != null) {
             tecnico_diario.setTecnico(tecnico);
         }
@@ -150,7 +150,7 @@ public class Tecnico_DiarioDAO {
         return tecnico_diario;
     }
 
-    public int updateTecnicoDiario(Tecnico_Diario tecnico_diario) {
+    /*public int updateTecnicoDiario(Tecnico_Diario tecnico_diario) {
 
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_TD_DIARIO_ID, tecnico_diario.getDiario().getId());
@@ -159,5 +159,5 @@ public class Tecnico_DiarioDAO {
         return mDatabase.update(DBHelper.TABLE_TECNICO_DIARIO,
                 values, DBHelper.COLUMN_TD_ID + " = ?", new String[]{
                         String.valueOf(tecnico_diario.getId())});
-    }
+    }*/
 }
